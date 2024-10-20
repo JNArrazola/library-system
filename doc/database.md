@@ -33,6 +33,7 @@ CREATE TABLE Reservas (
     libro_id INT,
     fecha_recepcion DATE NOT NULL,
     fecha_devolucion DATE,
+    B_Entregado BIT NOT NULL DEFAULT 0,
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
     FOREIGN KEY (libro_id) REFERENCES Libros(id)
 );

@@ -19,7 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['nombre'] = $user['nombre'];
             $_SESSION['rol'] = $user['rol'];
 
-            header('Location: dashboard.php');
+            if ($user['rol'] === 'usuario') {
+                header('Location: pages/users/user_dashboard.php');
+            } else if($user['rol'] === 'administrador') { 
+                header('Location: pages/administrators/admin_dashboard.php'); 
+            }
             exit();
         } else {
             $error_message = 'Contraseña incorrecta.';

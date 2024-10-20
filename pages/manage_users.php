@@ -18,35 +18,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id']) && $_SESSIO
     $user_id = $_POST['user_id'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $correo = $_POST['correo'];
+    $direccion = $_POST['direccion'];
     $rol = $_POST['rol'];
 
-    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo, rol = :rol WHERE id = :id";
+    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, direccion = :direccion, rol = :rol WHERE id = :id";
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         'id' => $user_id,
         'nombre' => $nombre,
         'apellido' => $apellido,
-        'correo' => $correo,
+        'direccion' => $direccion,
         'rol' => $rol
     ]);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
     $user_id = $_POST['user_id'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $correo = $_POST['correo'];
+    $direccion = $_POST['direccion'];
 
-    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo WHERE id = :id";
+    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, direccion = :direccion WHERE id = :id";
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         'id' => $user_id,
         'nombre' => $nombre,
         'apellido' => $apellido,
-        'correo' => $correo
+        'direccion' => $direccion
     ]);
 }
 
-$query = "SELECT * FROM Usuarios";
+$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol != 'administrador'" : "";
+$query = "SELECT * FROM Usuarios $condition";
 $stmt = $pdo->query($query);
 $users = $stmt->fetchAll();
 ?>
@@ -61,7 +62,7 @@ $users = $stmt->fetchAll();
     <script>
         function confirmDeletion(userId) {
             if (confirm("¿Estás seguro de que quieres eliminar este usuario?")) {
-                document.getElementById('delete_user_id_' + userId).submit();
+                document.getElementById('delete_user_id_' + userId).submit(); 
             }
         }
     </script>
@@ -70,7 +71,7 @@ $users = $stmt->fetchAll();
     <h1>Gestionar Usuarios</h1>
 
     <div class="add-user">
-        <a href="add_user.php" class="add-user-button">Agregar Usuario</a>
+        <a href="add_user.php" class="add-user-button">Agregar Usuario</a> 
     </div>
 
     <table>
@@ -80,6 +81,7 @@ $users = $stmt->fetchAll();
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
+                <th>Dirección</th>
                 <th>Rol</th>
                 <th>Acciones</th>
             </tr>
@@ -91,13 +93,16 @@ $users = $stmt->fetchAll();
                         <td><?= htmlspecialchars($user['id']) ?></td>
                         <td><input type="text" name="nombre" value="<?= htmlspecialchars($user['nombre']) ?>"></td>
                         <td><input type="text" name="apellido" value="<?= htmlspecialchars($user['apellido']) ?>"></td>
-                        <td><input type="email" name="correo" value="<?= htmlspecialchars($user['correo']) ?>"></td>
+                        <td><input type="email" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td> 
+                        <td><input type="text" name="direccion" value="<?= htmlspecialchars($user['direccion']) ?>"></td>
                         <td>
-                            <?php if ($_SESSION['rol'] === 'administrador'): ?>
+                            <?php if ($_SESSION['rol'] === 'administrador' || ($_SESSION['rol'] === 'bibliotecario' && $user['rol'] !== 'administrador')): ?>
                                 <select name="rol">
                                     <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
                                     <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                                    <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+                                    <?php if ($_SESSION['rol'] === 'administrador'): ?>
+                                        <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+                                    <?php endif; ?>
                                 </select>
                             <?php else: ?>
                                 <?= htmlspecialchars($user['rol']) ?>
@@ -125,7 +130,7 @@ $users = $stmt->fetchAll();
         <?php if ($_SESSION['rol'] === 'administrador'): ?>
             <a href="administrators/admin_dashboard.php" class="return-button">Volver al Menú Principal</a>
         <?php elseif ($_SESSION['rol'] === 'bibliotecario'): ?>
-            <a href="librarians/lib_dashboard.php" class="return-button">Volver al Menú Principal</a>
+            <a href="librarians/librarian_dashboard.php" class="return-button">Volver al Menú Principal</a>
         <?php endif; ?>
     </div>
 </body>

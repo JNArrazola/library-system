@@ -7,33 +7,43 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_S
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_user_id']) && $_POST['delete_user_id'] != $_SESSION['user_id']) {
+    $delete_user_id = $_POST['delete_user_id'];
+    $query = "DELETE FROM Usuarios WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(['id' => $delete_user_id]);
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id']) && $_SESSION['rol'] === 'administrador') {
     $user_id = $_POST['user_id'];
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
-    $rol = isset($_POST['rol']) ? $_POST['rol'] : null; 
+    $rol = $_POST['rol'];
 
-    if ($_SESSION['rol'] === 'administrador') {
-        $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo, rol = :rol WHERE id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([
-            'id' => $user_id,
-            'nombre' => $nombre,
-            'apellido' => $apellido,
-            'correo' => $correo,
-            'rol' => $rol
-        ]);
-    } else {
-        $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo WHERE id = :id";
-        $stmt = $pdo->prepare($query);
-        $stmt->execute([
-            'id' => $user_id,
-            'nombre' => $nombre,
-            'apellido' => $apellido,
-            'correo' => $correo
-        ]);
-    }
+    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo, rol = :rol WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([
+        'id' => $user_id,
+        'nombre' => $nombre,
+        'apellido' => $apellido,
+        'correo' => $correo,
+        'rol' => $rol
+    ]);
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
+    $user_id = $_POST['user_id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $correo = $_POST['correo'];
+
+    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, correo = :correo WHERE id = :id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([
+        'id' => $user_id,
+        'nombre' => $nombre,
+        'apellido' => $apellido,
+        'correo' => $correo
+    ]);
 }
 
 $query = "SELECT * FROM Usuarios";
@@ -48,6 +58,13 @@ $users = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../styles/manage_users.css">
+    <script>
+        function confirmDeletion(userId) {
+            if (confirm("¿Estás seguro de que quieres eliminar este usuario?")) {
+                document.getElementById('delete_user_id_' + userId).submit();
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Gestionar Usuarios</h1>
@@ -89,11 +106,27 @@ $users = $stmt->fetchAll();
                         <td>
                             <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['id']) ?>">
                             <button type="submit">Guardar</button>
+                            <?php if (($_SESSION['rol'] === 'bibliotecario' && $user['rol'] === 'usuario') || $_SESSION['rol'] === 'administrador'): ?>
+                                <?php if ($user['id'] != $_SESSION['user_id']): ?>
+                                    <form id="delete_user_id_<?= $user['id'] ?>" action="manage_users.php" method="POST" style="display:inline;">
+                                        <input type="hidden" name="delete_user_id" value="<?= htmlspecialchars($user['id']) ?>">
+                                        <button type="button" class="delete-button" onclick="confirmDeletion(<?= $user['id'] ?>)">Eliminar</button>
+                                    </form>
+                                <?php endif; ?>
+                            <?php endif; ?>
                         </td>
                     </form>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <div class="return-menu">
+        <?php if ($_SESSION['rol'] === 'administrador'): ?>
+            <a href="administrators/admin_dashboard.php" class="return-button">Volver al Menú Principal</a>
+        <?php elseif ($_SESSION['rol'] === 'bibliotecario'): ?>
+            <a href="librarians/lib_dashboard.php" class="return-button">Volver al Menú Principal</a>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

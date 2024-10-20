@@ -7,7 +7,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.add-user-button {
+.add-user-button, .return-button {
     padding: 10px 15px;
     background-color: #28a745;
     color: white;
@@ -17,7 +17,7 @@ h1 {
     cursor: pointer;
 }
 
-.add-user-button:hover {
+.add-user-button:hover, .return-button:hover {
     background-color: #218838;
 }
 
@@ -58,4 +58,9 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.return-menu {
+    margin-top: 20px;
+    text-align: center;
 }

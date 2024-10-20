@@ -23,6 +23,7 @@ CREATE TABLE Libros (
     autor VARCHAR(255),
     fecha_publicacion DATE,
     editorial VARCHAR(100),
+    imagen LONGBLOB,
     sinopsis TEXT,
     cantidad INT
 );

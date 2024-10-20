@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header('Location: pages/users/user_dashboard.php');
             } else if($user['rol'] === 'administrador') { 
                 header('Location: pages/administrators/admin_dashboard.php'); 
+            } else {
+                header('Location: pages/main_dashboard.php');
             }
             exit();
         } else {

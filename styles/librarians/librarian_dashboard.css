@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.user-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.user-menu span {
+    font-size: 16px;
+    color: white;
+    margin-right: 20px;
+}
+
+.logout-button {
+    padding: 10px;
+    background-color: #FF6347;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #FF4500;
+}
+
+.dashboard-menu {
+    margin: 40px auto;
+    text-align: center;
+}
+
+.dashboard-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dashboard-menu ul li {
+    margin: 20px 0;
+}
+
+.dashboard-menu ul li a {
+    padding: 15px 30px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-menu ul li a:hover {
+    background-color: #555;
+}
+
+.catalog-link {
+    background-color: #4CAF50; /* Verde para destacar el enlace al catálogo */
+}
+
+.catalog-link:hover {
+    background-color: #45a049;
+}

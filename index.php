@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['rol'] = $user['rol'];
 
             if ($user['rol'] === 'usuario') {
-                header('Location: pages/users/user_dashboard.php');
+                header('Location: pages/main_dashboard.php');
             } else if($user['rol'] === 'administrador') { 
                 header('Location: pages/administrators/admin_dashboard.php'); 
             } else {

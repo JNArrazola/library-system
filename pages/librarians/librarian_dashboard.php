@@ -29,8 +29,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
             <li><a href="manage_books.php">Administrar Inventario de Libros</a></li>
             <li><a href="register_loan.php">Registrar Préstamo de Libros</a></li>
             <li><a href="return_loan.php">Registrar Devolución de Libros</a></li>
-            <li><a href="../manage_users.php">Gestionar Usuarios</a></li>
             <li><a href="view_loans.php">Ver Préstamos Actuales</a></li>
+            <li><a href="view_reservations.php">Ver Reservas</a></li> <!-- Nueva opción para ver reservas -->
+            <li><a href="../manage_users.php">Gestionar Usuarios</a></li>
             <li><a href="../main_dashboard.php" class="catalog-link">Volver al Catálogo</a></li> 
         </ul>
     </section>

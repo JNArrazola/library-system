@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
               FROM Reservas r
               JOIN Usuarios u ON r.usuario_id = u.id
               JOIN Libros l ON r.libro_id = l.id
-              WHERE u.id = :usuario_id AND r.B_Entregado = :b_entregado";
+              WHERE u.id = :usuario_id AND r.B_Entregado = :b_entregado AND r.fecha_recepcion IS NOT NULL"; // Filtrar donde fecha_recepcion no sea NULL
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         'usuario_id' => $usuario_id,

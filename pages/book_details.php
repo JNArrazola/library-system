@@ -23,6 +23,9 @@ if (!$book) {
     header('Location: main_dashboard.php');
     exit();
 }
+
+$success_message = isset($_GET['success']) ? $_GET['success'] : '';
+$error_message = isset($_GET['error']) ? $_GET['error'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +45,20 @@ if (!$book) {
         </div>
     </header>
 
+    <?php if ($success_message): ?>
+        <div class="success-message">
+            <?= htmlspecialchars($success_message) ?>
+        </div>
+    <?php elseif ($error_message): ?>
+        <div class="error-message">
+            <?= htmlspecialchars($error_message) ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="back-button-container">
+        <a href="main_dashboard.php" class="back-button">Volver al catálogo</a>
+    </div>
+
     <div class="book-details-container">
         <div class="book-image">
             <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
@@ -55,7 +72,7 @@ if (!$book) {
             <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
 
             <?php if ($_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>
-                <a href="reserve_book.php?id=<?= $book['id'] ?>" class="reserve-button">Reservar</a>
+                <a href="users/reserve_book.php?id=<?= $book['id'] ?>" class="reserve-button">Reservar</a>
             <?php endif; ?>
         </div>
     </div>
@@ -65,4 +82,3 @@ if (!$book) {
     </footer>
 </body>
 </html>
-

@@ -106,3 +106,39 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.back-button-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}

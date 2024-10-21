@@ -34,7 +34,7 @@ $books = $stmt->fetchAll();
         <h1>Biblioteca</h1>
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> <?= $_SESSION['rol'] === 'bibliotecario' ? '<a href="librarians/librarian_dashboard.php" class="bibliotecario-link">(Opciones de Bibliotecario)</a>' : '' ?></span>
-            <a href="logout.php" class="logout-button">Cerrar sesión</a>
+            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 

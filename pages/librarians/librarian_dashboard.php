@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
         <h1>Panel de Control - Bibliotecario</h1>
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Bibliotecario) </span>
-            <a href="../logout.php" class="logout-button">Cerrar sesión</a>
+            <a href="../../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 
@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
         <ul>
             <li><a href="manage_books.php">Administrar Inventario de Libros</a></li>
             <li><a href="register_loan.php">Registrar Préstamo de Libros</a></li>
-            <li><a href="return_books.php">Registrar Devolución de Libros</a></li>
+            <li><a href="return_loan.php">Registrar Devolución de Libros</a></li>
             <li><a href="../manage_users.php">Gestionar Usuarios</a></li>
             <li><a href="view_loans.php">Ver Préstamos Actuales</a></li>
             <li><a href="../main_dashboard.php" class="catalog-link">Volver al Catálogo</a></li> 

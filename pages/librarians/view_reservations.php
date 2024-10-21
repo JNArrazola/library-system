@@ -11,17 +11,38 @@ $error_message = '';
 $success_message = '';
 $usuario_id = null;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recibir_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recibir_id']) && isset($_POST['fecha_devolucion'])) {
     $recibir_id = $_POST['recibir_id'];
+    $fecha_devolucion = $_POST['fecha_devolucion'];
 
-    $query = "UPDATE Reservas SET fecha_recepcion = CURDATE() WHERE id = :recibir_id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['recibir_id' => $recibir_id]);
-
-    if ($stmt->rowCount()) {
-        $success_message = 'El libro ha sido marcado como recibido.';
+    if (empty($fecha_devolucion)) {
+        $error_message = 'Debes seleccionar una fecha de devolución.';
     } else {
-        $error_message = 'No se pudo marcar la recepción del libro.';
+        $query_fecha_reserva = "SELECT fecha_reserva FROM Reservas WHERE id = :recibir_id";
+        $stmt_fecha_reserva = $pdo->prepare($query_fecha_reserva);
+        $stmt_fecha_reserva->execute(['recibir_id' => $recibir_id]);
+        $reserva = $stmt_fecha_reserva->fetch();
+
+        if ($reserva) {
+            $fecha_reserva = $reserva['fecha_reserva'];
+            $fecha_actual = date('Y-m-d');
+
+            if ($fecha_devolucion <= $fecha_actual || $fecha_devolucion <= $fecha_reserva) {
+                $error_message = 'La fecha de devolución debe ser posterior a la fecha actual y a la fecha de reserva.';
+            } else {
+                $query = "UPDATE Reservas SET fecha_recepcion = CURDATE(), fecha_devolucion = :fecha_devolucion WHERE id = :recibir_id";
+                $stmt = $pdo->prepare($query);
+                $stmt->execute(['fecha_devolucion' => $fecha_devolucion, 'recibir_id' => $recibir_id]);
+
+                if ($stmt->rowCount()) {
+                    $success_message = 'El libro ha sido marcado como recibido y la fecha de devolución ha sido asignada.';
+                } else {
+                    $error_message = 'No se pudo marcar la recepción del libro.';
+                }
+            }
+        } else {
+            $error_message = 'Reserva no encontrada.';
+        }
     }
 }
 
@@ -33,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
               FROM Reservas r
               JOIN Usuarios u ON r.usuario_id = u.id
               JOIN Libros l ON r.libro_id = l.id
-              WHERE u.id = :usuario_id AND r.fecha_recepcion IS NULL"; // Filtrar reservas no recibidas
+              WHERE u.id = :usuario_id AND r.fecha_recepcion IS NULL";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['usuario_id' => $usuario_id]);
     $reservas = $stmt->fetchAll();
@@ -96,7 +117,7 @@ $usuarios = $stmt->fetchAll();
                         <th>Nombre</th>
                         <th>Libro</th>
                         <th>Fecha de Reserva</th>
-                        <th>Fecha de Recepción</th>
+                        <th>Fecha de Devolución</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -107,16 +128,14 @@ $usuarios = $stmt->fetchAll();
                             <td><?= htmlspecialchars($reserva['nombre'] . ' ' . $reserva['apellido']) ?></td>
                             <td><?= htmlspecialchars($reserva['libro_nombre']) ?></td>
                             <td><?= htmlspecialchars($reserva['fecha_reserva']) ?></td>
-                            <td><?= ($reserva['fecha_recepcion']) ? htmlspecialchars($reserva['fecha_recepcion']) : 'N/A' ?></td>
                             <td>
-                                <?php if (!$reserva['fecha_recepcion']): ?>
-                                    <form action="view_reservations.php" method="POST">
-                                        <input type="hidden" name="recibir_id" value="<?= htmlspecialchars($reserva['reserva_id']) ?>">
-                                        <button type="submit">Recibir Libro</button>
-                                    </form>
-                                <?php else: ?>
-                                    Recibido
-                                <?php endif; ?>
+                                <form action="view_reservations.php" method="POST">
+                                    <input type="hidden" name="recibir_id" value="<?= htmlspecialchars($reserva['reserva_id']) ?>">
+                                    <input type="date" name="fecha_devolucion" required>
+                            </td>
+                            <td>
+                                <button type="submit">Entregar libro</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

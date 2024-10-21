@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
     $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion 
               FROM Reservas r
               JOIN Libros l ON r.libro_id = l.id
-              WHERE r.usuario_id = :usuario_id AND r.B_Entregado = 0";
+              WHERE r.usuario_id = :usuario_id AND r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['usuario_id' => $usuario_id]);
     $pendientes = $stmt->fetchAll();

@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
               FROM Reservas r
               JOIN Usuarios u ON r.usuario_id = u.id
               JOIN Libros l ON r.libro_id = l.id
-              WHERE u.id = :usuario_id AND r.B_Entregado = :b_entregado AND r.fecha_recepcion IS NOT NULL"; // Filtrar donde fecha_recepcion no sea NULL
+              WHERE u.id = :usuario_id AND r.B_Entregado = :b_entregado AND r.fecha_recepcion IS NOT NULL"; 
     $stmt = $pdo->prepare($query);
     $stmt->execute([
         'usuario_id' => $usuario_id,
@@ -73,6 +73,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Préstamos</title>
     <link rel="stylesheet" href="../../styles/librarians/view_loans.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -139,17 +174,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
                             <td><?= htmlspecialchars($prestamo['libro_nombre']) ?></td>
                             <td><?= htmlspecialchars($prestamo['fecha_recepcion']) ?></td>
                             <td>
-                                <?= ($prestamo['B_Entregado'] == 1) ? htmlspecialchars($prestamo['fecha_devolucion']) : '' ?>
+                                <?php if ($prestamo['B_Entregado'] == 0): ?>
+                                    <form action="view_loans.php" method="POST">
+                                        <input type="date" name="fecha_devolucion" value="<?= htmlspecialchars($prestamo['fecha_devolucion']) ?>" required>
+                                <?php else: ?>
+                                    <?= htmlspecialchars($prestamo['fecha_devolucion']) ?>
+                                <?php endif; ?>
                             </td>
                             <td>
                                 <?= ($prestamo['B_Entregado'] == 1) ? 'Entregado' : 'No Entregado' ?>
                             </td>
                             <td>
                                 <?php if ($prestamo['B_Entregado'] == 0): ?>
-                                    <form action="view_loans.php" method="POST">
-                                        <input type="date" name="fecha_devolucion" value="<?= htmlspecialchars($prestamo['fecha_devolucion']) ?>" required>
-                                        <input type="hidden" name="loan_id" value="<?= htmlspecialchars($prestamo['reserva_id']) ?>">
-                                        <button type="submit">Actualizar</button>
+                                    <input type="hidden" name="loan_id" value="<?= htmlspecialchars($prestamo['reserva_id']) ?>">
+                                    <button type="submit">Actualizar</button>
                                     </form>
                                 <?php else: ?>
                                     No disponible

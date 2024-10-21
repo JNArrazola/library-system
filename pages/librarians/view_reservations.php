@@ -2,7 +2,6 @@
 session_start();
 include('../../config/config.php');
 
-// Verificar si el usuario ha iniciado sesión y es bibliotecario
 if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
     header('Location: ../../index.php');
     exit();
@@ -12,6 +11,20 @@ $error_message = '';
 $success_message = '';
 $usuario_id = null;
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['recibir_id'])) {
+    $recibir_id = $_POST['recibir_id'];
+
+    $query = "UPDATE Reservas SET fecha_recepcion = CURDATE() WHERE id = :recibir_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute(['recibir_id' => $recibir_id]);
+
+    if ($stmt->rowCount()) {
+        $success_message = 'El libro ha sido marcado como recibido.';
+    } else {
+        $error_message = 'No se pudo marcar la recepción del libro.';
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     $usuario_id = $_POST['usuario_id'];
 
@@ -20,13 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
               FROM Reservas r
               JOIN Usuarios u ON r.usuario_id = u.id
               JOIN Libros l ON r.libro_id = l.id
-              WHERE u.id = :usuario_id AND r.fecha_recepcion IS NULL AND r.fecha_devolucion IS NULL"; // Filtrar reservas sin recepción y devolución
+              WHERE u.id = :usuario_id AND r.fecha_recepcion IS NULL"; // Filtrar reservas no recibidas
     $stmt = $pdo->prepare($query);
     $stmt->execute(['usuario_id' => $usuario_id]);
     $reservas = $stmt->fetchAll();
 }
 
-// Obtener todos los usuarios que sean 'usuario' y estén activos
 $query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
 $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
@@ -85,7 +97,7 @@ $usuarios = $stmt->fetchAll();
                         <th>Libro</th>
                         <th>Fecha de Reserva</th>
                         <th>Fecha de Recepción</th>
-                        <th>Fecha de Devolución</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,7 +108,16 @@ $usuarios = $stmt->fetchAll();
                             <td><?= htmlspecialchars($reserva['libro_nombre']) ?></td>
                             <td><?= htmlspecialchars($reserva['fecha_reserva']) ?></td>
                             <td><?= ($reserva['fecha_recepcion']) ? htmlspecialchars($reserva['fecha_recepcion']) : 'N/A' ?></td>
-                            <td><?= ($reserva['fecha_devolucion']) ? htmlspecialchars($reserva['fecha_devolucion']) : 'N/A' ?></td>
+                            <td>
+                                <?php if (!$reserva['fecha_recepcion']): ?>
+                                    <form action="view_reservations.php" method="POST">
+                                        <input type="hidden" name="recibir_id" value="<?= htmlspecialchars($reserva['reserva_id']) ?>">
+                                        <button type="submit">Recibir Libro</button>
+                                    </form>
+                                <?php else: ?>
+                                    Recibido
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

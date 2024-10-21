@@ -29,30 +29,39 @@ h1 {
     color: white;
 }
 
-.user-menu .bibliotecario-link {
-    color: #FFD700;
+.user-menu .bibliotecario-link, .user-menu .usuario-link {
+    color: white;
     text-decoration: none;
-    margin-left: 10px;
+    background-color: #3498db;
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.user-menu .bibliotecario-link:hover {
-    text-decoration: underline;
+.user-menu .bibliotecario-link:hover, .user-menu .usuario-link:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
 }
 
 .logout-button {
     display: inline-block;
     margin-left: 20px;
-    padding: 5px 10px;
+    padding: 5px 15px;
     background-color: #FF6347;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logout-button:hover {
     background-color: #FF4500;
+    transform: scale(1.05);
 }
 
 .search-bar {
@@ -64,6 +73,8 @@ h1 {
     padding: 10px;
     width: 300px;
     font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .search-bar button {
@@ -72,6 +83,13 @@ h1 {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #555;
 }
 
 .book-list {

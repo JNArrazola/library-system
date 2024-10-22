@@ -1,0 +1,210 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.user-menu {
+    position: center;
+    top: 20px;
+    right: 20px;
+}
+
+.user-menu span {
+    font-size: 16px;
+    color: white;
+    margin-right: 20px;
+}
+
+.catalog-link,
+.logout-button {
+    background-color: #756c63; 
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: #6e0a0a;
+    transform: scale(1.05);
+}
+
+.catalog-link:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.book-management {
+    margin: 40px;
+    text-align: center;
+}
+
+.add-book {
+    margin-bottom: 20px;
+}
+
+.add-book-button {
+    background-color: #756c63; 
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    cursor: pointer;
+    display: flexbox; 
+    font-size: 16px;
+    margin: auto;
+    padding: 12px 20px;
+    text-decoration: none;
+}
+
+.add-book-button:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 35px;
+}
+
+.styled-table{
+    border-collapse: collapse;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.styled-table thead tr {
+    background-color: #e0e0e0; /* Color de fondo para el encabezado */
+    color: black; /* Color del texto del encabezado */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+.book-image {
+    width: 100px;
+    height: auto;
+}
+
+textarea {
+    width: 100%;
+    height: 60px;
+    resize: none;
+}
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.actions label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="file"] {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #e0e0e0;
+    color: black;
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: #617f26;
+    color: white;
+}
+
+.actions button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #617f26;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.delete-button {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 15px;
+    padding: 15%;
+}
+
+.delete-button:hover {
+    background-color: #6e0a0a;
+    color: white;
+    transform: scale(1.05);
+}
+
+.update-button {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 15px;
+    padding: 10%;
+}
+
+.update-button:hover {
+    background-color: #617f26;
+    color: white;
+    transform: scale(1.05);
+}
+
+.custom-input {
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 15px; 
+    padding: 10px;
+    font-size: 16px;
+    width: 90%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #756c63; /* Cambiar color del borde al enfocar */
+    outline: none; /* Quitar el borde por defecto */
+}

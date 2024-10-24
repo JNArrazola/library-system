@@ -6,11 +6,15 @@ body {
 }
 
 header {
-    background-color: #333;
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
-    padding: 20px;
-    text-align: center;
-    position: relative;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
 }
 
 h1 {
@@ -19,7 +23,7 @@ h1 {
 }
 
 .user-menu {
-    position: absolute;
+    position: center;
     top: 20px;
     right: 20px;
 }
@@ -27,40 +31,37 @@ h1 {
 .user-menu span {
     font-size: 16px;
     color: white;
+    margin-right: 20px;
 }
 
 .user-menu .bibliotecario-link, .user-menu .usuario-link {
     color: white;
     text-decoration: none;
-    background-color: #3498db;
-    padding: 8px 15px;
+    background-color: #756c63;
+    padding: 10px 15px;
     border-radius: 30px;
+    margin-left: 20px;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.3s ease;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-menu .bibliotecario-link:hover, .user-menu .usuario-link:hover {
-    background-color: #2980b9;
+    background-color: #617f26;
     transform: scale(1.05);
 }
 
 .logout-button {
-    display: inline-block;
-    margin-left: 20px;
-    padding: 5px 15px;
-    background-color: #FF6347;
-    color: white;
-    text-decoration: none;
+    background-color: #756c63; 
     border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #FF4500;
+    background-color: #6e0a0a;
     transform: scale(1.05);
 }
 

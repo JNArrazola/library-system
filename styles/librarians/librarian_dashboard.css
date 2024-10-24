@@ -2,15 +2,19 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #e0e0e0; 
 }
 
 header {
-    background-color: #333;
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
-    padding: 20px;
-    text-align: center;
-    position: relative;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
 }
 
 h1 {
@@ -19,7 +23,7 @@ h1 {
 }
 
 .user-menu {
-    position: absolute;
+    position: center;
     top: 20px;
     right: 20px;
 }
@@ -31,50 +35,60 @@ h1 {
 }
 
 .logout-button {
-    padding: 10px;
-    background-color: #FF6347;
-    color: white;
+    background-color: #756c63; 
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
     text-decoration: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .logout-button:hover {
-    background-color: #FF4500;
+    background-color: #6e0a0a;
+    transform: scale(1.05);
 }
 
 .dashboard-menu {
-    margin: 40px auto;
-    text-align: center;
+    background-color: #f4f4f4; 
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 25%;
+    margin: 50px auto;
+    padding: 30px;
 }
 
 .dashboard-menu ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0px;
 }
 
 .dashboard-menu ul li {
-    margin: 20px 0;
+    border-radius: 30px;
+    margin: auto auto;
+    padding: 7.5px;
+    text-align: center;
+    width: 90%;
 }
 
-.dashboard-menu ul li a {
-    padding: 15px 30px;
-    background-color: #333;
-    color: white;
+.dashboard-menu a {
+    background-color: #e0e0e0; 
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: black;
+    display: block;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
 }
 
-.dashboard-menu ul li a:hover {
-    background-color: #555;
+.dashboard-menu a.catalog-link {
+    background-color: #756c63; /* Color diferente para 'Volver al Catálogo' */
+    color: #ffffff;
 }
 
-.catalog-link {
-    background-color: #4CAF50; /* Verde para destacar el enlace al catálogo */
-}
-
-.catalog-link:hover {
-    background-color: #45a049;
+.dashboard-menu ul a:hover {
+    background-color: #617f26;
+    color: white;
+    transform: scale(1.05);
 }

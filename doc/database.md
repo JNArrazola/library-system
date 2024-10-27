@@ -52,7 +52,15 @@ VALUES
     ('Cien Años de Soledad', 'Gabriel García Márquez', '1967-05-30', 'Editorial Sudamericana', 'La obra maestra del realismo mágico', 3),
     ('1984', 'George Orwell', '1949-06-08', 'Secker & Warburg', 'Una novela distópica sobre el control del estado', 4);
 
-SELECT * FROM Usuarios;
-SELECT * FROM Libros;
-
+CREATE TABLE Solicitudes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    tipo ENUM('eliminacion', 'actualizacion') NOT NULL,
+    usuario_id INT NOT NULL,
+    solicitante_id INT NOT NULL,
+    fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('pendiente', 'aprobado', 'rechazado') DEFAULT 'pendiente',
+    detalles_cambio JSON NULL,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id),
+    FOREIGN KEY (solicitante_id) REFERENCES Usuarios(id)
+);
 ```

@@ -7,46 +7,61 @@ if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_S
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_user_id']) && $_POST['delete_user_id'] != $_SESSION['user_id']) {
-    $delete_user_id = $_POST['delete_user_id'];
-    $query = "DELETE FROM Usuarios WHERE id = :id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['id' => $delete_user_id]);
+$success_message = '';
+$error_message = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['delete_user_id']) && $_POST['delete_user_id'] != $_SESSION['user_id']) {
+        $delete_user_id = $_POST['delete_user_id'];
+
+        $check_query = "SELECT COUNT(*) FROM Solicitudes WHERE tipo = 'eliminacion' AND usuario_id = :usuario_id AND solicitante_id = :solicitante_id AND estado = 'pendiente'";
+        $check_stmt = $pdo->prepare($check_query);
+        $check_stmt->execute(['usuario_id' => $delete_user_id, 'solicitante_id' => $_SESSION['user_id']]);
+        
+        if ($check_stmt->fetchColumn() == 0) {
+            $query = "INSERT INTO Solicitudes (tipo, usuario_id, solicitante_id, estado) VALUES ('eliminacion', :usuario_id, :solicitante_id, 'pendiente')";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute(['usuario_id' => $delete_user_id, 'solicitante_id' => $_SESSION['user_id']]);
+            $success_message = "Solicitud de eliminación enviada correctamente.";
+        } else {
+            $error_message = "Ya existe una solicitud pendiente de eliminación para este usuario.";
+        }
+    }
+    
+    if (isset($_POST['user_id']) && ($_SESSION['rol'] === 'administrador' || $_SESSION['rol'] === 'bibliotecario')) {
+        $user_id = $_POST['user_id'];
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+        $direccion = $_POST['direccion'];
+        $rol = $_POST['rol'] ?? 'usuario';
+
+        $check_query = "SELECT COUNT(*) FROM Solicitudes WHERE tipo = 'actualizacion' AND usuario_id = :usuario_id AND solicitante_id = :solicitante_id AND estado = 'pendiente'";
+        $check_stmt = $pdo->prepare($check_query);
+        $check_stmt->execute(['usuario_id' => $user_id, 'solicitante_id' => $_SESSION['user_id']]);
+
+        if ($check_stmt->fetchColumn() == 0) {
+            $detalles_cambio = json_encode([
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'direccion' => $direccion,
+                'rol' => $rol
+            ]);
+
+            $query = "INSERT INTO Solicitudes (tipo, usuario_id, solicitante_id, estado, detalles_cambio) VALUES ('actualizacion', :usuario_id, :solicitante_id, 'pendiente', :detalles_cambio)";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([
+                'usuario_id' => $user_id,
+                'solicitante_id' => $_SESSION['user_id'],
+                'detalles_cambio' => $detalles_cambio
+            ]);
+            $success_message = "Solicitud de actualización enviada correctamente.";
+        } else {
+            $error_message = "Ya existe una solicitud pendiente de actualización para este usuario.";
+        }
+    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id']) && $_SESSION['rol'] === 'administrador') {
-    $user_id = $_POST['user_id'];
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $direccion = $_POST['direccion'];
-    $rol = $_POST['rol'];
-
-    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, direccion = :direccion, rol = :rol WHERE id = :id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([
-        'id' => $user_id,
-        'nombre' => $nombre,
-        'apellido' => $apellido,
-        'direccion' => $direccion,
-        'rol' => $rol
-    ]);
-} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
-    $user_id = $_POST['user_id'];
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $direccion = $_POST['direccion'];
-
-    $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, direccion = :direccion WHERE id = :id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([
-        'id' => $user_id,
-        'nombre' => $nombre,
-        'apellido' => $apellido,
-        'direccion' => $direccion
-    ]);
-}
-
-$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol != 'administrador'" : "";
+$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol = 'usuario'" : "";
 $query = "SELECT * FROM Usuarios $condition";
 $stmt = $pdo->query($query);
 $users = $stmt->fetchAll();
@@ -59,17 +74,22 @@ $users = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../styles/manage_users.css?v=<?= time(); ?>">
-</head>
-    <script>''
+    <script>
         function confirmDeletion(userId) {
-            if (confirm("¿Estás seguro de que quieres eliminar este usuario?")) {
-                document.getElementById('delete_user_id_' + userId).submit(); 
+            if (confirm("¿Estás seguro de que quieres enviar la solicitud para eliminar este usuario?")) {
+                document.getElementById('delete_user_form_' + userId).submit();
             }
         }
     </script>
 </head>
 <body>
     <h1>Gestionar Usuarios</h1>
+
+    <?php if ($success_message): ?>
+        <p class="success"><?= htmlspecialchars($success_message) ?></p>
+    <?php elseif ($error_message): ?>
+        <p class="error"><?= htmlspecialchars($error_message) ?></p>
+    <?php endif; ?>
 
     <div class="add-user">
         <a href="add_user.php" class="add-user-button">Agregar Usuario</a> 
@@ -111,17 +131,20 @@ $users = $stmt->fetchAll();
                         </td>
                         <td>
                             <input type="hidden" name="user_id" value="<?= htmlspecialchars($user['id']) ?>">
-                            <button type="submit">Guardar</button>
-                            <?php if (($_SESSION['rol'] === 'bibliotecario' && $user['rol'] === 'usuario') || $_SESSION['rol'] === 'administrador'): ?>
-                                <?php if ($user['id'] != $_SESSION['user_id']): ?>
-                                    <form id="delete_user_id_<?= $user['id'] ?>" action="manage_users.php" method="POST" style="display:inline;">
-                                        <input type="hidden" name="delete_user_id" value="<?= htmlspecialchars($user['id']) ?>">
-                                        <button type="button" class="delete-button" onclick="confirmDeletion(<?= $user['id'] ?>)">Eliminar</button>
-                                    </form>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            <button type="submit">Solicitar Cambio</button>
                         </td>
                     </form>
+                    
+                    <?php if (($_SESSION['rol'] === 'bibliotecario' && $user['rol'] === 'usuario') || $_SESSION['rol'] === 'administrador'): ?>
+                        <?php if ($user['id'] != $_SESSION['user_id']): ?>
+                            <td>
+                                <form id="delete_user_form_<?= $user['id'] ?>" action="manage_users.php" method="POST" style="display:inline;">
+                                    <input type="hidden" name="delete_user_id" value="<?= htmlspecialchars($user['id']) ?>">
+                                    <button type="button" class="delete-button" onclick="confirmDeletion(<?= $user['id'] ?>)">Solicitar Eliminación</button>
+                                </form>
+                            </td>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -80,17 +80,17 @@ h1 {
 
 .search-bar button {
     padding: 10px;
-    background-color: #333;
+    background-color: #756c63;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 30px;
     margin-left: 5px;
     transition: background-color 0.3s ease;
 }
 
 .search-bar button:hover {
-    background-color: #555;
+    background-color: #617f26;
 }
 
 .book-list {

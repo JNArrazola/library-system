@@ -58,8 +58,9 @@ $users = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
-    <link rel="stylesheet" href="../styles/manage_users.css">
-    <script>
+    <link rel="stylesheet" href="../styles/manage_users.css?v=<?= time(); ?>">
+</head>
+    <script>''
         function confirmDeletion(userId) {
             if (confirm("¿Estás seguro de que quieres eliminar este usuario?")) {
                 document.getElementById('delete_user_id_' + userId).submit(); 

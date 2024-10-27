@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Devolución</title>
-    <link rel="stylesheet" href="../../styles/librarians/return_loan.css">
+    <link rel="stylesheet" href="../../styles/librarians/return_loan.css?v=<?= time(); ?>">
 </head>
 <body>
     <header>

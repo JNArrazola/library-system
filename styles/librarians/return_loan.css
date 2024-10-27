@@ -1,51 +1,59 @@
 body {
-    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
 }
 
 h1 {
+    font-size: 2em;
     margin: 0;
 }
 
 .user-menu span {
-    font-weight: bold;
+    color: white;
+    font-size: 16px;
+    margin-right: 20px;
 }
 
 .user-menu a {
-    color: white;
-    text-decoration: none;
+    background-color: #756c63;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
     margin-left: 20px;
     padding: 10px 15px;
-    background-color: #f44336;
-    border-radius: 4px;
+    text-decoration: none;
 }
 
 .user-menu a.catalog-link {
-    background-color: #2196F3;
+    background-color: #756c63;
 }
 
 .user-menu a:hover {
+    background-color: #6e0a0a;
+    transform: scale(1.05);
     opacity: 0.8;
 }
 
 .return-form {
-    width: 50%;
-    margin: 50px auto;
     background-color: white;
-    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    padding: 30px;
+    width: 50%;
 }
 
 .form-group {
@@ -60,32 +68,42 @@ h1 {
 
 select,
 input[type="text"] {
-    width: 100%;
-    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
+    padding: 10px;
+    width: 100%;
 }
 
 button[type="submit"] {
-    background-color: #333;
-    color: white;
-    padding: 12px 20px;
+    background-color: #756c63;
     border: none;
     border-radius: 4px;
+    color: white;
     cursor: pointer;
     font-size: 16px;
+    padding: 12px 20px;background-color: #756c63; 
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    cursor: pointer;
+    display: flexbox; 
+    font-size: 16px;
+    margin: auto;
+    padding: 12px 20px;
+    text-decoration: none;
 }
 
 button[type="submit"]:hover {
-    background-color: #555;
+    background-color: #617f26;
 }
 
 table {
-    width: 100%;
-    margin-top: 20px;
     border-collapse: collapse;
+    margin-top: 35px;
+    width: 100%;
 }
 
 table, th, td {
@@ -104,11 +122,11 @@ thead {
 
 button {
     background-color: #f44336;
-    color: white;
-    padding: 10px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    color: white;
+    padding: 10px 15px;
 }
 
 button:hover {

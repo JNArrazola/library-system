@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'usuario') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Panel - Usuario</title>
-    <link rel="stylesheet" href="../../styles/users/user_dashboard.css">
+    <link rel="stylesheet" href="../../styles/users/user_dashboard.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>

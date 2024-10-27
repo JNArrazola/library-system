@@ -61,7 +61,7 @@ $libros = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Préstamo</title>
-    <link rel="stylesheet" href="../../styles/librarians/register_loan.css">
+    <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>"> <!-- Evita el caché -->
 </head>
 <body>
     <header>

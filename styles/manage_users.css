@@ -1,30 +1,63 @@
+body {
+    align-items: center;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
+    width: 100%
+}
+
 h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 23px;
+    margin-bottom: 30px;
 }
 
 .add-user {
+    position: center;
+    top: 20px;
+    right: 20px;
     margin-bottom: 20px;
 }
 
 .add-user-button, .return-button {
+    background-color: #756c63;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
     padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
 }
 
 .add-user-button:hover, .return-button:hover {
-    background-color: #218838;
+    background-color: #617f26;
+}
+
+.delete-button:hover {
+    background-color: #6e0a0a;
+    color: white;
+    transform: scale(1.05);
 }
 
 table {
-    width: 100%;
+    width: 90%;
+    max-width: 1400px;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 35px;
 }
 
 table th, table td {
@@ -49,15 +82,20 @@ input[type="text"], input[type="email"], select {
 }
 
 button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: #756c63;
     border: none;
+    border-radius: 30px;
+    color: white;
     cursor: pointer;
+    font-size: 16px;
+    padding: 8px 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: inline-flex; 
+    text-decoration: none;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #617f26;
 }
 
 .return-menu {

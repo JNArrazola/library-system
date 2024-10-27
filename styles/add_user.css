@@ -1,21 +1,38 @@
 body {
+    background-color: #e0e0e0;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    align-items: center;
+    background-color: #352c23;
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia, serif;
+    justify-content: space-between;
+    padding: 23px;
+    width: 100%;
 }
 
 h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    margin: 0;
 }
 
 form {
-    max-width: 600px;
+    max-width: 800px;  /* Aumentamos el tamaño máximo del formulario */
     margin: 0 auto;
     background-color: white;
-    padding: 20px;
+    padding: 30px;  /* Aumentamos el padding para hacerlo más espacioso */
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);  /* Ajustamos la sombra para un efecto más suave */
 }
 
 label {
@@ -25,35 +42,41 @@ label {
 }
 
 input[type="text"], input[type="email"], input[type="password"], select {
-    width: 100%;
-    padding: 10px;
+    width: 95%;  /* Ajustamos el ancho para que los inputs sean más amplios */
+    padding: 12px;  /* Aumentamos el padding para un mejor aspecto */
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 16px;  /* Aumentamos el tamaño de la fuente */
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: #756c63;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    color: white;
     cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin: auto;
+    padding: 12px 20px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #617f26;
 }
 
 p.error {
-    color: red;
+    color: #d32f2f;
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 p.success {
-    color: green;
+    color: #388e3c;
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }

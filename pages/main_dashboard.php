@@ -27,7 +27,7 @@ $books = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - Libros</title>
-    <link rel="stylesheet" href="../styles/main_dashboard.css">
+    <link rel="stylesheet" href="../styles/main_dashboard.css?v=<?= time(); ?>">
 </head>
 <body>
     <header>

@@ -7,14 +7,9 @@ body {
 
 header {
     align-items: center;
-<<<<<<< HEAD
-    padding: 10px 20px;
-    background-color: #000000;
-=======
     background-color: #352c23;
     border-radius: 0px 0px 30px 30px;
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
->>>>>>> origin/Gogi
     color: white;
     display: flex;
     font-family: Georgia;

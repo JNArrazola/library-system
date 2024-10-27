@@ -1,11 +1,21 @@
 <?php
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;  
+use PHPMailer\PHPMailer\SMTP;
+
+require '../Packages/PHPMailer/src/Exception.php';
+require '../Packages/PHPMailer/src/PHPMailer.php';
+require '../Packages/PHPMailer/src/SMTP.php';
+
+require '../config/emailConfig.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 include('../config/config.php');
-
 $error_message = '';
 $success_message = '';
 
@@ -35,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user) {
             $error_message = 'El correo ya está registrado.';
         } else {
+            
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             $query = "INSERT INTO Usuarios (nombre, apellido, correo, password, rol, is_active) 
@@ -46,11 +57,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'correo' => $correo,
                 'password' => $hashed_password
             ]);
-
+            
             $success_message = 'Registro exitoso. Tu cuenta ha sido activada.';
+
+            sendMail($correo,$nombre,$success_message);
+
+            header("Location: succesfull_register.php");
+            exit;
+
         }
     }
 }
+
+function sendMail($email,$subject,$message){
+    
+    $mail = new PHPMailer(true);
+    
+    $mail->isSMTP();
+
+    $mail->SMTPAuth = true;
+    
+    $mail->Host = MAILHOST;
+
+    $mail->Username = USERNAME;
+
+    $mail->Password = PASSWORD;
+
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+    $mail->Port = 587;
+
+    $mail->setFrom(SEND_FROM, SEND_FROM_NAME);
+
+    $mail->addAddress($email);
+    
+    $mail->addReplyTo(REPLY_TO,REPLY_TO_NAME);
+
+    $mail->IsHTML(true);
+
+    $mail->Subject = $subject;
+
+    $mail->Body = $message;
+
+    $mail->AltBody = $message;
+
+    if(!$mail->send()){
+        return "Correo no enviado. Porfavor initente otravez";
+    }
+    else{
+        return "El correo se ha enviado con exito";
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>

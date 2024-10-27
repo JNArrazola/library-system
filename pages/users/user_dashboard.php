@@ -35,7 +35,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'usuario') {
             <ul>
                 <li><a href="view_reservations.php">Ver Mis Reservas</a></li>
                 <li><a href="view_loans.php">Ver Mis Préstamos</a></li>
-                <li><a href="../main_dashboard.php">Volver al Catálogo</a></li> 
+                <li><a href="../catalog.php">Volver al Catálogo</a></li> 
             </ul>
         </div>
     </section>

@@ -2,11 +2,6 @@
 session_start();
 include('../config/config.php');
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
 $search = '';
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
@@ -19,6 +14,22 @@ if (isset($_GET['search'])) {
 }
 
 $books = $stmt->fetchAll();
+
+$nav_options = '<a href="../index.php" class="nav-link">Inicio</a>';
+$nav_options .= '<a href="catalog.php" class="nav-link">Catálogo</a>';
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['rol'] === 'administrador') {
+        $nav_options .= '<a href="administrators/admin_dashboard.php" class="admin-link">Panel de Administrador</a>';
+    } elseif ($_SESSION['rol'] === 'bibliotecario') {
+        $nav_options .= '<a href="librarians/librarian_dashboard.php" class="bibliotecario-link">Opciones de Bibliotecario</a>';
+    } elseif ($_SESSION['rol'] === 'usuario') {
+        $nav_options .= '<a href="users/user_dashboard.php" class="usuario-link">Mi Panel</a>';
+    }
+    $nav_options .= '<a href="../config/logout.php" class="logout-button">Cerrar sesión</a>';
+} else {
+    $nav_options .= '<a href="login.php" class="usuario-link">Iniciar Sesión</a>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,25 +38,18 @@ $books = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - Libros</title>
-    <link rel="stylesheet" href="../styles/main_dashboard.css?v=<?= time(); ?>">
+    <link rel="stylesheet" href="../styles/catalog.css?v=<?= time(); ?>">
 </head>
 <body>
     <header>
         <h1>Biblioteca</h1>
         <div class="user-menu">
-            <span><?= htmlspecialchars($_SESSION['nombre']) ?> 
-                <?php if ($_SESSION['rol'] === 'bibliotecario'): ?>
-                    <a href="librarians/librarian_dashboard.php" class="bibliotecario-link">(Opciones de Bibliotecario)</a>
-                <?php else: ?>
-                    <a href="users/user_dashboard.php" class="usuario-link">(Mi Panel)</a>
-                <?php endif; ?>
-            </span>
-            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
+            <?= $nav_options ?>
         </div>
     </header>
 
     <div class="search-bar">
-        <form action="main_dashboard.php" method="GET">
+        <form action="catalog.php" method="GET">
             <input type="text" name="search" placeholder="Buscar por título o autor..." value="<?= htmlspecialchars($search) ?>">
             <button type="submit">Buscar</button>
         </form>

@@ -1,38 +1,24 @@
 <?php
 session_start();
-include('config/config.php'); 
+include('config/config.php');
 
-$error_message = '';
+$query = "SELECT * FROM Libros ORDER BY RAND() LIMIT 5";
+$stmt = $pdo->query($query);
+$featured_books = $stmt->fetchAll();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $correo = $_POST['correo'];
-    $password = $_POST['password'];
+$nav_options = '<a href="index.php" class="nav-link">Inicio</a> <a href="pages/catalog.php" class="nav-link">Catálogo</a>';
 
-    $query = "SELECT * FROM Usuarios WHERE correo = :correo AND is_active = 1";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['correo' => $correo]);
-    $user = $stmt->fetch();
-
-    if ($user) {
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['nombre'] = $user['nombre'];
-            $_SESSION['rol'] = $user['rol'];
-
-            if ($user['rol'] === 'usuario') {
-                header('Location: pages/main_dashboard.php');
-            } else if($user['rol'] === 'administrador') { 
-                header('Location: pages/administrators/admin_dashboard.php'); 
-            } else {
-                header('Location: pages/main_dashboard.php');
-            }
-            exit();
-        } else {
-            $error_message = 'Contraseña incorrecta.';
-        }
-    } else {
-        $error_message = 'Correo no encontrado o cuenta no activada.';
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['rol'] === 'administrador') {
+        $nav_options .= '<a href="pages/administrators/admin_dashboard.php" class="admin-link">Panel de Administrador</a>';
+    } elseif ($_SESSION['rol'] === 'bibliotecario') {
+        $nav_options .= '<a href="pages/librarians/librarian_dashboard.php" class="bibliotecario-link">Opciones de Bibliotecario</a>';
+    } elseif ($_SESSION['rol'] === 'usuario') {
+        $nav_options .= '<a href="pages/users/user_dashboard.php" class="usuario-link">Mi Panel</a>';
     }
+    $nav_options .= ' <a href="config/logout.php" class="logout-button">Cerrar sesión</a>';
+} else {
+    $nav_options .= '<a href="pages/login.php" class="usuario-link">Iniciar Sesión</a>';
 }
 ?>
 
@@ -41,23 +27,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a la Biblioteca</title>
     <link rel="stylesheet" href="styles/index.css">
-    <title>Inicio de Sesión</title>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Iniciar Sesión</h2>
-        <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
-        <?php endif; ?>
-        <form action="index.php" method="POST">
-            <label for="correo">Correo electrónico:</label>
-            <input type="email" name="correo" id="correo" required>
-            <label for="password">Contraseña:</label>
-            <input type="password" name="password" id="password" required>
-            <button type="submit">Ingresar</button>
-        </form>
-        <p>¿No tienes cuenta? <a href="pages/register.php">Regístrate aquí</a></p>
-    </div>
+    <header>
+        <h1>Bienvenido a la Biblioteca</h1>
+        <div class="user-menu">
+            <?= $nav_options ?>
+        </div>
+    </header>
+
+    <section class="welcome-section">
+        <div class="intro-text">
+            <h2>Descubre los Mejores Libros</h2>
+            <p>Explora nuestra colección y encuentra el libro perfecto para ti. Visita nuestro catálogo o revisa algunos de nuestros destacados.</p>
+            <a href="pages/catalog.php" class="catalog-link">Ir al Catálogo Completo</a>
+        </div>
+
+        <div class="featured-books">
+            <h2>Libros Destacados</h2>
+            <div class="book-list">
+                <?php foreach ($featured_books as $book): ?>
+                    <div class="book-item" onclick="window.location.href='pages/book_details.php?id=<?= $book['id'] ?>'">
+                        <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
+                        <h3><?= htmlspecialchars($book['nombre']) ?></h3>
+                        <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
+                        <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>...</p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

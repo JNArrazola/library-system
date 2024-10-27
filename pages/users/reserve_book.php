@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'usuario') {
 }
 
 if (!isset($_GET['id'])) {
-    header('Location: ../main_dashboard.php');
+    header('Location: ../catalog.php');
     exit();
 }
 

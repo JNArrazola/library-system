@@ -32,7 +32,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
             <li><a href="view_loans.php">Ver Préstamos Actuales</a></li>
             <li><a href="view_reservations.php">Ver Reservas</a></li> <!-- Nueva opción para ver reservas -->
             <li><a href="../manage_users.php">Gestionar Usuarios</a></li>
-            <li><a href="../main_dashboard.php" class="catalog-link">Volver al Catálogo</a></li> 
+            <li><a href="../catalog.php" class="catalog-link">Volver al Catálogo</a></li> 
         </ul>
     </section>
 </body>

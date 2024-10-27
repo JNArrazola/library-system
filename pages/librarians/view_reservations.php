@@ -78,7 +78,7 @@ $usuarios = $stmt->fetchAll();
         <h1>Ver Reservas</h1>
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Bibliotecario)</span>
-            <a href="../main_dashboard.php" class="catalog-link">Volver al Catálogo</a>
+            <a href="../catalog.php" class="catalog-link">Volver al Catálogo</a>
             <a href="../logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>

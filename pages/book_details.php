@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if (!isset($_GET['id'])) {
-    header('Location: main_dashboard.php');
+    header('Location: catalog.php');
     exit();
 }
 
@@ -20,7 +20,7 @@ $stmt->execute(['book_id' => $book_id]);
 $book = $stmt->fetch();
 
 if (!$book) {
-    header('Location: main_dashboard.php');
+    header('Location: catalog.php');
     exit();
 }
 
@@ -56,7 +56,7 @@ $error_message = isset($_GET['error']) ? $_GET['error'] : '';
     <?php endif; ?>
 
     <div class="back-button-container">
-        <a href="main_dashboard.php" class="back-button">Volver al catálogo</a>
+        <a href="catalog.php" class="back-button">Volver al catálogo</a>
     </div>
 
     <div class="book-details-container">

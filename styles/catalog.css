@@ -141,3 +141,21 @@ h1 {
     display: inline-block;
     margin-right: 5px;
 }
+
+
+.nav-link {
+    color: white;
+    background-color: #756c63;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}

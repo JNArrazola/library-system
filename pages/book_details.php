@@ -2,11 +2,6 @@
 session_start();
 include('../config/config.php');
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit();
-}
-
 if (!isset($_GET['id'])) {
     header('Location: catalog.php');
     exit();
@@ -26,6 +21,22 @@ if (!$book) {
 
 $success_message = isset($_GET['success']) ? $_GET['success'] : '';
 $error_message = isset($_GET['error']) ? $_GET['error'] : '';
+
+$nav_options = '<a href="../index.php" class="nav-link">Inicio</a>';
+$nav_options .= '<a href="catalog.php" class="nav-link">Catálogo</a>';
+
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['rol'] === 'administrador') {
+        $nav_options .= '<a href="administrators/admin_dashboard.php" class="admin-link">Panel de Administrador</a>';
+    } elseif ($_SESSION['rol'] === 'bibliotecario') {
+        $nav_options .= '<a href="librarians/librarian_dashboard.php" class="bibliotecario-link">Opciones de Bibliotecario</a>';
+    } elseif ($_SESSION['rol'] === 'usuario') {
+        $nav_options .= '<a href="users/user_dashboard.php" class="usuario-link">Mi Panel</a>';
+    }
+    $nav_options .= '<a href="../config/logout.php" class="logout-button">Cerrar sesión</a>';
+} else {
+    $nav_options .= '<a href="login.php" class="login-link">Iniciar Sesión</a>';
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +45,13 @@ $error_message = isset($_GET['error']) ? $_GET['error'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Libro</title>
-    <link rel="stylesheet" href="../styles/book_details.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../styles/book_details.css?v=<?= time(); ?>">
 </head>
 <body>
     <header>
-        <h1><?= htmlspecialchars($book['nombre']) ?></h1>
+        <h1>Detalles del Libro</h1>
         <div class="user-menu">
-            <span><?= htmlspecialchars($_SESSION['nombre']) ?> <?= $_SESSION['rol'] === 'bibliotecario' ? '<a href="librarians/librarian_dashboard.php" class="bibliotecario-link">(Opciones de Bibliotecario)</a>' : '' ?></span>
-            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
+            <?= $nav_options ?>
         </div>
     </header>
 
@@ -71,7 +81,7 @@ $error_message = isset($_GET['error']) ? $_GET['error'] : '';
             <p><strong>Sinopsis:</strong> <?= htmlspecialchars($book['sinopsis']) ?></p>
             <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
 
-            <?php if ($_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>
+            <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>
                 <a href="users/reserve_book.php?id=<?= $book['id'] ?>" class="reserve-button">Reservar</a>
             <?php endif; ?>
         </div>

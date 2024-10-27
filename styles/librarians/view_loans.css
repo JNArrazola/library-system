@@ -1,43 +1,50 @@
 body {
-    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 2px;
 }
 
 .user-menu span {
-    font-weight: bold;
+    color: white;
+    font-size: 16px;
+    margin-right: 20px;
 }
 
 .user-menu a {
-    color: white;
-    text-decoration: none;
+    background-color: #756c63;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
     margin-left: 20px;
     padding: 10px 15px;
-    background-color: #555;
-    border-radius: 4px;
+    text-decoration: none;
 }
 
 .user-menu a:hover {
+    background-color: #6e0a0a;
+    transform: scale(1.05);
     opacity: 0.8;
 }
 
 .loan-view {
-    width: 80%;
-    margin: 50px auto;
     background-color: white;
-    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    padding: 30px;
+    width: 50%;
 }
 
 h2 {
@@ -59,7 +66,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #555;
+    background-color: #333;
     color: white;
 }
 
@@ -79,14 +86,25 @@ input[type="date"], select {
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
+    background-color: #756c63;
     border: none;
     border-radius: 4px;
+    color: white;
     cursor: pointer;
+    font-size: 16px;
+    padding: 12px 20px;background-color: #756c63; 
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    cursor: pointer;
+    display: flexbox; 
+    font-size: 16px;
+    margin: auto;
+    padding: 12px 20px;
+    text-decoration: none;
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #617f26;
 }

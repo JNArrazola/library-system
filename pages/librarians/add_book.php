@@ -80,27 +80,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="add_book.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre">Título:</label>
-                <input type="text" name="nombre" id="nombre" required>
+                <input type="text" name="nombre" class="custom-input" id="nombre" required >
             </div>
             <div class="form-group">
                 <label for="autor">Autor:</label>
-                <input type="text" name="autor" id="autor" required>
+                <input type="text" name="autor" class="custom-input" id="autor" required>
             </div>
             <div class="form-group">
                 <label for="editorial">Editorial:</label>
-                <input type="text" name="editorial" id="editorial" required>
+                <input type="text" name="editorial" class="custom-input" id="editorial" required>
             </div>
             <div class="form-group">
                 <label for="cantidad">Cantidad:</label>
-                <input type="number" name="cantidad" id="cantidad" min="1" required>
+                <input type="number" name="cantidad" class="custom-input" id="cantidad" min="1" required>
             </div>
             <div class="form-group">
                 <label for="sinopsis">Sinopsis:</label>
-                <textarea name="sinopsis" id="sinopsis" rows="4" required></textarea>
+                <textarea name="sinopsis" class="custom-input" id="sinopsis" rows="4" required></textarea>
             </div>
             <div class="form-group">
                 <label for="imagen">Subir Imagen (máximo 2 MB):</label>
-                <input type="file" name="imagen" id="imagen" accept="image/*" required>
+                <input type="file" name="imagen" class="custom-input" id="imagen" accept="image/*" required>
             </div>
             <button type="submit">Registrar Libro</button>
         </form>

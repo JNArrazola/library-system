@@ -20,7 +20,7 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administrador</title>
-    <link rel="stylesheet" href="../../styles/administrators/admin_dashboard.css">
+    <link rel="stylesheet" href="../../styles/administrators/admin_dashboard.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>

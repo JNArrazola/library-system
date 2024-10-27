@@ -84,7 +84,7 @@ $books = $stmt->fetchAll();
             <a href="add_book.php" class="add-book-button">Registrar Nuevo Libro</a>
         </div>
 
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -107,18 +107,18 @@ $books = $stmt->fetchAll();
                         <td><?= htmlspecialchars($book['nombre']) ?></td>
                         <td>
                             <form action="manage_books.php" method="POST" enctype="multipart/form-data">
-                                <input type="text" name="autor" value="<?= htmlspecialchars($book['autor']) ?>">
+                                <input type="text" name="autor" class="custom-input" value="<?= htmlspecialchars($book['autor']) ?>">
                         </td>
-                        <td><input type="text" name="editorial" value="<?= htmlspecialchars($book['editorial']) ?>"></td>
-                        <td><input type="number" name="cantidad" value="<?= htmlspecialchars($book['cantidad']) ?>" min="0"></td>
-                        <td><textarea name="sinopsis"><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
+                        <td><input type="text" name="editorial" class="custom-input" value="<?= htmlspecialchars($book['editorial']) ?>"></td>
+                        <td><input type="number" name="cantidad" class="custom-input" value="<?= htmlspecialchars($book['cantidad']) ?>" min="0"></td>
+                        <td><textarea name="sinopsis" ><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
                         <td>
                             <label for="imagen">Imagen:</label>
-                            <input type="file" name="imagen" accept="image/*">
+                            <input type="file" name="imagen" class="custom-input" accept="image/*">
                         </td>
                         <td>
                             <input type="hidden" name="book_id" value="<?= htmlspecialchars($book['id']) ?>">
-                            <button type="submit">Actualizar</button>
+                            <button type="submit" class="update-button">Actualizar</button>
                             </form>
                         </td>
                         <td>

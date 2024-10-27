@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Préstamos</title>
-    <link rel="stylesheet" href="../../styles/librarians/view_loans.css">
+    <link rel="stylesheet" href="../../styles/librarians/view_loans.css?v=<?php echo time(); ?>">
     <style>
         table {
             width: 100%;

@@ -1,16 +1,20 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    background-color: #e0e0e0; 
 }
 
 header {
-    background-color: #333;
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
-    padding: 20px;
-    text-align: center;
-    position: relative;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
 }
 
 h1 {
@@ -19,7 +23,7 @@ h1 {
 }
 
 .user-menu {
-    position: absolute;
+    position: center;
     top: 20px;
     right: 20px;
 }
@@ -27,23 +31,29 @@ h1 {
 .user-menu span {
     font-size: 16px;
     color: white;
+    margin-right: 20px;
 }
 
 .logout-button {
-    display: inline-block;
-    padding: 10px 15px;
-    background-color: #FF6347;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+    background-color: #756c63; 
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
     margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #FF4500;
+    background-color: #6e0a0a;
+    transform: scale(1.05);
 }
 
 .dashboard {
+    background-color: #f4f4f4; 
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 25%;
+    margin: 50px auto;
     padding: 20px;
 }
 
@@ -58,19 +68,26 @@ h2 {
 }
 
 .options-menu li {
-    margin: 10px 0;
+    border-radius: 30px;
+    margin: auto auto;
+    padding: 7.5px;
+    text-align: center;
+    width: 90%;
 }
 
 .options-menu a {
+    background-color: #e0e0e0; 
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: black;
     display: block;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+    margin: 0 auto;
+    padding: 30px;
     text-align: center;
+    text-decoration: none;
 }
 
 .options-menu a:hover {
-    background-color: #555;
+    background-color: #617f26; /* Color diferente para 'Volver al Catálogo' */
+    color: #ffffff;
 }

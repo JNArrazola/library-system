@@ -24,7 +24,7 @@ $prestamos = $stmt_prestamos->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Préstamos</title>
-    <link rel="stylesheet" href="../../styles/users/view_loans.css">
+    <link rel="stylesheet" href="../../styles/users/view_loans.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>

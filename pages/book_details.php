@@ -34,7 +34,7 @@ $error_message = isset($_GET['error']) ? $_GET['error'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Libro</title>
-    <link rel="stylesheet" href="../styles/book_details.css">
+    <link rel="stylesheet" href="../styles/book_details.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>

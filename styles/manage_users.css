@@ -1,56 +1,81 @@
 body {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: #f4f4f4;
     color: #333;
-    display: flex;
     font-family: Arial, sans-serif;
-    flex-direction: column;
     margin: 0;
     padding: 0;
 }
 
 header {
-    align-items: center;
-    background-color: #352c23; 
-    border-radius: 0px 0px 30px 30px;
-    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    background-color: #352c23;
     color: white;
     display: flex;
-    font-family: Georgia;
     justify-content: space-between;
-    padding: 23px;
-    width: 100%
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 30px 30px;
 }
 
 h1 {
-    font-size: 23px;
+    font-family: Georgia, serif;
+    font-size: 24px;
     margin-bottom: 30px;
 }
 
-.add-user {
-    position: center;
-    top: 20px;
-    right: 20px;
-    margin-bottom: 20px;
+.success, .error {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 90%;
+    max-width: 1200px;
+    border-radius: 5px;
 }
 
-.add-user-button, .return-button {
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+button, .add-user-button, .return-button {
     background-color: #756c63;
+    border: none;
     border-radius: 30px;
-    color: rgb(255, 255, 255);
-    margin-left: 20px;
-    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
     text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.add-user-button:hover, .return-button:hover {
+button:hover, .add-user-button:hover, .return-button:hover {
     background-color: #617f26;
+    transform: scale(1.05);
 }
 
 .delete-button:hover {
     background-color: #6e0a0a;
-    color: white;
-    transform: scale(1.05);
+}
+
+.add-user {
+    margin-bottom: 20px;
+}
+
+.add-user-button, .return-button {
+    margin-left: 15px;
 }
 
 table {
@@ -58,47 +83,107 @@ table {
     max-width: 1400px;
     border-collapse: collapse;
     margin-top: 35px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 12px 10px;
     text-align: left;
 }
 
 table th {
-    background-color: #f4f4f4;
+    background-color: #756c63;
+    color: white;
+    font-weight: bold;
 }
 
 table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+table tr:hover {
+    background-color: #e0e0e0;
+}
+
 input[type="text"], input[type="email"], select {
-    padding: 5px;
+    padding: 8px;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-button {
+#submit_button, #delete_button {
+    display: inline-flex;
+    margin: 15px 5px;
+    padding: 10px 20px;
+    background-color: #756c63;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#submit_button:hover, #delete_button:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.return-menu {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.return-menu a {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #756c63;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.return-menu a:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button, .add-user-button, .return-button {
     background-color: #756c63;
     border: none;
     border-radius: 30px;
     color: white;
     cursor: pointer;
     font-size: 16px;
-    padding: 8px 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    display: inline-flex; 
+    padding: 10px 20px;
     text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    display: inline-block;
 }
 
-button:hover {
+button:hover, .add-user-button:hover, .return-button:hover {
     background-color: #617f26;
+    transform: scale(1.05);
 }
 
-.return-menu {
-    margin-top: 20px;
-    text-align: center;
+#delete_button {
+    display: none;
+    background-color: #c0392b;
+}
+
+#delete_button:hover {
+    background-color: #a93226;
 }

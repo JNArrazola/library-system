@@ -142,7 +142,7 @@ $users = $stmt->fetchAll();
     <?php endif; ?>
 
     <form action="manage_users.php" method="POST">
-    <table>
+    <table class="styled-table">
         <thead>
             <tr>
                 <th><input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
@@ -188,13 +188,13 @@ $users = $stmt->fetchAll();
 
     <?php if ($_SESSION['rol'] === 'administrador'): ?>
         <div class="button-group" style="display: flex; gap: 10px; margin-top: 20px;">
-            <button type="button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
+            <button type="button" id="select_button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
             <button type="submit" id="submit_button" onclick="return confirmUpdate();">Aplicar cambios a todos</button>
             <button type="submit" id="delete_button" style="display:none;" onclick="return confirmDeletion();">Eliminar seleccionados</button>
         </div>
     <?php elseif ($_SESSION['rol'] === 'bibliotecario'): ?>
         <div class="button-group" style="display: flex; gap: 10px; margin-top: 20px;">
-            <button type="button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
+            <button type="button" id="select_button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
             <button type="submit" id="submit_button" onclick="return confirmUpdate();">Enviar todos los cambios</button>
             <button type="submit" id="delete_button" style="display:none;" onclick="return confirmDeletion();">Enviar solicitudes de eliminación</button>
         </div>

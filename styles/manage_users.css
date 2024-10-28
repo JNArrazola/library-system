@@ -106,6 +106,28 @@ table tr:hover {
     background-color: #e0e0e0;
 }
 
+
+.styled-table{
+    border-collapse: collapse;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.styled-table thead tr {
+    background-color: #e0e0e0; /* Color de fondo para el encabezado */
+    color: black; /* Color del texto del encabezado */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
 input[type="text"], input[type="email"], select {
     padding: 8px;
     font-size: 14px;
@@ -115,7 +137,7 @@ input[type="text"], input[type="email"], select {
     border-radius: 5px;
 }
 
-#submit_button, #delete_button {
+#submit_button, #delete_button, #select_button {
     display: inline-flex;
     margin: 15px 5px;
     padding: 10px 20px;

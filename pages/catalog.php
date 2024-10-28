@@ -20,9 +20,9 @@ $nav_options .= '<a href="catalog.php" class="nav-link">Catálogo</a>';
 
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['rol'] === 'administrador') {
-        $nav_options .= '<a href="administrators/admin_dashboard.php" class="admin-link">Panel de Administrador</a>';
+        $nav_options .= '<a href="administrators/admin_dashboard.php" class="nav-link">Panel de Administrador</a>';
     } elseif ($_SESSION['rol'] === 'bibliotecario') {
-        $nav_options .= '<a href="librarians/librarian_dashboard.php" class="bibliotecario-link">Opciones de Bibliotecario</a>';
+        $nav_options .= '<a href="librarians/librarian_dashboard.php" class="nav-link">Opciones de Bibliotecario</a>';
     } elseif ($_SESSION['rol'] === 'usuario') {
         $nav_options .= '<a href="users/user_dashboard.php" class="usuario-link">Mi Panel</a>';
     }

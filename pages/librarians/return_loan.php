@@ -12,7 +12,6 @@ $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserva_id'])) {
     $reserva_id = $_POST['reserva_id'];
-
     $fecha_actual = date('Y-m-d');
 
     $query = "UPDATE Reservas SET fecha_devolucion = :fecha_devolucion, B_Entregado = 1 WHERE id = :reserva_id";
@@ -38,19 +37,26 @@ $query = "SELECT id, nombre, apellido FROM Usuarios WHERE is_active = 1 AND rol 
 $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
 
-$selected_usuario = null;
 $pendientes = [];
-
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     $usuario_id = $_GET['usuario_id'];
-    $selected_usuario = $usuario_id;
 
-    $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion 
+    $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
               FROM Reservas r
               JOIN Libros l ON r.libro_id = l.id
+              JOIN Usuarios u ON r.usuario_id = u.id
               WHERE r.usuario_id = :usuario_id AND r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['usuario_id' => $usuario_id]);
+    $pendientes = $stmt->fetchAll();
+} elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_GET['usuario_id'])) {
+    // Muestra todos los préstamos pendientes si la búsqueda está vacía
+    $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
+              FROM Reservas r
+              JOIN Libros l ON r.libro_id = l.id
+              JOIN Usuarios u ON r.usuario_id = u.id
+              WHERE r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
+    $stmt = $pdo->query($query);
     $pendientes = $stmt->fetchAll();
 }
 ?>
@@ -86,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
                 <select name="usuario_id" id="usuario_id" required>
                     <option value="">Selecciona un usuario</option>
                     <?php foreach ($usuarios as $usuario): ?>
-                        <option value="<?= htmlspecialchars($usuario['id']) ?>" <?= $selected_usuario == $usuario['id'] ? 'selected' : '' ?>>
+                        <option value="<?= htmlspecialchars($usuario['id']) ?>">
                             <?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?>
                         </option>
                     <?php endforeach; ?>
@@ -101,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
                 <thead>
                     <tr>
                         <th>Libro</th>
+                        <th>Usuario</th>
                         <th>Fecha de Préstamo</th>
                         <th>Acciones</th>
                     </tr>
@@ -109,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['usuario_id'])) {
                     <?php foreach ($pendientes as $pendiente): ?>
                         <tr>
                             <td><?= htmlspecialchars($pendiente['libro_nombre']) ?></td>
+                            <td><?= htmlspecialchars($pendiente['usuario_nombre'] . ' ' . $pendiente['usuario_apellido']) ?></td>
                             <td><?= htmlspecialchars($pendiente['fecha_recepcion']) ?></td>
                             <td>
                                 <form action="return_loan.php" method="POST">

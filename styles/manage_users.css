@@ -20,6 +20,43 @@ header {
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 30px 30px;
 }
+f
+.user-menu {
+    position: center;
+    top: 20px;
+    right: 20px;
+}
+
+.user-menu span {
+    font-size: 16px;
+    color: white;
+    margin-right: 20px;
+}
+
+.catalog-link,
+.logout-button {
+    background-color: #756c63; 
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: #6e0a0a;
+    transform: scale(1.05);
+}
+
+.catalog-link:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.book-management {
+    margin: 40px;
+    text-align: center;
+}
 
 h1 {
     font-family: Georgia, serif;

@@ -89,7 +89,6 @@ $stmt = $pdo->query($query);
 $users = $stmt->fetchAll();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -97,7 +96,8 @@ $users = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../styles/manage_users.css?v=<?= time(); ?>">
-    <script>
+
+       <script>
     const confirmDeleteMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres realizar esta eliminación?'" : "'¿Estás seguro de que quieres solicitar la eliminación?'"; ?>;
     const confirmUpdateMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres aplicar los cambios?'" : "'¿Estás seguro de que quieres solicitar esta actualización?'"; ?>;
 
@@ -130,10 +130,16 @@ $users = $stmt->fetchAll();
         checkboxes.forEach(checkbox => checkbox.checked = source.checked);
     }
 </script>
-
 </head>
 <body>
-    <h1>Gestionar Usuarios</h1>
+    <header>
+        <h1>Gestionar Usuarios</h1>
+        <div class="user-menu">
+            <span><?= htmlspecialchars($_SESSION['nombre']) ?> (<?= htmlspecialchars($_SESSION['rol']) ?>)</span>
+            <a href="catalog.php" class="catalog-link">Volver al Catálogo</a>
+            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
+        </div>
+    </header>
 
     <?php if ($success_message): ?>
         <p class="success"><?= htmlspecialchars($success_message) ?></p>
@@ -142,73 +148,59 @@ $users = $stmt->fetchAll();
     <?php endif; ?>
 
     <form action="manage_users.php" method="POST">
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <th><input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
-                <th>ID Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo</th>
-                <th>Dirección</th>
-                <th>Rol</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
-                <tr id="row_<?= $user['id'] ?>">
-                    <td><input type="checkbox" name="delete_user_ids[]" value="<?= $user['id'] ?>" class="delete-checkbox"></td>
-                    <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                    <td><input type="email" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                    <td>
-                        <?php if ($_SESSION['rol'] === 'bibliotecario' && $user['rol'] !== 'administrador'): ?>
-                            <select name="updates[<?= $user['id'] ?>][rol]" onchange="markRowChanged(<?= $user['id'] ?>)">
-                                <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
-                                <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                            </select>
-                        <?php elseif ($_SESSION['rol'] === 'administrador'): ?>
-                            <select name="updates[<?= $user['id'] ?>][rol]" onchange="markRowChanged(<?= $user['id'] ?>)">
-                                <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
-                                <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                                <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
-                            </select>
-                        <?php else: ?>
-                            <?= htmlspecialchars($user['rol']) ?>
-                        <?php endif; ?>
-                    </td>
-                    <td><button type="submit" name="update_single" value="<?= $user['id'] ?>" onclick="return confirmUpdate();">Actualizar</button></td>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
+                    <th>ID Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Rol</th>
+                    <th>Acción</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                    <tr id="row_<?= $user['id'] ?>">
+                        <td><input type="checkbox" name="delete_user_ids[]" value="<?= $user['id'] ?>" class="delete-checkbox"></td>
+                        <td><?= htmlspecialchars($user['id']) ?></td>
+                        <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
+                        <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
+                        <td><input type="email" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
+                        <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
+                        <td>
+                            <?php if ($_SESSION['rol'] === 'bibliotecario' && $user['rol'] !== 'administrador'): ?>
+                                <select name="updates[<?= $user['id'] ?>][rol]" onchange="markRowChanged(<?= $user['id'] ?>)">
+                                    <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
+                                    <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
+                                </select>
+                            <?php elseif ($_SESSION['rol'] === 'administrador'): ?>
+                                <select name="updates[<?= $user['id'] ?>][rol]" onchange="markRowChanged(<?= $user['id'] ?>)">
+                                    <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
+                                    <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
+                                    <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+                                </select>
+                            <?php else: ?>
+                                <?= htmlspecialchars($user['rol']) ?>
+                            <?php endif; ?>
+                        </td>
+                        <td><button type="submit" name="update_single" value="<?= $user['id'] ?>" onclick="return confirmUpdate();">Actualizar</button></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
-    <?php if ($_SESSION['rol'] === 'administrador'): ?>
-        <div class="button-group" style="display: flex; gap: 10px; margin-top: 20px;">
-            <button type="button" id="select_button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
-            <button type="submit" id="submit_button" onclick="return confirmUpdate();">Aplicar cambios a todos</button>
+        <div class="button-group">
+            <button type="button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
+            <button type="submit" id="submit_button" onclick="return confirmUpdate();">Aplicar cambios</button>
             <button type="submit" id="delete_button" style="display:none;" onclick="return confirmDeletion();">Eliminar seleccionados</button>
         </div>
-    <?php elseif ($_SESSION['rol'] === 'bibliotecario'): ?>
-        <div class="button-group" style="display: flex; gap: 10px; margin-top: 20px;">
-            <button type="button" id="select_button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
-            <button type="submit" id="submit_button" onclick="return confirmUpdate();">Enviar todos los cambios</button>
-            <button type="submit" id="delete_button" style="display:none;" onclick="return confirmDeletion();">Enviar solicitudes de eliminación</button>
-        </div>
-    <?php endif; ?>
-</form>
-
+    </form>
 
     <div class="return-menu">
-        <?php if ($_SESSION['rol'] === 'administrador'): ?>
-            <a href="administrators/admin_dashboard.php" class="return-button">Volver al Menú Principal</a>
-        <?php elseif ($_SESSION['rol'] === 'bibliotecario'): ?>
-            <a href="librarians/librarian_dashboard.php" class="return-button">Volver al Menú Principal</a>
-        <?php endif; ?>
+        <a href="catalog.php" class="return-button">Volver al Menú Principal</a>
     </div>
 </body>
 </html>
-

@@ -6,55 +6,51 @@
 }
 
 body {
-    background-image: url('fondo.jpg'); /* TODO: ADD AN ATTRACTIVE IMAGE */
-    background-size: cover;
-    background-position: center;
+    background-color: #f4f4f4; /* Fondo claro */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); 
-    z-index: -1;
-}
-
 .login-container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #ffffff;
     max-width: 400px;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
+    color: #352c23; /* Café oscuro */
 }
 
 h2 {
-    color: #333;
+    color: #352c23;
     margin-bottom: 20px;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #756c63; /* Café medio */
+    text-align: left;
 }
 
 input[type="email"], input[type="password"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     font-size: 16px;
-    background-color: #f7f7f7;
+    background-color: #f9f9f9;
     transition: border-color 0.3s ease;
 }
 
 input[type="email"]:focus, input[type="password"]:focus {
-    border-color: #007bff;
+    border-color: #756c63; /* Café medio */
     outline: none;
     background-color: #fff;
 }
@@ -62,26 +58,28 @@ input[type="email"]:focus, input[type="password"]:focus {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #28a745;
-    color: #fff;
+    background-color: #756c63; /* Café medio */
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #617f26; /* Verde oscuro */
 }
 
 p {
     margin-top: 20px;
+    color: #352c23; /* Café oscuro */
 }
 
 p a {
-    color: #007bff;
+    color: #617f26; /* Verde */
     text-decoration: none;
     font-weight: bold;
 }
@@ -97,13 +95,5 @@ p a:hover {
     border-radius: 4px;
     text-align: center;
     margin-bottom: 15px;
-}
-
-.success {
-    color: #23d160;
-    background-color: #e8ffed;
-    padding: 10px;
-    border-radius: 4px;
-    text-align: center;
-    margin-bottom: 15px;
+    border: 1px solid #e0a0a0;
 }

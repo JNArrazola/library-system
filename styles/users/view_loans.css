@@ -7,7 +7,7 @@ body {
 
 header {
     align-items: center;
-    background-color: #352c23; 
+    background-color: #352c23;
     border-radius: 0px 0px 30px 30px;
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
@@ -54,34 +54,74 @@ h1 {
 
 .loans-section {
     padding: 20px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
-    border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
 }
 
 table th {
-    background-color: #333;
+    background-color: #756c63; 
     color: white;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; 
+}
+
+table tr:hover {
+    background-color: #e0e0e0; 
 }
 
 table td {
     background-color: white;
+    color: #333;
+    font-size: 0.95em;
 }
 
 .success-message, .error-message {
     font-size: 16px;
-    color: green;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
 .error-message {
-    color: red;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }

@@ -54,51 +54,91 @@ h1 {
 .reservations-section {
     border-radius: 20px;
     padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    padding: 12px;
     text-align: left;
 }
 
 table th {
-    background-color: rgba(20, 20, 20, 0.822);
+    background-color: #756c63; 
     color: white;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; 
+}
+
+table tr:hover {
+    background-color: #e0e0e0; 
 }
 
 table td {
     background-color: white;
+    color: #333;
+    font-size: 0.95em;
 }
 
+/* Button styles */
 .cancel-button {
     background-color: #756c63;
     color: white;
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cancel-button:hover {
     background-color: #6e0a0a;
+    transform: scale(1.05);
 }
 
 .success-message, .error-message {
     font-size: 16px;
-    color: green;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
 .error-message {
-    color: red;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }

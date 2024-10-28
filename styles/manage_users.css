@@ -246,3 +246,8 @@ button:hover, .add-user-button:hover, .return-button:hover {
 #delete_button:hover {
     background-color: #a93226;
 }
+
+.reject-button:hover {
+    background-color: #ff0000;
+    transform: scale(1.05);
+}

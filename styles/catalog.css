@@ -159,3 +159,157 @@ h1 {
     background-color: #617f26;
     transform: scale(1.05);
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    font-family: Georgia;
+    justify-content: space-between;
+    padding: 23px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.user-menu {
+    position: center;
+    top: 20px;
+    right: 20px;
+}
+
+.user-menu span {
+    font-size: 16px;
+    color: white;
+    margin-right: 20px;
+}
+
+.user-menu .bibliotecario-link, .user-menu .usuario-link {
+    color: white;
+    text-decoration: none;
+    background-color: #756c63;
+    padding: 10px 15px;
+    border-radius: 30px;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-menu .bibliotecario-link:hover, .user-menu .usuario-link:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.logout-button {
+    background-color: #756c63; 
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: #6e0a0a;
+    transform: scale(1.05);
+}
+
+.search-bar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-bar input {
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 30px; 
+    padding: 10px;
+    font-size: 16px;
+    width:25%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.search-bar button {
+    padding: 10px;
+    background-color: #756c63;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #756c63; /* Cambiar color del borde al enfocar */
+    outline: none; /* Quitar el borde por defecto */
+}
+
+.search-bar button:hover {
+    background-color: #617f26;
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.book-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    margin: 10px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.book-item:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transition: 0.4s;
+    transform: scale(1.05);
+}
+
+.book-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-item h3 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.book-item p {
+    font-size: 14px;
+    color: #555;
+}
+
+.book-item strong {
+    display: block;
+    margin-top: 5px;
+}
+
+.book-item p strong {
+    display: inline-block;
+    margin-right: 5px;
+}

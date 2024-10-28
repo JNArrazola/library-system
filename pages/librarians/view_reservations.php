@@ -71,7 +71,7 @@ $usuarios = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Reservas</title>
-    <link rel="stylesheet" href="../../styles/librarians/view_loans.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../styles/librarians/view_reservations.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <header>
@@ -95,7 +95,7 @@ $usuarios = $stmt->fetchAll();
         <form action="view_reservations.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Buscar Usuario:</label>
-                <select name="usuario_id" id="usuario_id" required>
+                <select name="usuario_id" class="custom-input" id="usuario_id" required>
                     <option value="">Selecciona un usuario</option>
                     <?php foreach ($usuarios as $usuario): ?>
                         <option value="<?= htmlspecialchars($usuario['id']) ?>" <?= ($usuario_id == $usuario['id']) ? 'selected' : '' ?>>

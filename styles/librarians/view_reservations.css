@@ -1,7 +1,7 @@
 /* Estilo general del cuerpo */
 body {
-    background-color: #f4f4f4;
     font-family: Arial, sans-serif;
+    background-color: #e0e0e0; 
     margin: 0;
     padding: 0;
 }
@@ -16,65 +16,64 @@ header {
     display: flex;
     font-family: Georgia;
     justify-content: space-between;
-    padding: 15px; /* Aumenta el espaciado */
+    padding: 23px;
 }
 
-header h1 {
-    font-size: 2em; /* Tamaño del título */
-    color: #fff;
+h1 {
+    font-size: 2em;
     margin: 0;
-    text-align: center;
+}
+
+.user-menu span {
+    color: white;
+    font-size: 16px;
+    margin-right: 20px;
 }
 
 .user-menu a {
     background-color: #756c63;
     border-radius: 30px;
-    color: #fff;
-    margin-left: 10px;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 1em;
-}
-
-.user-menu a:hover {
-    background-color: #617f26;
-    transform: scale(1.05);
-    opacity: 0.8;
-}
-
-.delete-button:hover {
-    background-color: #6e0a0a;
     color: white;
-    transform: scale(1.05);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
 }
 
+.user-menu a.catalog-link:hover {
+    background-color: #617f26; 
+}
+
+.user-menu a.logout-button:hover {
+    background-color: #6e0a0a;
+}
+
+/* Estilo de la tarjeta central */
 .reservation-view {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 50px auto;
     padding: 30px;
-    width: 70%;
-    max-width: 600px;
-    text-align: center;
+    width: 80%;
+    max-width: 1200px;
 }
 
 h2 {
     font-size: 1.5em;
     color: #333;
     margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo de los grupos de formulario */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
 }
 
 .form-group {
     margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #333;
 }
 
 .form-group select,
@@ -82,23 +81,81 @@ h2 {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 16px;
     box-sizing: border-box;
 }
 
 /* Estilo del botón */
 button {
-    padding: 10px 20px;
-    background-color: #6e0a0a;
-    color: white;
+    background-color: #756c63;
     border: none;
-    border-radius: 20px;
-    font-size: 16px;
+    border-radius: 30px;
+    color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 16px;
+    padding: 12px 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: block; 
+    margin: auto;
+    text-decoration: none;
 }
 
 button:hover {
-    background-color: #352c23;
+    background-color: #617f26;
+}
+
+/* Estilo para el selector personalizado */
+.custom-input {
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 30px; 
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #756c63;
+    outline: none;
+}
+
+/* Estilos para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #756c63; /* Café oscuro */
+    color: white;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.no-results {
+    font-size: 1.1em;
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
 }

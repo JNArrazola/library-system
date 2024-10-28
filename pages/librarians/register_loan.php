@@ -75,16 +75,15 @@ $libros = $stmt->fetchAll();
 
     <section class="loan-form">
         <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
+            <p class="error"><?= htmlspecialchars($error_message) ?></p>
         <?php elseif ($success_message): ?>
-            <p class="success"><?= $success_message ?></p>
+            <p class="success"><?= htmlspecialchars($success_message) ?></p>
         <?php endif; ?>
 
         <form action="register_loan.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Usuario:</label>
-                <select name="usuario_id" id="usuario_id" required>
-                <select name="usuario_id" class="custom-input" id="usuario_id" required>
+                <select name="usuario_id" id="usuario_id" class="custom-input" required>
                     <option value="">Selecciona un usuario</option>
                     <?php foreach ($usuarios as $usuario): ?>
                         <option value="<?= htmlspecialchars($usuario['id']) ?>">
@@ -95,8 +94,7 @@ $libros = $stmt->fetchAll();
             </div>
             <div class="form-group">
                 <label for="libro_id">Libro:</label>
-                <select name="libro_id" id="libro_id" required>
-                <select name="libro_id" class="custom-input" id="libro_id" required>
+                <select name="libro_id" id="libro_id" class="custom-input" required>
                     <option value="">Selecciona un libro</option>
                     <?php foreach ($libros as $libro): ?>
                         <option value="<?= htmlspecialchars($libro['id']) ?>">
@@ -107,13 +105,11 @@ $libros = $stmt->fetchAll();
             </div>
             <div class="form-group">
                 <label for="fecha_recepcion">Fecha de Préstamo:</label>
-                <input type="date" name="fecha_recepcion" id="fecha_recepcion" required>
-                <input type="date" name="fecha_recepcion" class="custom-input" id="fecha_recepcion" required>
+                <input type="date" name="fecha_recepcion" id="fecha_recepcion" class="custom-input" required>
             </div>
             <div class="form-group">
                 <label for="fecha_devolucion">Fecha de Devolución:</label>
-                <input type="date" name="fecha_devolucion" id="fecha_devolucion" required>
-                <input type="date" name="fecha_devolucion" class="custom-input" id="fecha_devolucion" required>
+                <input type="date" name="fecha_devolucion" id="fecha_devolucion" class="custom-input" required>
             </div>
             <button type="submit">Registrar Préstamo</button>
         </form>

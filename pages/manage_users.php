@@ -88,7 +88,6 @@ $query = "SELECT * FROM Usuarios $condition";
 $stmt = $pdo->query($query);
 $users = $stmt->fetchAll();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -97,39 +96,28 @@ $users = $stmt->fetchAll();
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../styles/manage_users.css?v=<?= time(); ?>">
 
-       <script>
-    const confirmDeleteMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres realizar esta eliminación?'" : "'¿Estás seguro de que quieres solicitar la eliminación?'"; ?>;
-    const confirmUpdateMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres aplicar los cambios?'" : "'¿Estás seguro de que quieres solicitar esta actualización?'"; ?>;
+    <script>
+        const confirmDeleteMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres realizar esta eliminación?'" : "'¿Estás seguro de que quieres solicitar la eliminación?'"; ?>;
+        const confirmUpdateMessage = <?php echo ($_SESSION['rol'] === 'administrador') ? "'¿Estás seguro de que quieres aplicar los cambios?'" : "'¿Estás seguro de que quieres solicitar esta actualización?'"; ?>;
 
-    function toggleDeletionMode() {
-        const checkboxes = document.querySelectorAll('.delete-checkbox');
-        const deleteButton = document.getElementById('delete_button');
-        const submitButton = document.getElementById('submit_button');
-        const isDeletionMode = deleteButton.style.display === 'inline';
+        function confirmDeletion() {
+            return confirm(confirmDeleteMessage);
+        }
 
-        checkboxes.forEach(checkbox => checkbox.style.display = isDeletionMode ? 'none' : 'inline');
-        deleteButton.style.display = isDeletionMode ? 'none' : 'inline';
-        submitButton.style.display = isDeletionMode ? 'inline' : 'none';
-    }
+        function confirmUpdate() {
+            return confirm(confirmUpdateMessage);
+        }
 
-    function markRowChanged(userId) {
-        const row = document.getElementById('row_' + userId);
-        row.classList.add('changed-row');
-    }
+        function toggleAll(source) {
+            const checkboxes = document.querySelectorAll('input[name="delete_user_ids[]"]');
+            checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+        }
 
-    function confirmDeletion() {
-        return confirm(confirmDeleteMessage);
-    }
-
-    function confirmUpdate() {
-        return confirm(confirmUpdateMessage);
-    }
-
-    function toggleAll(source) {
-        const checkboxes = document.querySelectorAll('input[name="delete_user_ids[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = source.checked);
-    }
-</script>
+        function markRowChanged(userId) {
+            const row = document.getElementById('row_' + userId);
+            row.classList.add('changed-row');
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -151,14 +139,13 @@ $users = $stmt->fetchAll();
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th><input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
+                    <th>Eliminar<input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
                     <th>ID Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Correo</th>
                     <th>Dirección</th>
                     <th>Rol</th>
-                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -186,16 +173,14 @@ $users = $stmt->fetchAll();
                                 <?= htmlspecialchars($user['rol']) ?>
                             <?php endif; ?>
                         </td>
-                        <td><button type="submit" name="update_single" value="<?= $user['id'] ?>" onclick="return confirmUpdate();">Actualizar</button></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
 
         <div class="button-group">
-            <button type="button" onclick="toggleDeletionMode()">Marcar para eliminar</button>
             <button type="submit" id="submit_button" onclick="return confirmUpdate();">Aplicar cambios</button>
-            <button type="submit" id="delete_button" style="display:none;" onclick="return confirmDeletion();">Eliminar seleccionados</button>
+            <button type="submit" id="delete_button" onclick="return confirmDeletion();" name="delete">Eliminar seleccionados</button>
         </div>
     </form>
 

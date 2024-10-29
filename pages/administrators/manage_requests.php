@@ -43,6 +43,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['solicitud_id'])) {
                     $query = "UPDATE Usuarios SET direccion = :direccion WHERE id = :id";
                     $stmt = $pdo->prepare($query);
                     $stmt->execute(['direccion' => $detalles_cambio['direccion'], 'id' => $usuario_id]);
+                } 
+                
+                if (isset($detalles_cambio['rol'])) {
+                    $query = "UPDATE Usuarios SET rol = :rol WHERE id = :id";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->execute(['rol' => $detalles_cambio['rol'], 'id' => $usuario_id]);
+                }
+
+                if (isset($detalles_cambio['nombre'])) {
+                    $query = "UPDATE Usuarios SET nombre = :nombre WHERE id = :id";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->execute(['nombre' => $detalles_cambio['nombre'], 'id' => $usuario_id]);
+                }
+
+                if (isset($detalles_cambio['apellido'])) {
+                    $query = "UPDATE Usuarios SET apellido = :apellido WHERE id = :id";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->execute(['apellido' => $detalles_cambio['apellido'], 'id' => $usuario_id]);
                 }
             }
         }
@@ -82,7 +100,7 @@ try {
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Administrador)</span>
             <a href="../catalog.php" class="catalog-link">Volver al Catálogo</a>
-            <a href="../logout.php" class="logout-button">Cerrar sesión</a>
+            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 

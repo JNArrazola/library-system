@@ -82,7 +82,9 @@ if (isset($_SESSION['user_id'])) {
             <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
 
             <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>
-                <a href="users/reserve_book.php?id=<?= $book['id'] ?>" class="reserve-button">Reservar</a>
+                <a href="users/reserve_book.php?id=<?= $book['id'] ?>" 
+                class="reserve-button" 
+                onclick="return confirm('¿Estás seguro que deseas reservar el libro <?= htmlspecialchars($book['nombre']) ?>?');">Reservar</a>
             <?php endif; ?>
         </div>
     </div>

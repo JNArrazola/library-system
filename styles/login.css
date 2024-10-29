@@ -7,17 +7,31 @@
 
 body {
     background-color: #f4f4f4; /* Fondo claro */
+    background-image: url('img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
 
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
 .login-container {
-    background-color: #ffffff;
+    background-color: #f0f0f0;
     max-width: 400px;
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 30px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
     color: #352c23; /* Café oscuro */
@@ -34,7 +48,7 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #756c63; /* Café medio */
+    color: #756363; /* Café medio */
     text-align: left;
 }
 
@@ -43,9 +57,9 @@ input[type="email"], input[type="password"] {
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 30px;
     font-size: 16px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     transition: border-color 0.3s ease;
 }
 
@@ -71,6 +85,8 @@ button {
 
 button:hover {
     background-color: #617f26; /* Verde oscuro */
+    transform: scale(1.05);
+    transition: 0.4s;
 }
 
 p {

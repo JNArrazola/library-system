@@ -1,12 +1,12 @@
 <?php
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;  
-use PHPMailer\PHPMailer\SMTP;
+use Packages\Exception;
+use Packages\PHPMailer;  
+use Packages\SMTP;
 
-require '../Packages/PHPMailer/Exception.php';
-require '../Packages/PHPMailer/PHPMailer.php';
-require '../Packages/PHPMailer/SMTP.php';
+require '../Packages/Exception.php';
+require '../Packages/PHPMailer.php';
+require '../Packages/SMTP.php';
 
 require '../config/emailConfig.php';
 

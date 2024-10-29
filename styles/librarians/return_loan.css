@@ -1,5 +1,5 @@
 body {
-    background-color: #f4f4f4;
+    background-color: #e0e0e0; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -37,19 +37,26 @@ h1 {
     text-decoration: none;
 }
 
-.user-menu a:hover {
+.user-menu a.catalog-link:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.user-menu a.logout-button:hover {
     background-color: #6e0a0a;
     transform: scale(1.05);
     opacity: 0.8;
 }
 
 .return-form {
-    background-color: white;
-    border-radius: 8px;
+    background-color: #f4f4f4;
+    border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 50px auto;
     padding: 30px;
     width: 60%;
+
 }
 
 .form-group {
@@ -58,26 +65,30 @@ h1 {
 
 .form-group label {
     display: block;
-    font-weight: bold;
     margin-bottom: 8px;
 }
 
 select,
 input[type="text"] {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 30px; 
     padding: 10px;
+    font-size: 16px;
     width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
 }
 
 button[type="submit"] {
-    background-color: #756c63;
+    background-color: #756363;
     border: none;
     border-radius: 30px;
     color: white;
+    display: block;
     cursor: pointer;
     font-size: 16px;
+    margin: auto;
     padding: 12px 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }

@@ -1,24 +1,20 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f4f4f4;
-    color: #333;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
 header {
-    width: 100%;
-    background-color: #352c23;
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
     display: flex;
+    font-family: Georgia;
     justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 30px 30px;
+    padding: 23px;
 }
 
 .user-menu {
@@ -59,10 +55,16 @@ header {
 }
 
 h1 {
-    font-family: Georgia, serif;
-    font-size: 24px;
-    margin-bottom: 30px;
+    font-size: 2em;
+    margin: 0;
 }
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
 
 .success, .error {
     text-align: center;
@@ -109,40 +111,14 @@ button:hover, .add-user-button:hover, .return-button:hover {
 
 .add-user {
     margin-bottom: 20px;
-}
-
-.add-user-button, .return-button {
-    margin-left: 15px;
-}
-
+} 
 table {
-    width: 90%;
-    max-width: 1400px;
     border-collapse: collapse;
+    width: 90%;
     margin-top: 35px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
 }
-
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 12px 10px;
-    text-align: left;
-}
-
-table th {
-    background-color: #756c63;
-    color: white;
-    font-weight: bold;
-}
-
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tr:hover {
-    background-color: #e0e0e0;
-}
-
 
 .styled-table{
     border-collapse: collapse;
@@ -175,10 +151,9 @@ input[type="text"], input[type="email"], select {
 }
 
 #submit_button, #delete_button, #select_button {
-    display: inline-flex;
-    margin: 15px 5px;
-    padding: 10px 20px;
-    background-color: #756c63;
+    display: block;
+    margin: auto;
+    background-color: #756363;
     color: white;
     font-size: 16px;
     border-radius: 30px;
@@ -250,4 +225,20 @@ button:hover, .add-user-button:hover, .return-button:hover {
 .reject-button:hover {
     background-color: #ff0000;
     transform: scale(1.05);
+}
+
+.custom-input {
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 15px; 
+    padding: 10px;
+    font-size: 16px;
+    width: 90%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #756c63; /* Cambiar color del borde al enfocar */
+    outline: none; /* Quitar el borde por defecto */
 }

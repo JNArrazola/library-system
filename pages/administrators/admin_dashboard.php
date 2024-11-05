@@ -23,6 +23,7 @@ if (isset($_GET['logout'])) {
     <link rel="stylesheet" href="../../styles/administrators/admin_dashboard.css?v=<?php echo time(); ?>">
 </head>
 <body>
+    <div id="blurred-background"></div>
     <header>
         <h1>Panel de Control - Administrador</h1>
         <div class="user-menu">

@@ -5,6 +5,34 @@ body {
     background-color: #e0e0e0; 
 }
 
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(0px);
+    animation: blurIn 1.5s ease forwards;
+    z-index: -1;
+    /* Ajusta el tamaño de la imagen de fondo un poco mas grande para que al 
+    aplicar el blur no se vean una franjas blancas en los margenes*/
+    transform: scale(1.1); 
+}
+
+/* Definición de la animación de desenfoque */
+@keyframes blurIn {
+    0% {
+        filter: blur(0);
+    }
+    100% {
+        filter: blur(18px);  /* Ajusta la cantidad de desenfoque final */
+    }
+}
+
 header {
     align-items: center;
     background-color: #352c23; 

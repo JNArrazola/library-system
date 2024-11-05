@@ -1,12 +1,12 @@
 <?php
 
-use Packages\Exception;
-use Packages\PHPMailer;  
-use Packages\SMTP;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;  
+use PHPMailer\PHPMailer\SMTP;
 
-require '../Packages/Exception.php';
-require '../Packages/PHPMailer.php';
-require '../Packages/SMTP.php';
+require '../Packages/PHPMailer/src/Exception.php';
+require '../Packages/PHPMailer/src/PHPMailer.php';
+require '../Packages/PHPMailer/src/SMTP.php';
 
 require '../config/emailConfig.php';
 
@@ -24,12 +24,13 @@ $apellido = '';
 $correo = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-
+    
     if ($password !== $confirm_password) {
         $error_message = 'Las contraseñas no coinciden.';
     } elseif (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -41,15 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $pdo->prepare($query);
         $stmt->execute(['correo' => $correo]);
         $user = $stmt->fetch();
-
+        
         if ($user) {
             $error_message = 'El correo ya está registrado.';
         } else {
             
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
+            
             $query = "INSERT INTO Usuarios (nombre, apellido, correo, password, rol, is_active) 
-                      VALUES (:nombre, :apellido, :correo, :password, 'usuario', 1)";
+                      VALUES (:nombre, :apellido, :correo, :password, 'usuario', 0)";
             $stmt = $pdo->prepare($query);
             $stmt->execute([
                 'nombre' => $nombre,
@@ -58,58 +59,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'password' => $hashed_password
             ]);
             
-            $success_message = 'Registro exitoso. Tu cuenta ha sido activada.';
-
-            sendMail($correo,$nombre,$success_message);
-
-            header("Location: succesfull_register.php");
-            exit;
-
+            $activation_link = "http://localhost/library-system/pages/activate.php?correo=" . urlencode($correo);
+            $success_message = 'Se ha enviado un correo de activación a su dirección de correo electrónico.';
+            sendMail($correo, "Activar la cuenta $nombre $apellido
+            ", "Pulse el enlace para activar su cuenta: <a href='$activation_link'>Activar cuenta</a>");
         }
     }
 }
 
-function sendMail($email,$subject,$message){
-    
+function sendMail($email, $subject, $message) {
     $mail = new PHPMailer(true);
     
     $mail->isSMTP();
-
     $mail->SMTPAuth = true;
-    
     $mail->Host = MAILHOST;
-
     $mail->Username = USERNAME;
-
     $mail->Password = PASSWORD;
-
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-
     $mail->Port = 587;
 
     $mail->setFrom(SEND_FROM, SEND_FROM_NAME);
-
     $mail->addAddress($email);
-    
-    $mail->addReplyTo(REPLY_TO,REPLY_TO_NAME);
-
+    $mail->addReplyTo(REPLY_TO, REPLY_TO_NAME);
     $mail->IsHTML(true);
-
     $mail->Subject = $subject;
-
     $mail->Body = $message;
+    $mail->AltBody = strip_tags($message);
 
-    $mail->AltBody = $message;
-
-    if(!$mail->send()){
-        return "Correo no enviado. Porfavor initente otravez";
-    }
-    else{
-        return "El correo se ha enviado con exito";
-    }
-
+    $mail->send();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +104,10 @@ function sendMail($email,$subject,$message){
         <?php if ($error_message): ?>
             <p class="error"><?= $error_message ?></p>
         <?php elseif ($success_message): ?>
-            <p class="success"><?= $success_message ?></p>
+            <script>
+                alert("<?= $success_message ?>");
+                window.location.href = 'login.php';
+            </script>
         <?php endif; ?>
         <form action="register.php" method="POST">
             <label for="nombre">Nombre:</label>

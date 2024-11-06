@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserva_id'])) {
     $success_message = 'Devolución registrada exitosamente.';
 }
 
-$query = "SELECT id, nombre, apellido FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
+$query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
 $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
 
@@ -49,15 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     $stmt = $pdo->prepare($query);
     $stmt->execute(['usuario_id' => $usuario_id]);
     $pendientes = $stmt->fetchAll();
-} elseif ($_SERVER['REQUEST_METHOD'] == 'GET' && empty($_GET['usuario_id'])) {
-    // Muestra todos los préstamos pendientes si la búsqueda está vacía
-    $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
-              FROM Reservas r
-              JOIN Libros l ON r.libro_id = l.id
-              JOIN Usuarios u ON r.usuario_id = u.id
-              WHERE r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
-    $stmt = $pdo->query($query);
-    $pendientes = $stmt->fetchAll();
+
+    if (empty($pendientes)) {
+        $error_message = 'No se encontraron préstamos pendientes para el usuario seleccionado.';
+    }
 }
 ?>
 
@@ -68,6 +63,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Devolución</title>
     <link rel="stylesheet" href="../../styles/librarians/return_loan.css?v=<?= time(); ?>">
+    <style>
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .results-container {
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+            display: none;
+        }
+
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .result-item h4 {
+            margin: 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .result-item p {
+            margin: 2px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -86,18 +135,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             <p class="success"><?= $success_message ?></p>
         <?php endif; ?>
 
-        <form action="return_loan.php" method="GET">
-            <div class="form-group">
-                <label for="usuario_id">Buscar Usuario:</label>
-                <select name="usuario_id" id="usuario_id" required>
-                    <option value="">Selecciona un usuario</option>
-                    <?php foreach ($usuarios as $usuario): ?>
-                        <option value="<?= htmlspecialchars($usuario['id']) ?>">
-                            <?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+        <h2>Selecciona un Usuario</h2>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
+            <div class="results-container" id="resultsContainer">
+                <?php foreach ($usuarios as $usuario): ?>
+                    <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
+                        <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
+                        <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
+                        <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
+                    </div>
+                <?php endforeach; ?>
             </div>
+        </div>
+
+        <form action="return_loan.php" method="GET" id="userForm">
+            <input type="hidden" name="usuario_id" id="usuario_id">
             <button type="submit">Buscar Préstamos Pendientes</button>
         </form>
 
@@ -130,5 +184,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             </table>
         <?php endif; ?>
     </section>
+
+    <script>
+        function filterUsers(query) {
+            const container = document.getElementById('resultsContainer');
+            const items = document.querySelectorAll('.result-item');
+            let hasResults = false;
+
+            query = query.toLowerCase();
+            items.forEach(item => {
+                const userInfo = item.getAttribute('data-user-info').toLowerCase();
+                if (userInfo.includes(query)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            container.style.display = hasResults ? 'block' : 'none';
+        }
+
+        function selectUser(userId) {
+            document.getElementById('usuario_id').value = userId;
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.querySelector('.search-input').value = 'Usuario seleccionado: ' + userId;
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.search-input')) {
+                document.getElementById('resultsContainer').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

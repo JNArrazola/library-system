@@ -124,3 +124,12 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #e0e0e0; 
 }
+
+.error {
+    color: #ff0000; 
+    background-color: #ffe5e5; 
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}

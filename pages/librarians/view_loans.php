@@ -12,12 +12,10 @@ $success_message = '';
 $usuario_id = isset($_POST['usuario_id']) ? $_POST['usuario_id'] : null;
 $b_entregado = isset($_POST['b_entregado']) ? $_POST['b_entregado'] : '0';
 
-// Consulta los usuarios antes de definir el texto de búsqueda
 $query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
 $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
 
-// Establece el nombre del usuario seleccionado en el campo de búsqueda
 $searchText = '';
 if ($usuario_id) {
     foreach ($usuarios as $usuario) {
@@ -85,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Préstamos</title>
     <link rel="stylesheet" href="../../styles/librarians/view_loans.css?v=<?php echo time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .search-container {
             position: relative;
@@ -151,12 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     </header>
 
     <section class="loan-view">
-        <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
-        <?php elseif ($success_message): ?>
-            <p class="success"><?= $success_message ?></p>
-        <?php endif; ?>
-
         <h2>Buscar Préstamos por Usuario</h2>
 
         <form action="view_loans.php" method="POST">
@@ -187,7 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
 
             <button type="submit">Buscar Préstamos</button>
         </form>
-
 
         <?php if (!empty($prestamos)): ?>
             <h2>Préstamos del Usuario</h2>
@@ -271,6 +263,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
                 document.getElementById('resultsContainer').style.display = 'none';
             }
         }
+
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
     </script>
 </body>
 </html>

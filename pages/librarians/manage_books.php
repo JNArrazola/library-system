@@ -7,6 +7,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
     exit();
 }
 
+$success_message = '';
+$error_message = '';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_id'])) {
     $book_id = $_POST['book_id'];
     $autor = $_POST['autor'];
@@ -37,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_id'])) {
     }
 
     $stmt->execute($params);
+    $success_message = 'Libro actualizado exitosamente.';
 }
 
 if (isset($_POST['delete_book_id'])) {
@@ -51,8 +55,9 @@ if (isset($_POST['delete_book_id'])) {
         $query = "DELETE FROM Libros WHERE id = :id";
         $stmt = $pdo->prepare($query);
         $stmt->execute(['id' => $delete_book_id]);
+        $success_message = 'Libro eliminado exitosamente.';
     } else {
-        echo "<script>alert('No se puede borrar el libro porque tiene préstamos activos');</script>";
+        $error_message = 'No se puede borrar el libro porque tiene préstamos activos';
     }
 }
 
@@ -68,6 +73,7 @@ $books = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Inventario de Libros</title>
     <link rel="stylesheet" href="../../styles/librarians/manage_books.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -132,6 +138,23 @@ $books = $stmt->fetchAll();
             </tbody>
         </table>
     </section>
+
+    <script>
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
+    </script>
 </body>
 </html>
-

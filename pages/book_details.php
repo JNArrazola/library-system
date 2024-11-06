@@ -46,6 +46,7 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Libro</title>
     <link rel="stylesheet" href="../styles/book_details.css?v=<?= time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -54,16 +55,6 @@ if (isset($_SESSION['user_id'])) {
             <?= $nav_options ?>
         </div>
     </header>
-
-    <?php if ($success_message): ?>
-        <div class="success-message">
-            <?= htmlspecialchars($success_message) ?>
-        </div>
-    <?php elseif ($error_message): ?>
-        <div class="error-message">
-            <?= htmlspecialchars($error_message) ?>
-        </div>
-    <?php endif; ?>
 
     <div class="back-button-container">
         <a href="catalog.php" class="back-button">Volver al catálogo</a>
@@ -82,9 +73,7 @@ if (isset($_SESSION['user_id'])) {
             <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
 
             <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>
-                <a href="users/reserve_book.php?id=<?= $book['id'] ?>" 
-                class="reserve-button" 
-                onclick="return confirm('¿Estás seguro que deseas reservar el libro <?= htmlspecialchars($book['nombre']) ?>?');">Reservar</a>
+                <button class="reserve-button" onclick="confirmReservation('<?= htmlspecialchars($book['id']) ?>', '<?= htmlspecialchars($book['nombre']) ?>')">Reservar</button>
             <?php endif; ?>
         </div>
     </div>
@@ -92,5 +81,37 @@ if (isset($_SESSION['user_id'])) {
     <footer>
         <p>Biblioteca - 2024</p>
     </footer>
+
+    <script>
+        function confirmReservation(bookId, bookName) {
+            Swal.fire({
+                title: `¿Estás seguro que deseas reservar el libro "${bookName}"?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Reservar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `users/reserve_book.php?id=${bookId}`;
+                }
+            });
+        }
+
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= htmlspecialchars($success_message) ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= htmlspecialchars($error_message) ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
+    </script>
 </body>
 </html>

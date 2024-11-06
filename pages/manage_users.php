@@ -104,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Carga de usuarios
 $condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol = 'usuario'" : "";
 $query = "SELECT * FROM Usuarios $condition";
 $stmt = $pdo->query($query);

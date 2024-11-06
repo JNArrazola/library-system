@@ -61,7 +61,8 @@ $libros = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Préstamo</title>
-    <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>"> 
+    <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .search-container {
             position: relative;
@@ -128,12 +129,6 @@ $libros = $stmt->fetchAll();
     </header>
 
     <section class="loan-form">
-        <?php if ($error_message): ?>
-            <p class="error"><?= htmlspecialchars($error_message) ?></p>
-        <?php elseif ($success_message): ?>
-            <p class="success"><?= htmlspecialchars($success_message) ?></p>
-        <?php endif; ?>
-
         <form action="register_loan.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Usuario:</label>
@@ -198,8 +193,9 @@ $libros = $stmt->fetchAll();
 
         function selectUser(userId) {
             document.getElementById('usuario_id').value = userId;
+            const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
+            document.querySelector('.search-input').value = userName;
             document.getElementById('resultsContainer').style.display = 'none';
-            document.querySelector('.search-input').value = 'Usuario seleccionado: ' + userId;
         }
 
         window.onclick = function(event) {
@@ -207,6 +203,22 @@ $libros = $stmt->fetchAll();
                 document.getElementById('resultsContainer').style.display = 'none';
             }
         }
+
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
     </script>
 </body>
 </html>

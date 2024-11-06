@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
 $error_message = '';
 $success_message = '';
 
-$max_file_size = 2 * 1024 * 1024; 
+$max_file_size = 2 * 1024 * 1024;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Nuevo Libro</title>
     <link rel="stylesheet" href="../../styles/librarians/add_book.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -71,12 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </header>
 
     <section class="add-book-form">
-        <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
-        <?php elseif ($success_message): ?>
-            <p class="success"><?= $success_message ?></p>
-        <?php endif; ?>
-
         <form action="add_book.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="nombre">Título:</label>
@@ -105,5 +100,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Registrar Libro</button>
         </form>
     </section>
+
+    <script>
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
+    </script>
 </body>
 </html>

@@ -61,8 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $activation_link = "http://localhost/library-system/pages/activate.php?correo=" . urlencode($correo);
             $success_message = 'Se ha enviado un correo de activación a su dirección de correo electrónico.';
-            sendMail($correo, "Activar la cuenta $nombre $apellido
-            ", "Pulse el enlace para activar su cuenta: <a href='$activation_link'>Activar cuenta</a>");
+            sendMail($correo, "Activar la cuenta $nombre $apellido", "Pulse el enlace para activar su cuenta: <a href='$activation_link'>Activar cuenta</a>");
         }
     }
 }
@@ -97,18 +96,34 @@ function sendMail($email, $subject, $message) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
     <link rel="stylesheet" href="../styles/register.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="login-container">
         <h2>Registro de Usuario</h2>
+        
         <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '<?= $error_message ?>',
+                    confirmButtonText: 'Aceptar'
+                });
+            </script>
         <?php elseif ($success_message): ?>
             <script>
-                alert("<?= $success_message ?>");
-                window.location.href = 'login.php';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registro Exitoso',
+                    text: '<?= $success_message ?>',
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    window.location.href = 'login.php';
+                });
             </script>
         <?php endif; ?>
+
         <form action="register.php" method="POST">
             <label for="nombre">Nombre:</label>
             <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($nombre) ?>" required>

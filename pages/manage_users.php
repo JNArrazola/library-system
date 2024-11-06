@@ -117,6 +117,7 @@ $users = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Usuarios</title>
     <link rel="stylesheet" href="../styles/manage_users.css?v=<?= time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -129,12 +130,26 @@ $users = $stmt->fetchAll();
     </header>
 
     <?php if ($success_message): ?>
-        <p class="success"><?= htmlspecialchars($success_message) ?></p>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
     <?php elseif ($error_message): ?>
-        <p class="error"><?= htmlspecialchars($error_message) ?></p>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
     <?php endif; ?>
 
-    <form action="manage_users.php" method="POST">
+    <form action="manage_users.php" method="POST" id="manageForm">
         <table class="styled-table">
             <thead>
                 <tr>
@@ -175,13 +190,45 @@ $users = $stmt->fetchAll();
         </table>
 
         <div class="button-group">
-            <button type="submit" id="submit_button" onclick="return confirmUpdate();">Aplicar cambios</button>
-            <button type="submit" id="delete_button" onclick="return confirmDeletion();" name="delete">Eliminar seleccionados</button>
+            <button type="button" id="submit_button" onclick="confirmUpdate()">Aplicar cambios</button>
+            <button type="button" id="delete_button" onclick="confirmDeletion()">Eliminar seleccionados</button>
         </div>
     </form>
 
     <div class="return-menu">
         <a href="catalog.php" class="return-button">Volver al Menú Principal</a>
     </div>
+
+    <script>
+        function confirmUpdate() {
+            Swal.fire({
+                icon: 'question',
+                title: '¿Confirmar cambios?',
+                text: '¿Estás seguro de que deseas aplicar los cambios?',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, aplicar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('manageForm').submit();
+                }
+            });
+        }
+
+        function confirmDeletion() {
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Confirmar eliminación?',
+                text: '¿Estás seguro de que deseas eliminar los usuarios seleccionados?',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('manageForm').submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

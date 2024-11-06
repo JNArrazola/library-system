@@ -9,8 +9,24 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
 
 $error_message = '';
 $success_message = '';
-$usuario_id = null;
-$b_entregado = null; 
+$usuario_id = isset($_POST['usuario_id']) ? $_POST['usuario_id'] : null;
+$b_entregado = isset($_POST['b_entregado']) ? $_POST['b_entregado'] : '0';
+
+// Consulta los usuarios antes de definir el texto de búsqueda
+$query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
+$stmt = $pdo->query($query);
+$usuarios = $stmt->fetchAll();
+
+// Establece el nombre del usuario seleccionado en el campo de búsqueda
+$searchText = '';
+if ($usuario_id) {
+    foreach ($usuarios as $usuario) {
+        if ($usuario['id'] == $usuario_id) {
+            $searchText = htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']);
+            break;
+        }
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['loan_id'])) {
     $loan_id = $_POST['loan_id'];
@@ -41,10 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['loan_id'])) {
     }
 }
 
-$query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
-$stmt = $pdo->query($query);
-$usuarios = $stmt->fetchAll();
-
 $prestamos = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
@@ -74,38 +86,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
     <title>Ver Préstamos</title>
     <link rel="stylesheet" href="../../styles/librarians/view_loans.css?v=<?php echo time(); ?>">
     <style>
-        table {
+        .search-container {
+            position: relative;
             width: 100%;
-            border-collapse: collapse;
+            max-width: 400px;
+            margin: 20px 0;
         }
 
-        th, td {
-            padding: 10px;
-            text-align: center;
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
             border: 1px solid #ddd;
-        }
-
-        input[type="date"] {
-            width: 100%;
-            padding: 5px;
+            border-radius: 8px;
+            font-size: 1em;
             box-sizing: border-box;
-            text-align: center;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .results-container {
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+            display: none;
         }
 
-        button {
-            padding: 5px 10px;
-            background-color: #333;
-            color: white;
-            border: none;
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #555;
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .result-item h4 {
+            margin: 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .result-item p {
+            margin: 2px 0;
+            font-size: 0.9em;
+            color: #666;
         }
     </style>
 </head>
@@ -131,14 +162,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
         <form action="view_loans.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Buscar Usuario:</label>
-                <select name="usuario_id" id="usuario_id" required>
-                    <option value="">Selecciona un usuario</option>
-                    <?php foreach ($usuarios as $usuario): ?>
-                        <option value="<?= htmlspecialchars($usuario['id']) ?>" <?= ($usuario_id == $usuario['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($usuario['id'] . ' - ' . $usuario['nombre'] . ' ' . $usuario['apellido'] . ' (' . $usuario['correo'] . ')') ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)" value="<?= $searchText ?>">
+                    <div class="results-container" id="resultsContainer">
+                        <?php foreach ($usuarios as $usuario): ?>
+                            <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
+                                <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
+                                <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
+                                <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <input type="hidden" name="usuario_id" id="usuario_id" value="<?= htmlspecialchars($usuario_id) ?>" required>
             </div>
 
             <div class="form-group">
@@ -151,6 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
 
             <button type="submit">Buscar Préstamos</button>
         </form>
+
 
         <?php if (!empty($prestamos)): ?>
             <h2>Préstamos del Usuario</h2>
@@ -201,5 +238,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['usuario_id'])) {
             <p class="no-results">No se encontraron préstamos para este usuario.</p>
         <?php endif; ?>
     </section>
+
+    <script>
+        function filterUsers(query) {
+            const container = document.getElementById('resultsContainer');
+            const items = document.querySelectorAll('.result-item');
+            let hasResults = false;
+
+            query = query.toLowerCase();
+            items.forEach(item => {
+                const userInfo = item.getAttribute('data-user-info').toLowerCase();
+                if (userInfo.includes(query)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            container.style.display = hasResults ? 'block' : 'none';
+        }
+
+        function selectUser(userId) {
+            document.getElementById('usuario_id').value = userId;
+            const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
+            document.querySelector('.search-input').value = userName;
+            document.getElementById('resultsContainer').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.search-input')) {
+                document.getElementById('resultsContainer').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

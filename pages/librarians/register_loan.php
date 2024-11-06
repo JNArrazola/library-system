@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$query = "SELECT id, nombre, apellido FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
+$query = "SELECT id, nombre, apellido, correo FROM Usuarios WHERE is_active = 1 AND rol = 'usuario'";
 $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
 
@@ -61,7 +61,61 @@ $libros = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Préstamo</title>
-    <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>"> <!-- Evita el caché -->
+    <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>"> 
+    <style>
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .results-container {
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            z-index: 1000;
+            display: none;
+        }
+
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .result-item h4 {
+            margin: 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .result-item p {
+            margin: 2px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -83,15 +137,21 @@ $libros = $stmt->fetchAll();
         <form action="register_loan.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Usuario:</label>
-                <select name="usuario_id" id="usuario_id" class="custom-input" required>
-                    <option value="">Selecciona un usuario</option>
-                    <?php foreach ($usuarios as $usuario): ?>
-                        <option value="<?= htmlspecialchars($usuario['id']) ?>">
-                            <?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
+                    <div class="results-container" id="resultsContainer">
+                        <?php foreach ($usuarios as $usuario): ?>
+                            <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
+                                <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
+                                <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
+                                <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <input type="hidden" name="usuario_id" id="usuario_id" required>
             </div>
+
             <div class="form-group">
                 <label for="libro_id">Libro:</label>
                 <select name="libro_id" id="libro_id" class="custom-input" required>
@@ -103,6 +163,7 @@ $libros = $stmt->fetchAll();
                     <?php endforeach; ?>
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="fecha_recepcion">Fecha de Préstamo:</label>
                 <input type="date" name="fecha_recepcion" id="fecha_recepcion" class="custom-input" required>
@@ -114,5 +175,38 @@ $libros = $stmt->fetchAll();
             <button type="submit">Registrar Préstamo</button>
         </form>
     </section>
+
+    <script>
+        function filterUsers(query) {
+            const container = document.getElementById('resultsContainer');
+            const items = document.querySelectorAll('.result-item');
+            let hasResults = false;
+
+            query = query.toLowerCase();
+            items.forEach(item => {
+                const userInfo = item.getAttribute('data-user-info').toLowerCase();
+                if (userInfo.includes(query)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            container.style.display = hasResults ? 'block' : 'none';
+        }
+
+        function selectUser(userId) {
+            document.getElementById('usuario_id').value = userId;
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.querySelector('.search-input').value = 'Usuario seleccionado: ' + userId;
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.search-input')) {
+                document.getElementById('resultsContainer').style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -121,6 +121,9 @@ header h1 {
     padding: 40px 20px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
     border-radius: 30px;
+    
+    /* blur */
+    backdrop-filter: blur(20px);
 }
 
 .featured-books h2 {

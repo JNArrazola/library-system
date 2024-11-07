@@ -3,8 +3,21 @@ session_start();
 include('../config/config.php'); 
 
 $error_message = '';
+$lock_time = [30, 60, 120, 240, 480]; 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_SESSION['login_attempts']) && $_SESSION['login_attempts'] >= 3) {
+    $attempt_count = min($_SESSION['login_attempts'] - 3, count($lock_time) - 1);
+    $wait_time = $lock_time[$attempt_count];
+    $remaining_time = $_SESSION['last_attempt'] + $wait_time - time();
+
+    if ($remaining_time > 0) {
+        $error_message = "Demasiados intentos fallidos. Intenta de nuevo en $remaining_time segundos.";
+    } else {
+        unset($_SESSION['login_attempts'], $_SESSION['last_attempt']);
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($error_message)) {
     $correo = $_POST['correo'];
     $password = $_POST['password'];
 
@@ -19,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['nombre'] = $user['nombre'];
                 $_SESSION['rol'] = $user['rol'];
-
+                unset($_SESSION['login_attempts'], $_SESSION['last_attempt']);
+                
                 header('Location: ../index.php');
                 exit();
             } else {
@@ -31,6 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $error_message = 'Correo no encontrado.';
     }
+
+    if (!isset($_SESSION['login_attempts'])) {
+        $_SESSION['login_attempts'] = 0;
+    }
+    $_SESSION['login_attempts']++;
+    $_SESSION['last_attempt'] = time();
 }
 ?>
 

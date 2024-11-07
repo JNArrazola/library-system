@@ -97,11 +97,34 @@ function sendMail($email, $subject, $message) {
     <title>Registro</title>
     <link rel="stylesheet" href="../styles/register.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <style>
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 8px;
+            transition: width 0.3s;
+            flex-grow: 1;
+        }
+        .strength-text {
+            margin-left: 10px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Registro de Usuario</h2>
-        
+
         <?php if ($error_message): ?>
             <script>
                 Swal.fire({
@@ -122,22 +145,68 @@ function sendMail($email, $subject, $message) {
                     window.location.href = 'login.php';
                 });
             </script>
+        <?php else: ?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Requisitos de Contraseña',
+                    text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
+                    confirmButtonText: 'Entendido'
+                });
+            </script>
         <?php endif; ?>
 
         <form action="register.php" method="POST">
             <label for="nombre">Nombre:</label>
             <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
+            
             <label for="apellido">Apellido:</label>
             <input type="text" name="apellido" id="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
+            
             <label for="correo">Correo electrónico:</label>
             <input type="email" name="correo" id="correo" value="<?= htmlspecialchars($correo) ?>" required>
+            
             <label for="password">Contraseña:</label>
             <input type="password" name="password" id="password" required>
+            <div class="progress-container">
+                <div id="password-strength-bar" class="progress-bar"></div>
+                <span id="strength-text" class="strength-text">Débil</span>
+            </div>
             <label for="confirm_password">Confirmar Contraseña:</label>
             <input type="password" name="confirm_password" id="confirm_password" required>
+            
             <button type="submit">Registrarse</button>
         </form>
+
         <p>¿Ya tienes una cuenta? <a href="login.php">Inicia sesión aquí</a></p>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.getElementById('password-strength-bar');
+            const strengthText = document.getElementById('strength-text');
+
+            passwordInput.addEventListener('input', function() {
+                const strength = zxcvbn(passwordInput.value);
+                const score = strength.score;
+                
+                const meetsRequirements = passwordInput.value.length >= 8 && /[A-Z]/.test(passwordInput.value) && /[0-9]/.test(passwordInput.value);
+
+                const colors = ['#ff4b4b', '#ffae42', '#ffd700', '#4caf50', '#008000'];
+                const labels = ['Muy débil', 'Débil', 'Aceptable', 'Buena', 'Fuerte'];
+
+                if (meetsRequirements && score >= 2) {
+                    strengthBar.style.width = '100%';
+                    strengthBar.style.backgroundColor = colors[4];
+                    strengthText.textContent = 'Aceptable';
+                } else {
+                    strengthBar.style.width = (score + 1) * 20 + '%';
+                    strengthBar.style.backgroundColor = colors[score];
+                    strengthText.textContent = labels[score];
+                }
+            });
+        });
+    </script>
 </body>
 </html>

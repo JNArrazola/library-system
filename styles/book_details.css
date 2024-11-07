@@ -3,6 +3,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -17,43 +20,35 @@ header {
     padding: 23px;
 }
 
-h1 {
+header .logo h1 {
     margin: 0;
     font-size: 2em;
+    text-transform: uppercase;
 }
 
 .user-menu {
-    position: center;
-    top: 20px;
-    right: 20px;
-}
-
-.user-menu span {
-    font-size: 16px;
-    color: white;
-    margin-right: 20px;
+    display: flex;
+    gap: 10px;
 }
 
 .user-menu a {
     color: white;
     text-decoration: none;
-    margin-left: 10px;
     padding: 8px 15px;
-    background-color: #756c63;
+    background-color: #85756d; /* Color ajustado */
     border-radius: 30px;
     transition: background-color 0.3s;
 }
 
 .user-menu a:hover {
-    background-color: #6e0a0a;
+    background-color: #7a4848; /* Color ajustado */
 }
 
 .book-details-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 20px;
+    display: flex;
+    gap: 30px;
     padding: 30px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 40px auto;
     background-color: white;
     border-radius: 30px;
@@ -61,21 +56,43 @@ h1 {
 }
 
 .book-image {
-    text-align: center;
+    flex: 1; /* La imagen ocupa la mitad del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .book-image img {
-    max-width: 100%;
+    width: 100%; /* Ocupa toda el área de la imagen */
+    height: auto;
+    max-width: 2500px; /* Ajuste del tamaño máximo */
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.book-info h2 {
+.book-info {
+    flex: 1; /* La información ocupa la otra mitad del contenedor */
+    color: #322300;
+}
+
+.book-info h2.book-title {
     margin-top: 0;
     font-size: 2rem;
-    color: #322300;
-    border-bottom: 2px solid #3b3b98;
+    color: #5c4d43;
+    border-bottom: 2px solid #5c4d43;
     padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.book-info h3 {
+    font-size: 1.5rem;
+    color: #5c4d43;
+    margin-bottom: 10px;
+}
+
+.book-info .synopsis {
+    font-size: 1rem;
+    line-height: 1.6;
     margin-bottom: 20px;
 }
 
@@ -90,7 +107,7 @@ h1 {
 }
 
 .book-info .reserve-button {
-    background-color: #756c63;
+    background-color: #85756d;
     color: #ffffff;
     display: inline-block;
     padding: 12px 20px;
@@ -102,7 +119,7 @@ h1 {
 }
 
 .book-info .reserve-button:hover {
-    background-color: #617f26;
+    background-color: #7a4848;
 }
 
 footer {
@@ -110,37 +127,35 @@ footer {
     padding: 20px;
     background-color: #352c23;
     color: white;
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    padding: 0px;
+    margin-top: auto; /* Empuja el footer hacia el fondo */
+}
+
+.success-message, .error-message {
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    border-radius: 5px;
 }
 
 .success-message {
     background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    margin: 10px 0;
-    text-align: center;
 }
 
 .error-message {
     background-color: #f44336;
-    color: white;
-    padding: 10px;
-    margin: 10px 0;
-    text-align: center;
 }
 
 .back-button-container {
     text-align: center;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .back-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #756c63;
+    background-color: #85756d;
     color: white;
     text-decoration: none;
     border-radius: 30px;
@@ -149,5 +164,5 @@ footer {
 }
 
 .back-button:hover {
-    background-color: #617f26;
+    background-color: #7a4848;
 }

@@ -49,7 +49,9 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <header>
-        <h1>Detalles del Libro</h1>
+        <div class="logo">
+            <h1>Biblioteca</h1>
+        </div>
         <div class="user-menu">
             <?= $nav_options ?>
         </div>
@@ -70,15 +72,20 @@ if (isset($_SESSION['user_id'])) {
     </div>
 
     <div class="book-details-container">
+        <!-- Sección de la imagen del libro -->
         <div class="book-image">
-            <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
+            <img src="../styles/img/background.jpg" alt="Portada de Ejemplo">
         </div>
+        
+        <!-- Sección de la información del libro -->
         <div class="book-info">
-            <h2><?= htmlspecialchars($book['nombre']) ?></h2>
+            <h2 class="book-title"><?= htmlspecialchars($book['nombre']) ?></h2>
+            <hr>
+            <h3>Sinopsis</h3>
+            <p class="synopsis"><?= htmlspecialchars($book['sinopsis']) ?></p>
             <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
             <p><strong>Editorial:</strong> <?= htmlspecialchars($book['editorial']) ?></p>
             <p><strong>Fecha de Publicación:</strong> <?= htmlspecialchars($book['fecha_publicacion']) ?></p>
-            <p><strong>Sinopsis:</strong> <?= htmlspecialchars($book['sinopsis']) ?></p>
             <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
 
             <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'usuario' && $book['cantidad'] > 0): ?>

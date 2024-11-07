@@ -50,10 +50,16 @@ if (isset($_SESSION['user_id'])) {
             <div class="book-list">
                 <?php foreach ($featured_books as $book): ?>
                     <div class="book-item" onclick="window.location.href='pages/book_details.php?id=<?= $book['id'] ?>'">
-                        <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
-                        <h3><?= htmlspecialchars($book['nombre']) ?></h3>
-                        <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
-                        <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>...</p>
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
+                                <h3><?= htmlspecialchars($book['nombre']) ?></h3>
+                            </div>
+                            <div class="flip-card-back">
+                                <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
+                                <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>...</p>
+                            </div>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

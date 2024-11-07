@@ -3,8 +3,25 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-image: url(img/sun.jpg);
+    background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-attachment: fixed; /* Fija la imagen al fondo */
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
 }
+
+/* Capa semitransparente para opacar la imagen de fondo */
+body::after {
+    content: ''; /* Necesario para generar el pseudo-elemento */
+    position: absolute; /* Posicionamos encima del contenido del body */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Negro con opacidad del 40% */
+    z-index: -1; /* Asegura que la capa no cubra el contenido del body */
+}
+
 
 header {
     display: flex;
@@ -25,15 +42,18 @@ header h1 {
 
 /* Estilo para los enlaces del menú de usuario en el header */
 .user-menu a {
-    color: white;
+    display: inline-block;
+    padding: 12px 25px;
     background-color: #756c63;
-    padding: 10px 20px;
-    border-radius: 30px;
+    color: white;
     font-weight: bold;
+    border-radius: 30px;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .user-menu a:hover {
@@ -54,18 +74,24 @@ header h1 {
 .welcome-section {
     text-align: center;
     padding: 60px 20px;
-    background: linear-gradient(to bottom, #ffffff, #f4f4f4);
 }
+
+/*
+.intro-text {
+    background-color: #f4f4f4b8;
+    border-radius: 30px;
+}
+    */
 
 .welcome-section .intro-text h2 {
     font-size: 2em;
-    color: #352c23;
+    color: #ffffff;
     margin-bottom: 15px;
 }
 
 .welcome-section .intro-text p {
     font-size: 1.2em;
-    color: #555;
+    color: #ffffff;
     max-width: 600px;
     margin: 0 auto 20px;
 }
@@ -91,14 +117,15 @@ header h1 {
 /* Estilo de libros destacados */
 .featured-books {
     margin-top: 60px;
-    background-color: #ffffff;
+    background-color: #ffffff35;
     padding: 40px 20px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
 }
 
 .featured-books h2 {
+    color:#ffffff;
     font-size: 2em;
-    color: #352c23;
     margin-bottom: 30px;
 }
 
@@ -110,27 +137,52 @@ header h1 {
 }
 
 .book-item {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
     width: 220px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    text-align: center;
+    height: 320px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    perspective: 1000px; /* Añade perspectiva */
+    position: relative;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Añadimos sombra */
+    border-radius: 30px; /* Borde redondeado para la tarjeta */
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen a todo el contenido */
+    background-color: #00000000;
 }
 
-.book-item:hover {
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s ease;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.book-item:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 30px; /* Borde redondeado en las caras */
+}
+
+.flip-card-front {
+    background-color: white;
+}
+
+.flip-card-back {
+    background-color: #f4f4f4;
+    transform: rotateY(180deg);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil en el reverso */
 }
 
 .book-item img {
     width: 100%;
     height: 250px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 30px; /* Borde redondeado en la imagen */
 }
 
 .book-item h3 {
@@ -151,20 +203,8 @@ header h1 {
     color: #352c23;
 }
 
-.nav-link {
-    color: white;
-    background-color: #756c63;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    margin-right: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+@media screen and (max-width: 700px) {
+    .flip-card-back {
+        font-size: 3vw;
+    }
 }
-
-.nav-link:hover {
-    background-color: #617f26;
-    transform: scale(1.05);
-}
-

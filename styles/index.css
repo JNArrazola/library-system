@@ -123,7 +123,7 @@ header h1 {
     border-radius: 30px;
     
     /* blur */
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
 }
 
 .featured-books h2 {

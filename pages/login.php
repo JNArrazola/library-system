@@ -8,24 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $correo = $_POST['correo'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM Usuarios WHERE correo = :correo AND is_active = 1";
+    $query = "SELECT * FROM Usuarios WHERE correo = :correo";
     $stmt = $pdo->prepare($query);
     $stmt->execute(['correo' => $correo]);
     $user = $stmt->fetch();
 
     if ($user) {
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['nombre'] = $user['nombre'];
-            $_SESSION['rol'] = $user['rol'];
+        if ($user['is_active']) {
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['nombre'] = $user['nombre'];
+                $_SESSION['rol'] = $user['rol'];
 
-            header('Location: ../index.php');
-            exit();
+                header('Location: ../index.php');
+                exit();
+            } else {
+                $error_message = 'Contraseña incorrecta.';
+            }
         } else {
-            $error_message = 'Contraseña incorrecta.';
+            $error_message = 'Cuenta no activada. Por favor, revisa tu correo para activarla.';
         }
     } else {
-        $error_message = 'Correo no encontrado o cuenta no activada.';
+        $error_message = 'Correo no encontrado.';
     }
 }
 ?>
@@ -37,12 +41,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/login.css?v=<?php echo time(); ?>">
     <title>Inicio de Sesión</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
         <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '<?= $error_message ?>',
+                    confirmButtonText: 'Aceptar'
+                });
+            </script>
         <?php endif; ?>
         <form action="login.php" method="POST">
             <label for="correo">Correo electrónico:</label>

@@ -1,8 +1,7 @@
 # Notas de librería
 * [X] En `librarians/return_loan.php`, se debe mostrar la alerta de que se no se encontró el usuario. 
-* [ ] En `librarians/return_loan.php`, se debe poder buscar por id o correo adicionalmente. 
-* [ ] En `librarians/view_loans.php`, se debería tener también la opción de ver entregados o no entregados, no únicamente uno u otro.
-* [ ] En `librarians/view_reservations.php`, al inicio se deberían listar todas las reservaciones
+* [X] En `librarians/return_loan.php`, se debe poder buscar por id o correo adicionalmente. 
+* [X] En `librarians/view_loans.php`, se debería tener también la opción de ver entregados o no entregados, no únicamente uno u otro.
 * [ ] En `manage_users.php`, se debería poder agregar a un usuario, desde admin se debería poder agregar directamente, desde librarian no
 * [ ] En `administrators/admin_dashboard.php` se ve mal el header 
 * [ ] En `administrators/request.php`, mejorar la barra de búsqueda 

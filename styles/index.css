@@ -172,13 +172,14 @@ header h1 {
 }
 
 .flip-card-front {
-    background-color: white;
+    background-color: #f4f4f4;
 }
 
 .flip-card-back {
     background-color: #f4f4f4;
     transform: rotateY(180deg);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil en el reverso */
+    align-content: center;
 }
 
 .book-item img {

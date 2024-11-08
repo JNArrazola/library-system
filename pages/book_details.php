@@ -56,10 +56,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </header>
 
-    <div class="back-button-container">
-        <a href="catalog.php" class="back-button">Volver al catálogo</a>
-    </div>
-
     <div class="book-details-container">
         <div class="book-image">
             <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
@@ -78,9 +74,9 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
 
-    <footer>
-        <p>Biblioteca - 2024</p>
-    </footer>
+    <div class="back-button-container">
+        <a href="catalog.php" class="back-button">Volver al catálogo</a>
+    </div>
 
     <script>
         function confirmReservation(bookId, bookName) {

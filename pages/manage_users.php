@@ -58,16 +58,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['updates'])) {
         foreach ($_POST['updates'] as $user_id => $fields) {
             if ($_SESSION['rol'] === 'administrador') {
-                $query = "UPDATE Usuarios SET nombre = :nombre, apellido = :apellido, direccion = :direccion, rol = :rol WHERE id = :id";
-                $stmt = $pdo->prepare($query);
-                $stmt->execute([
-                    'nombre' => $fields['nombre'],
-                    'apellido' => $fields['apellido'],
-                    'direccion' => $fields['direccion'],
-                    'rol' => $fields['rol'],
-                    'id' => $user_id
-                ]);
-                $success_message = "Cambios aplicados correctamente.";
+                $update_fields = [];
+                $params = ['id' => $user_id];
+
+                if (isset($fields['nombre'])) {
+                    $update_fields[] = 'nombre = :nombre';
+                    $params['nombre'] = $fields['nombre'];
+                }
+                if (isset($fields['apellido'])) {
+                    $update_fields[] = 'apellido = :apellido';
+                    $params['apellido'] = $fields['apellido'];
+                }
+                if (isset($fields['correo'])) {
+                    if (filter_var($fields['correo'], FILTER_VALIDATE_EMAIL)) {
+                        $update_fields[] = 'correo = :correo';
+                        $params['correo'] = $fields['correo'];
+                    } else {
+                        $error_message = "Correo inválido para el usuario con ID $user_id.";
+                        break;
+                    }
+                }
+                if (isset($fields['direccion'])) {
+                    $update_fields[] = 'direccion = :direccion';
+                    $params['direccion'] = $fields['direccion'];
+                }
+                if (isset($fields['rol'])) {
+                    $update_fields[] = 'rol = :rol';
+                    $params['rol'] = $fields['rol'];
+                }
+
+                if (!empty($update_fields) && !$error_message) {
+                    $query = "UPDATE Usuarios SET " . implode(', ', $update_fields) . " WHERE id = :id";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->execute($params);
+                    $success_message = "Cambios aplicados correctamente.";
+                }
             } else {
                 $original_query = "SELECT * FROM Usuarios WHERE id = :id";
                 $original_stmt = $pdo->prepare($original_query);
@@ -75,20 +100,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $original_user = $original_stmt->fetch();
 
                 $changes = [];
-                if ($fields['nombre'] !== $original_user['nombre']) {
+                if (isset($fields['nombre']) && $fields['nombre'] !== $original_user['nombre']) {
                     $changes['nombre'] = $fields['nombre'];
                 }
-                if ($fields['apellido'] !== $original_user['apellido']) {
+                if (isset($fields['apellido']) && $fields['apellido'] !== $original_user['apellido']) {
                     $changes['apellido'] = $fields['apellido'];
                 }
-                if ($fields['direccion'] !== $original_user['direccion']) {
+                if (isset($fields['correo']) && $fields['correo'] !== $original_user['correo']) {
+                    if (filter_var($fields['correo'], FILTER_VALIDATE_EMAIL)) {
+                        $changes['correo'] = $fields['correo'];
+                    } else {
+                        $error_message = "Correo inválido para el usuario con ID $user_id.";
+                        break;
+                    }
+                }
+                if (isset($fields['direccion']) && $fields['direccion'] !== $original_user['direccion']) {
                     $changes['direccion'] = $fields['direccion'];
                 }
                 if (isset($fields['rol']) && $fields['rol'] !== $original_user['rol']) {
                     $changes['rol'] = $fields['rol'];
                 }
 
-                if (!empty($changes)) {
+                if (!empty($changes) && !$error_message) {
                     $detalles_cambio = json_encode($changes);
                     $query = "INSERT INTO Solicitudes (tipo, usuario_id, solicitante_id, estado, detalles_cambio) VALUES ('actualizacion', :usuario_id, :solicitante_id, 'pendiente', :detalles_cambio)";
                     $stmt = $pdo->prepare($query);

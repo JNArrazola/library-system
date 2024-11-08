@@ -54,8 +54,8 @@ VALUES
 
 CREATE TABLE Solicitudes (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    tipo ENUM('eliminacion', 'actualizacion') NOT NULL,
-    usuario_id INT NOT NULL,
+    tipo ENUM('eliminacion', 'actualizacion', 'creacion') NOT NULL,
+    usuario_id INT,
     solicitante_id INT NOT NULL,
     fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('pendiente', 'aprobado', 'rechazado') DEFAULT 'pendiente',

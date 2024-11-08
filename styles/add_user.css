@@ -1,82 +1,123 @@
 body {
-    background-color: #e0e0e0;
+    background-color: #e0e0e0; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 header {
     align-items: center;
-    background-color: #352c23;
+    background-color: #352c23; 
     border-radius: 0px 0px 30px 30px;
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
     display: flex;
-    font-family: Georgia, serif;
+    font-family: Georgia;
     justify-content: space-between;
     padding: 23px;
-    width: 100%;
 }
 
 h1 {
+    font-size: 2em;
     margin: 0;
 }
 
-form {
-    max-width: 800px;  /* Aumentamos el tamaño máximo del formulario */
-    margin: 0 auto;
-    background-color: white;
-    padding: 30px;  /* Aumentamos el padding para hacerlo más espacioso */
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);  /* Ajustamos la sombra para un efecto más suave */
+.user-menu span {
+    color: white;
+    font-size: 16px;
+    margin-right: 20px;
 }
 
-label {
+.user-menu a {
+    background-color: #756c63;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s, opacity 0.2s;
+}
+
+.user-menu a:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.user-menu a.logout-button:hover {
+    background-color: #6e0a0a;
+}
+
+.add-user-form {
+    max-width: 500px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    padding: 30px;
+}
+
+.add-user-form label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: bold;
+    color: #333;
 }
 
-input[type="text"], input[type="email"], input[type="password"], select {
-    width: 95%;  /* Ajustamos el ancho para que los inputs sean más amplios */
-    padding: 12px;  /* Aumentamos el padding para un mejor aspecto */
+.add-user-form input[type="text"],
+.add-user-form input[type="email"],
+.add-user-form input[type="password"],
+.add-user-form select {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;  /* Aumentamos el tamaño de la fuente */
 }
 
-button {
+.add-user-form input:focus {
+    border-color: #756c63;
+    outline: none;
+}
+
+button[type="submit"] {
     background-color: #756c63;
     border: none;
-    border-radius: 30px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     color: white;
     cursor: pointer;
-    display: block;
     font-size: 16px;
-    margin: auto;
     padding: 12px 20px;
+    transition: background-color 0.3s;
+    text-align: center;
+    width: 100%;
 }
 
-button:hover {
+button[type="submit"]:hover {
     background-color: #617f26;
 }
 
-p.error {
-    color: #d32f2f;
+.error, .success {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
 }
 
-p.success {
+.error {
+    color: #d32f2f;
+}
+
+.success {
     color: #388e3c;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .add-user-form {
+        width: 90%;
+        padding: 20px;
+    }
 }

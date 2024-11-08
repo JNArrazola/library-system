@@ -129,6 +129,10 @@ $users = $stmt->fetchAll();
         </div>
     </header>
 
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="add_user.php" class="add-user-button">Añadir usuario</a>
+    </div>
+
     <?php if ($success_message): ?>
         <script>
             Swal.fire({

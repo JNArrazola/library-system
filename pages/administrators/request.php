@@ -3,7 +3,7 @@ session_start();
 include('../../config/config.php');
 
 if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'administrador') {
-    header('Location: ../index.php');
+    header('Location: ../../index.php');
     exit();
 }
 

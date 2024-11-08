@@ -7,7 +7,6 @@ use PHPMailer\PHPMailer\SMTP;
 require '../Packages/PHPMailer/src/Exception.php';
 require '../Packages/PHPMailer/src/PHPMailer.php';
 require '../Packages/PHPMailer/src/SMTP.php';
-
 require '../config/emailConfig.php';
 
 ini_set('display_errors', 1);
@@ -25,7 +24,6 @@ $correo = '';
 $direccion = ''; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
@@ -48,9 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user) {
             $error_message = 'El correo ya está registrado.';
         } else {
-            
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            
             $query = "INSERT INTO Usuarios (nombre, apellido, correo, direccion, password, rol, is_active) 
                       VALUES (:nombre, :apellido, :correo, :direccion, :password, 'usuario', 0)";
             $stmt = $pdo->prepare($query);
@@ -64,7 +60,75 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $activation_link = "http://localhost/library-system/pages/activate.php?correo=" . urlencode($correo);
             $success_message = 'Se ha enviado un correo de activación a su dirección de correo electrónico.';
-            sendMail($correo, "Activar la cuenta $nombre $apellido", "Pulse el enlace para activar su cuenta: <a href='$activation_link'>Activar cuenta</a>");
+            
+            $email_body = "
+                <html>
+                <head>
+                    <style>
+                        .email-container {
+                            font-family: Arial, sans-serif;
+                            max-width: 600px;
+                            margin: auto;
+                            padding: 20px;
+                            border: 1px solid #e0e0e0;
+                            border-radius: 8px;
+                            background-color: #f5f3f2;
+                            color: #4b3832;
+                        }
+                        .email-header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .email-header h2 {
+                            color: #756c63;
+                        }
+                        .email-content {
+                            font-size: 16px;
+                            line-height: 1.6;
+                        }
+                        .email-button {
+                            display: inline-block;
+                            margin-top: 20px;
+                            padding: 10px 20px;
+                            background-color: #756c63;
+                            color: #ffffff;
+                            text-decoration: none;
+                            font-weight: bold;
+                            border-radius: 5px;
+                            text-align: center;
+                        }
+                        .email-button:hover {
+                            background-color: #5e4b41;
+                        }
+                        .email-footer {
+                            margin-top: 30px;
+                            font-size: 14px;
+                            color: #6e645f;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='email-container'>
+                        <div class='email-header'>
+                            <h2>Bienvenido a la Biblioteca</h2>
+                        </div>
+                        <div class='email-content'>
+                            <p>Hola <strong>$nombre $apellido</strong>,</p>
+                            <p>Gracias por registrarte en nuestra biblioteca. Para activar tu cuenta y empezar a utilizar nuestros servicios, por favor confirma tu correo electrónico haciendo clic en el siguiente botón:</p>
+                            <a href='$activation_link' class='email-button'>Activar cuenta</a>
+                            <p>Si tienes algún problema, copia y pega el siguiente enlace en tu navegador:</p>
+                            <p><a href='$activation_link'>$activation_link</a></p>
+                        </div>
+                        <div class='email-footer'>
+                            <p>© 2023 Biblioteca Online. Todos los derechos reservados.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            ";
+            
+            sendMail($correo, "Activación de cuenta", $email_body);            
         }
     }
 }
@@ -91,7 +155,6 @@ function sendMail($email, $subject, $message) {
     $mail->send();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -125,7 +188,7 @@ function sendMail($email, $subject, $message) {
         .checkbox-container {
             display: flex;
             align-items: center;
-            margin-top: 10px; 
+            margin-top: 10px;
             font-size: 0.9em;
             color: #555;
         }
@@ -164,6 +227,15 @@ function sendMail($email, $subject, $message) {
                     confirmButtonText: 'Aceptar'
                 }).then(() => {
                     window.location.href = 'login.php';
+                });
+            </script>
+        <?php else: ?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Requisitos de Contraseña',
+                    text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
+                    confirmButtonText: 'Entendido'
                 });
             </script>
         <?php endif; ?>

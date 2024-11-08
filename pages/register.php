@@ -22,14 +22,14 @@ $success_message = '';
 $nombre = '';
 $apellido = '';
 $correo = '';
-$direccion = ''; // Nuevo campo dirección
+$direccion = ''; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
-    $direccion = $_POST['direccion']; // Capturar la dirección
+    $direccion = $_POST['direccion']; 
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'nombre' => $nombre,
                 'apellido' => $apellido,
                 'correo' => $correo,
-                'direccion' => $direccion, // Insertar la dirección en la BD
+                'direccion' => $direccion, 
                 'password' => $hashed_password
             ]);
             
@@ -122,6 +122,24 @@ function sendMail($email, $subject, $message) {
             margin-left: 10px;
             font-size: 0.9em;
         }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px; 
+            font-size: 0.9em;
+            color: #555;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .checkbox-container a {
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .checkbox-container a:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -148,15 +166,6 @@ function sendMail($email, $subject, $message) {
                     window.location.href = 'login.php';
                 });
             </script>
-        <?php else: ?>
-            <script>
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Requisitos de Contraseña',
-                    text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
-                    confirmButtonText: 'Entendido'
-                });
-            </script>
         <?php endif; ?>
 
         <form action="register.php" method="POST">
@@ -169,7 +178,7 @@ function sendMail($email, $subject, $message) {
             <label for="correo">Correo electrónico:</label>
             <input type="email" name="correo" id="correo" value="<?= htmlspecialchars($correo) ?>" required>
 
-            <label for="direccion">Dirección:</label> <!-- Nuevo campo de dirección -->
+            <label for="direccion">Dirección:</label>
             <input type="text" name="direccion" id="direccion" value="<?= htmlspecialchars($direccion) ?>" required>
             
             <label for="password">Contraseña:</label>
@@ -181,6 +190,11 @@ function sendMail($email, $subject, $message) {
             <label for="confirm_password">Confirmar Contraseña:</label>
             <input type="password" name="confirm_password" id="confirm_password" required>
             
+            <div class="checkbox-container">
+                <input type="checkbox" id="agree_terms" name="agree_terms" required>
+                <label for="agree_terms">Acepto los <a href="../doc/TOS.html" target="_blank">términos y condiciones</a>, incluida la protección de datos según las leyes locales.</label>
+            </div>
+
             <button type="submit">Registrarse</button>
         </form>
 
@@ -213,6 +227,15 @@ function sendMail($email, $subject, $message) {
                 }
             });
         });
+
+        function showTerms() {
+            Swal.fire({
+                title: 'Cumplimiento Legal',
+                text: "El sistema debe cumplir con las regulaciones locales de protección de datos, como la Ley de Protección de Datos Personales (GDPR en la Unión Europea o su equivalente en la región).",
+                icon: 'info',
+                confirmButtonText: 'Aceptar'
+            });
+        }
     </script>
 </body>
 </html>

@@ -11,7 +11,7 @@ $usuario_id = $_SESSION['user_id'];
 $success_message = '';
 $error_message = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel_reserva'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_cancel'])) {
     $reserva_id = $_POST['reserva_id'];
     $libro_id = $_POST['libro_id'];
 
@@ -46,6 +46,7 @@ $reservas = $stmt_reservas->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Reservas</title>
     <link rel="stylesheet" href="../../styles/users/view_reservations.css?v=<?php echo time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -58,13 +59,27 @@ $reservas = $stmt_reservas->fetchAll();
     </header>
 
     <section class="reservations-section">
-        <?php if ($success_message): ?>
-            <p class="success-message"><?= htmlspecialchars($success_message) ?></p>
-        <?php elseif ($error_message): ?>
-            <p class="error-message"><?= htmlspecialchars($error_message) ?></p>
-        <?php endif; ?>
-
         <h2>Mis Reservas Actuales</h2>
+
+        <?php if ($success_message): ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reserva Cancelada',
+                    text: '<?= $success_message ?>',
+                    confirmButtonText: 'Aceptar'
+                });
+            </script>
+        <?php elseif ($error_message): ?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '<?= $error_message ?>',
+                    confirmButtonText: 'Aceptar'
+                });
+            </script>
+        <?php endif; ?>
 
         <?php if (!empty($reservas)): ?>
             <table>
@@ -81,11 +96,7 @@ $reservas = $stmt_reservas->fetchAll();
                             <td><?= htmlspecialchars($reserva['libro_nombre']) ?></td>
                             <td><?= htmlspecialchars($reserva['fecha_reserva']) ?></td>
                             <td>
-                                <form action="view_reservations.php" method="POST">
-                                    <input type="hidden" name="reserva_id" value="<?= htmlspecialchars($reserva['reserva_id']) ?>">
-                                    <input type="hidden" name="libro_id" value="<?= htmlspecialchars($reserva['libro_id']) ?>">
-                                    <button type="submit" name="cancel_reserva" class="cancel-button">Cancelar Reserva</button>
-                                </form>
+                                <button onclick="confirmCancel(<?= htmlspecialchars($reserva['reserva_id']) ?>, <?= htmlspecialchars($reserva['libro_id']) ?>)" class="cancel-button">Cancelar Reserva</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -95,5 +106,32 @@ $reservas = $stmt_reservas->fetchAll();
             <p>No tienes reservas activas.</p>
         <?php endif; ?>
     </section>
+
+    <form id="cancelForm" action="view_reservations.php" method="POST" style="display:none;">
+        <input type="hidden" name="reserva_id" id="reserva_id">
+        <input type="hidden" name="libro_id" id="libro_id">
+        <input type="hidden" name="confirm_cancel" value="true">
+    </form>
+
+    <script>
+        function confirmCancel(reservaId, libroId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Deseas cancelar esta reserva?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, volver'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('reserva_id').value = reservaId;
+                    document.getElementById('libro_id').value = libroId;
+                    document.getElementById('cancelForm').submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

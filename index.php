@@ -2,7 +2,7 @@
 session_start();
 include('config/config.php');
 
-$query = "SELECT * FROM Libros ORDER BY RAND() LIMIT 5";
+$query = "SELECT * FROM Libros ORDER BY RAND() LIMIT 3";
 $stmt = $pdo->query($query);
 $featured_books = $stmt->fetchAll();
 

@@ -22,12 +22,14 @@ $success_message = '';
 $nombre = '';
 $apellido = '';
 $correo = '';
+$direccion = ''; // Nuevo campo dirección
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
+    $direccion = $_POST['direccion']; // Capturar la dirección
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     
@@ -49,13 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
-            $query = "INSERT INTO Usuarios (nombre, apellido, correo, password, rol, is_active) 
-                      VALUES (:nombre, :apellido, :correo, :password, 'usuario', 0)";
+            $query = "INSERT INTO Usuarios (nombre, apellido, correo, direccion, password, rol, is_active) 
+                      VALUES (:nombre, :apellido, :correo, :direccion, :password, 'usuario', 0)";
             $stmt = $pdo->prepare($query);
             $stmt->execute([
                 'nombre' => $nombre,
                 'apellido' => $apellido,
                 'correo' => $correo,
+                'direccion' => $direccion, // Insertar la dirección en la BD
                 'password' => $hashed_password
             ]);
             
@@ -165,6 +168,9 @@ function sendMail($email, $subject, $message) {
             
             <label for="correo">Correo electrónico:</label>
             <input type="email" name="correo" id="correo" value="<?= htmlspecialchars($correo) ?>" required>
+
+            <label for="direccion">Dirección:</label> <!-- Nuevo campo de dirección -->
+            <input type="text" name="direccion" id="direccion" value="<?= htmlspecialchars($direccion) ?>" required>
             
             <label for="password">Contraseña:</label>
             <input type="password" name="password" id="password" required>

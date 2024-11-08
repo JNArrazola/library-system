@@ -3,10 +3,10 @@ body {
     margin: 0;
     padding: 0;
     background-color: #e0e0e0; 
-    overflow: hidden;
 }
 
-#blurred-background {
+body::before {
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
@@ -18,115 +18,99 @@ body {
     filter: blur(0px);
     animation: blurIn 1.5s ease forwards;
     z-index: -1;
-    /* Ajusta el tamaño de la imagen de fondo un poco mas grande para que al 
-    aplicar el blur no se vean una franjas blancas en los margenes*/
     transform: scale(1.1); 
 }
 
-/* Definición de la animación de desenfoque */
 @keyframes blurIn {
     0% {
         filter: blur(0);
     }
     100% {
-        filter: blur(18px);  /* Ajusta la cantidad de desenfoque final */
+        filter: blur(18px);
     }
 }
 
 header {
     align-items: center;
-    background-color: #352c23;
+    background-color: #352c23; 
     border-radius: 0px 0px 30px 30px;
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
     display: flex;
-    font-family: Georgia;
     justify-content: space-between;
-    padding: 2px;
-    width: 100%;
+    padding: 23px;
 }
 
 h1 {
     margin: 0;
     font-size: 2em;
+    font-family: Georgia, serif;
 }
 
 .user-menu {
-    position: 23px center;
-    top: 20px;
-    right: 20px;
-}
-
-.user-menu span {
+    position: center;
     font-size: 16px;
     color: white;
-    margin-right: 20px;
+    display: flex;
+    align-items: center;
 }
 
-.user-menu .dropdown {
-    background-color: #756c63;
+.logout-button {
+    background-color: #756c63; 
     border-radius: 30px;
-    color: rgb(255, 255, 255);
-    margin-left: 100px;
-    padding: 5px 15px;
+    color: white;
+    margin-left: 20px;
+    padding: 10px 15px;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.user-menu:hover .dropdown {
+.logout-button:hover {
     background-color: #6e0a0a;
     transform: scale(1.05);
 }
 
-.user-menu .dropdown li {
+.dashboard-menu {
+    background-color: #f4f4f4; 
     border-radius: 30px;
-    padding: 1.5px;
-    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 25%;
+    margin: 50px auto;
+    padding: 30px;
 }
 
-.user-menu .dropdown li a {
-    color: white;
-    text-decoration: none;
-}
-
-.user-menu .dropdown li a:hover {
-    background-color: #6e0a0a;
-    color: #ffffff;
-}
-
-/* Contenedor de acciones */
-.actions {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Ancho del contenedor */
-    text-align: center;
-    margin: 50px auto;  /* Asegura que el contenedor esté centrado */
-}
-
-.actions ul {
+.dashboard-menu ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0px;
 }
 
-.actions ul li {
-    margin-bottom: 15px;
+.dashboard-menu ul li {
+    border-radius: 30px;
+    margin: auto auto;
+    padding: 7.5px;
+    text-align: center;
+    width: 90%;
 }
 
-.actions ul li a {
-    background-color: #e0e0e0;
+.dashboard-menu a {
+    background-color: #e0e0e0; 
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: black;
     display: block;
     margin: 0 auto;
-    padding: 30px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
 }
 
-.actions ul li a:hover {
+.dashboard-menu a.catalog-link {
+    background-color: #756c63;
+    color: #ffffff;
+}
+
+.dashboard-menu ul a:hover {
     background-color: #617f26;
     color: white;
-    border-color: #617f26;
+    transform: scale(1.05);
 }

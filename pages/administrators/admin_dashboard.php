@@ -20,26 +20,24 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administrador</title>
-    <link rel="stylesheet" href="../../styles/administrators/admin_dashboard.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../../styles/administrators/admin_dashboard.css?v=<?= time(); ?>">
 </head>
 <body>
-    <div id="blurred-background"></div>
     <header>
         <h1>Panel de Control - Administrador</h1>
         <div class="user-menu">
-            <span><?= htmlspecialchars($_SESSION['nombre']) ?> ▼</span>
-            <ul class="dropdown">
-                <li><a href="?logout=true">Cerrar sesión</a></li>
-            </ul>
+            <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Administrador)</span>
+            <a href="?logout=true" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
-    
-    <section class="actions">
-        <h2>Acciones del Administrador</h2>
+
+    <section class="dashboard-menu">
         <ul>
-            <li><a href="view_transactions.php">Ver Transacciones</a></li>
+<!--        <li><a href="view_transactions.php">Ver Transacciones</a></li>-->            
             <li><a href="../manage_users.php">Gestionar Usuarios y Permisos</a></li>
             <li><a href="request.php">Solicitudes</a></li>
+            <li><a href="../user_edit.php">Editar perfil</a></li>
+            <li><a href="../catalog.php" class="catalog-link">Volver al Catálogo</a></li>
         </ul>
     </section>
 </body>

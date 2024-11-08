@@ -1,0 +1,124 @@
+body {
+    background-color: #e0e0e0; 
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    align-items: center;
+    background-color: #352c23; 
+    border-radius: 0px 0px 30px 30px;
+    box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 23px;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+.user-menu span {
+    color: white;
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.user-menu a {
+    background-color: #756c63;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.user-menu a.logout-button:hover {
+    background-color: #6e0a0a;
+}
+
+.user-menu a:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.loan-form {
+    background-color: #f4f4f4;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    padding: 30px;
+    width: 50%;
+    max-width: 600px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"] {
+    background-color: #756c63;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin: auto;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.error, .success {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+@media (max-width: 768px) {
+    .loan-form {
+        width: 90%;
+    }
+}

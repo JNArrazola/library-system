@@ -3,6 +3,22 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    background-image: url(img/catalogBackground.jpg);
+    background-size: cover; /* Hace que la imagen cubra toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-attachment: fixed; /* Fija la imagen al fondo */
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
+}
+
+html::after {
+    content: ''; /* Necesario para generar el pseudo-elemento */
+    position: absolute; /* Posicionamos encima del contenido del body */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Negro con opacidad del 40% */
+    z-index: -1; /* Asegura que la capa no cubra el contenido del body */
 }
 
 header {
@@ -32,18 +48,6 @@ h1 {
     font-size: 16px;
     color: white;
     margin-right: 20px;
-}
-
-.user-menu .bibliotecario-link, .user-menu .usuario-link {
-    color: white;
-    text-decoration: none;
-    background-color: #756c63;
-    padding: 10px 15px;
-    border-radius: 30px;
-    margin-left: 20px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-menu a {
@@ -109,50 +113,6 @@ h1 {
     justify-content: center;
 }
 
-.book-item {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 15px;
-    width: 250px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-}
-
-.book-item:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
-
-.book-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.book-item h3 {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-.book-item p {
-    font-size: 14px;
-    color: #555;
-}
-
-.book-item strong {
-    display: block;
-    margin-top: 5px;
-}
-
-.book-item p strong {
-    display: inline-block;
-    margin-right: 5px;
-}
-
-
 .nav-link {
     color: white;
     background-color: #756c63;
@@ -204,18 +164,6 @@ h1 {
     font-size: 16px;
     color: white;
     margin-right: 20px;
-}
-
-.user-menu .bibliotecario-link, .user-menu .usuario-link {
-    color: white;
-    text-decoration: none;
-    background-color: #756c63;
-    padding: 10px 15px;
-    border-radius: 30px;
-    margin-left: 20px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-menu .bibliotecario-link:hover, .user-menu .usuario-link:hover {
@@ -294,7 +242,7 @@ h1 {
 
 .book-item:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    transition: 0.4s;
+    transition: 0.5s;
     transform: scale(1.05);
 }
 

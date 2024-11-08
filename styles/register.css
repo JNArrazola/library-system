@@ -6,14 +6,16 @@
 }
 
 body {
+    align-items: center;
+    background-attachment: fixed ;
     background-color: #f4f4f4; /* Fondo claro */
     background-image: url('img/background.jpg');
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: cover;
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 

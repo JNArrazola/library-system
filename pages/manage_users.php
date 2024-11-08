@@ -157,45 +157,47 @@ $users = $stmt->fetchAll();
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th>Eliminar <input type="checkbox" onclick="toggleAll(this)" class="delete-checkbox"></th>
+                    <th>Seleccionar</th>
                     <th>ID Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Correo</th>
                     <th>Dirección</th>
                     <th>Rol</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
-                    <tr id="row_<?= $user['id'] ?>">
-                        <td>
-                            <input type="checkbox" name="delete_user_ids[]" value="<?= $user['id'] ?>" 
-                                class="delete-checkbox"
-                                <?= ($user['id'] == $_SESSION['user_id'] || $user['rol'] === 'administrador') ? 'disabled' : '' ?>>
-                        </td>
-                        <td><?= htmlspecialchars($user['id']) ?></td>
-                        <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                        <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                        <td><input type="email" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
-                        <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" onchange="markRowChanged(<?= $user['id'] ?>)"></td>
-                        <td>
-                            <select name="updates[<?= $user['id'] ?>][rol]" onchange="markRowChanged(<?= $user['id'] ?>)">
-                                <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
-                                <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                                <?php if ($_SESSION['rol'] === 'administrador'): ?>
-                                    <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
-                                <?php endif; ?>
-                            </select>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+    <?php foreach ($users as $user): ?>
+        <tr id="row_<?= $user['id'] ?>">
+            <td>
+                <input type="radio" name="select_user" value="<?= $user['id'] ?>" onclick="enableRow(<?= $user['id'] ?>)">
+            </td>
+            <td><?= htmlspecialchars($user['id']) ?></td>
+            <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
+            <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
+            <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
+            <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
+            <td>
+                <select name="updates[<?= $user['id'] ?>][rol]" disabled>
+                    <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
+                    <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
+                    <?php if ($_SESSION['rol'] === 'administrador'): ?>
+                        <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+                    <?php endif; ?>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="delete-button" onclick="confirmDeleteUser(<?= $user['id'] ?>)" id="delete_<?= $user['id'] ?>" disabled>Eliminar</button>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
         </table>
 
         <div class="button-group">
             <button type="button" id="submit_button" onclick="confirmUpdate()">Aplicar cambios</button>
-            <button type="button" id="delete_button" onclick="confirmDeletion()">Eliminar seleccionados</button>
         </div>
     </form>
 
@@ -219,16 +221,42 @@ $users = $stmt->fetchAll();
             });
         }
 
-        function confirmDeletion() {
+        function enableRow(userId) {
+            // Deshabilitar todos los botones de eliminación y campos de la tabla
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.querySelectorAll('input, select, button').forEach(input => {
+                    input.disabled = true;
+                });
+            });
+
+            // Habilitar campos de la fila seleccionada, excepto nombre y apellido
+            const selectedRow = document.getElementById(`row_${userId}`);
+            selectedRow.querySelector('input[name="updates[' + userId + '][correo]"]').disabled = false;
+            selectedRow.querySelector('input[name="updates[' + userId + '][direccion]"]').disabled = false;
+            selectedRow.querySelector('select[name="updates[' + userId + '][rol]"]').disabled = false;
+
+            // Habilitar el botón de eliminación en la fila seleccionada
+            selectedRow.querySelector(`#delete_${userId}`).disabled = false;
+        }
+
+        function confirmDeleteUser(userId) {
             Swal.fire({
                 icon: 'warning',
                 title: '¿Confirmar eliminación?',
-                text: '¿Estás seguro de que deseas eliminar los usuarios seleccionados?',
+                text: '¿Estás seguro de que deseas eliminar este usuario?',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, eliminar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Agrega el id del usuario a un campo oculto para enviar la solicitud
+                    const deleteField = document.createElement('input');
+                    deleteField.type = 'hidden';
+                    deleteField.name = 'delete_user_ids[]';
+                    deleteField.value = userId;
+                    document.getElementById('manageForm').appendChild(deleteField);
+
+                    // Envía el formulario
                     document.getElementById('manageForm').submit();
                 }
             });

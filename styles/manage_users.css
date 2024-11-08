@@ -222,6 +222,22 @@ button:hover, .add-user-button:hover, .return-button:hover {
     background-color: #a93226;
 }
 
+/* Botón de eliminar */
+button.delete-button {
+    background-color: #c0392b;
+}
+
+button.delete-button:hover {
+    background-color: #a93226;
+}
+
+/* Estado deshabilitado para el botón de eliminar */
+button.delete-button:disabled {
+    background-color: #cccccc; /* Color gris cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+    box-shadow: none; /* Sin sombra */
+}
+
 .reject-button:hover {
     background-color: #ff0000;
     transform: scale(1.05);

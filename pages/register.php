@@ -80,22 +80,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             margin-bottom: 20px;
                         }
                         .email-header h2 {
-                            color: #756c63;
+                            color: #4b3832;
+                            font-size: 24px;
+                            margin: 0;
                         }
                         .email-content {
                             font-size: 16px;
                             line-height: 1.6;
+                            color: #4b3832;
                         }
                         .email-button {
                             display: inline-block;
                             margin-top: 20px;
-                            padding: 10px 20px;
+                            padding: 12px 24px;
                             background-color: #756c63;
                             color: #ffffff;
                             text-decoration: none;
                             font-weight: bold;
                             border-radius: 5px;
                             text-align: center;
+                            font-size: 16px;
                         }
                         .email-button:hover {
                             background-color: #5e4b41;
@@ -105,6 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             font-size: 14px;
                             color: #6e645f;
                             text-align: center;
+                        }
+                        .email-link {
+                            color: #756c63;
+                            text-decoration: underline;
                         }
                     </style>
                 </head>
@@ -116,9 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class='email-content'>
                             <p>Hola <strong>$nombre $apellido</strong>,</p>
                             <p>Gracias por registrarte en nuestra biblioteca. Para activar tu cuenta y empezar a utilizar nuestros servicios, por favor confirma tu correo electrónico haciendo clic en el siguiente botón:</p>
-                            <a href='$activation_link' class='email-button'>Activar cuenta</a>
+                            <p style='text-align: center;'>
+                                <a href='$activation_link' class='email-button'>Activar cuenta</a>
+                            </p>
                             <p>Si tienes algún problema, copia y pega el siguiente enlace en tu navegador:</p>
-                            <p><a href='$activation_link'>$activation_link</a></p>
+                            <p><a href='$activation_link' class='email-link'>$activation_link</a></p>
                         </div>
                         <div class='email-footer'>
                             <p>© 2023 Biblioteca Online. Todos los derechos reservados.</p>
@@ -128,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </html>
             ";
             
-            sendMail($correo, "Activación de cuenta", $email_body);            
+            sendMail($correo, "Activación de cuenta", $email_body);
         }
     }
 }

@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
 
 $success_message = '';
 $error_message = '';
+$max_file_size = 2 * 1024 * 1024; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_id'])) {
     $book_id = $_POST['book_id'];
@@ -20,27 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['book_id'])) {
     $image_query_part = '';
 
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == UPLOAD_ERR_OK) {
-        $image_data = file_get_contents($_FILES['imagen']['tmp_name']);
-        $image_query_part = ', imagen = :imagen';
+        if ($_FILES['imagen']['size'] > $max_file_size) {
+            $error_message = 'La imagen es demasiado grande. El tamaño máximo permitido es de 2MB.';
+        } else {
+            $image_data = file_get_contents($_FILES['imagen']['tmp_name']);
+            $image_query_part = ', imagen = :imagen';
+        }
     }
 
-    $query = "UPDATE Libros SET autor = :autor, cantidad = :cantidad, editorial = :editorial, sinopsis = :sinopsis $image_query_part WHERE id = :id";
-    $stmt = $pdo->prepare($query);
+    if (!$error_message) { 
+        $query = "UPDATE Libros SET autor = :autor, cantidad = :cantidad, editorial = :editorial, sinopsis = :sinopsis $image_query_part WHERE id = :id";
+        $stmt = $pdo->prepare($query);
 
-    $params = [
-        'id' => $book_id,
-        'autor' => $autor,
-        'cantidad' => $cantidad,
-        'editorial' => $editorial,
-        'sinopsis' => $sinopsis
-    ];
+        $params = [
+            'id' => $book_id,
+            'autor' => $autor,
+            'cantidad' => $cantidad,
+            'editorial' => $editorial,
+            'sinopsis' => $sinopsis
+        ];
 
-    if ($image_query_part) {
-        $params['imagen'] = $image_data;
+        if ($image_query_part) {
+            $params['imagen'] = $image_data;
+        }
+
+        $stmt->execute($params);
+        $success_message = 'Libro actualizado exitosamente.';
     }
-
-    $stmt->execute($params);
-    $success_message = 'Libro actualizado exitosamente.';
 }
 
 if (isset($_POST['delete_book_id'])) {
@@ -117,7 +124,7 @@ $books = $stmt->fetchAll();
                         </td>
                         <td><input type="text" name="editorial" class="custom-input" value="<?= htmlspecialchars($book['editorial']) ?>"></td>
                         <td><input type="number" name="cantidad" class="custom-input" value="<?= htmlspecialchars($book['cantidad']) ?>" min="0"></td>
-                        <td><textarea name="sinopsis" ><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
+                        <td><textarea name="sinopsis"><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
                         <td>
                             <label for="imagen">Imagen:</label>
                             <input type="file" name="imagen" class="custom-input" accept="image/*">

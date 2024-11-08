@@ -3,6 +3,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    /* background-image: url('../../img/wallpaperflare.com_wallpaper.jpg');
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: overlay; */
 }
 
 header {
@@ -86,6 +89,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     margin-top: 35px;
+    background-color: #f4f4f4;
 }
 
 .styled-table{

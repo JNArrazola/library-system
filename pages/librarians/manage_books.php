@@ -93,10 +93,6 @@ $books = $stmt->fetchAll();
     </header>
 
     <section class="book-management">
-        <div class="add-book">
-            <a href="add_book.php" class="add-book-button">Registrar Nuevo Libro</a>
-        </div>
-
         <table class="styled-table">
             <thead>
                 <tr>
@@ -144,6 +140,11 @@ $books = $stmt->fetchAll();
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <br>
+        <br>
+        <div class="add-book">
+            <a href="add_book.php" class="add-book-button">Registrar Nuevo Libro</a>
+        </div>
     </section>
 
     <script>

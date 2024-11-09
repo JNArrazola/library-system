@@ -16,9 +16,9 @@ body::before {
     background-repeat: no-repeat;
     background-size: cover;
     filter: blur(0px);
-    animation: blurIn 1.5s ease forwards;
+    animation: blurIn 3s ease forwards;
     z-index: -1;
-    transform: scale(1.1); 
+    transform: scale(1.2); 
 }
 
 @keyframes blurIn {
@@ -26,7 +26,7 @@ body::before {
         filter: blur(0);
     }
     100% {
-        filter: blur(18px);
+        filter: blur(60px);
     }
 }
 

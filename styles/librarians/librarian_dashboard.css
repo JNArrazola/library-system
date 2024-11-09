@@ -16,11 +16,11 @@ body::before {
     background-repeat: no-repeat;
     background-size: cover;
     filter: blur(0px);
-    animation: blurIn 1.5s ease forwards;
+    animation: blurIn 3s ease forwards;
     z-index: -1;
     /* Ajusta el tamaño de la imagen de fondo un poco mas grande para que al 
     aplicar el blur no se vean una franjas blancas en los margenes*/
-    transform: scale(1.1); 
+    transform: scale(1.2); 
 }
 
 /* Definición de la animación de desenfoque */
@@ -29,7 +29,7 @@ body::before {
         filter: blur(0);
     }
     100% {
-        filter: blur(18px);  /* Ajusta la cantidad de desenfoque final */
+        filter: blur(60px);
     }
 }
 

@@ -32,7 +32,7 @@ $prestamos = $stmt_prestamos->fetchAll();
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?></span>
             <a href="user_dashboard.php" class="dashboard-link">Volver a Mi Panel</a>
-            <a href="../config/logout.php" class="logout-button">Cerrar sesión</a>
+            <a href="../../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 

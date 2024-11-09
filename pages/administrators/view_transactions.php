@@ -31,10 +31,7 @@ if (isset($_GET['logout'])) {
         <h1>Transacciones</h1>
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> ▼</span>
-            <a href="../logout.php" class="logout-button">Cerrar sesión</a>
-            <!-- <ul class="dropdown">
-                <li><a href="?logout=true">Cerrar sesión</a></li>
-            </ul> -->
+            <a href=".../../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
     

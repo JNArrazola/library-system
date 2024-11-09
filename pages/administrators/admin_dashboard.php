@@ -27,7 +27,7 @@ if (isset($_GET['logout'])) {
         <h1>Panel de Control - Administrador</h1>
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Administrador)</span>
-            <a href="?logout=true" class="logout-button">Cerrar sesión</a>
+            <a href="../../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 

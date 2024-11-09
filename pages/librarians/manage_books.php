@@ -82,7 +82,7 @@ $books = $stmt->fetchAll();
         <div class="user-menu">
             <span><?= htmlspecialchars($_SESSION['nombre']) ?> (Bibliotecario)</span>
             <a href="../catalog.php" class="catalog-link">Volver al Catálogo</a>
-            <a href="../logout.php" class="logout-button">Cerrar sesión</a>
+            <a href="../../config/logout.php" class="logout-button">Cerrar sesión</a>
         </div>
     </header>
 
@@ -120,7 +120,6 @@ $books = $stmt->fetchAll();
                             </td>
                             <td>
                                 <button type="submit" name="delete_book_id" value="<?= htmlspecialchars($book['id']) ?>" class="delete-button" onclick="return confirm('¿Estás seguro de que deseas eliminar este libro?');">Eliminar</button>
-
                             </td>
                         </tr>
                     <?php endforeach; ?>

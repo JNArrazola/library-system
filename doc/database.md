@@ -11,7 +11,7 @@ CREATE TABLE Usuarios (
     apellido VARCHAR(100),
     correo VARCHAR(100) UNIQUE,
     direccion VARCHAR(255),
-    rol ENUM('usuario', 'bibliotecario', 'administrador') NOT NULL,
+    rol ENUM('usuario', 'bibliotecario', 'administrador', 'admin_general') NOT NULL,
     password VARCHAR(255) NOT NULL,
     activation_code VARCHAR(32),
     is_active BOOLEAN DEFAULT 0
@@ -44,7 +44,8 @@ INSERT INTO Usuarios (nombre, apellido, correo, direccion, rol, password, activa
 VALUES 
     ('Juan', 'Perez', 'juan.perez@email.com', 'Calle Falsa 123', 'usuario', '$2y$10$2Qfq9iyiZwMaDNkr91US/uyL3crZrEYbV2FwiEyGwbUDOjnox3XcW', NULL, 1), -- Password: Usuario123
     ('Ana', 'Perez', 'ana.perez@email.com', 'Avenida Central 456', 'bibliotecario', '$2y$10$OMpbr1z6Fl5cL3avd3JA4uPoj9sUCtgDspfpHhL0jMsmR4ovDm5rG', NULL, 1), -- Password: Biblio123
-    ('Jose', 'Perez', 'jose.perez@email.com', 'Plaza Mayor 789', 'administrador', '$2y$10$bwkAA6DQayn1qNysc18EquEM21PNh.SAYHirWM90KhvooW/P0VU7G', NULL, 1); -- Password: Admin123
+    ('Jose', 'Perez', 'jose.perez@email.com', 'Plaza Mayor 789', 'administrador', '$2y$10$bwkAA6DQayn1qNysc18EquEM21PNh.SAYHirWM90KhvooW/P0VU7G', NULL, 1), -- Password: Admin123
+    ('Jose', 'Guadalupe', 'jose.guadalupe@email.com', 'Direccion locona', 'admin_general', '$2y$10$VkpEsCYEXzxfeCkT4gFNCuyvCihDyaPREN2uWhAc5keAx37KE5Zy2', NULL, 1); -- Password: AdminG123 
 
 INSERT INTO Libros (nombre, autor, fecha_publicacion, editorial, sinopsis, cantidad)
 VALUES 

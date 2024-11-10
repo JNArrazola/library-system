@@ -62,7 +62,7 @@ if (isset($_SESSION['user_id'])) {
                     <img src="data:image/jpeg;base64,<?= base64_encode($book['imagen']) ?>" alt="<?= htmlspecialchars($book['nombre']) ?>">
                     <h3><?= htmlspecialchars($book['nombre']) ?></h3>
                     <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
-                    <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>...</p>
+                    <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>.</p>
                     <p><strong>Disponibilidad:</strong> <?= ($book['cantidad'] > 0) ? 'Disponible' : 'No disponible' ?></p>
                 </div>
             <?php endforeach; ?>

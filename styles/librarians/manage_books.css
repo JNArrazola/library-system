@@ -8,6 +8,33 @@ body {
     background-blend-mode: overlay; */
 }
 
+body:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(0px);
+    animation: blurIn 3s ease forwards;
+    z-index: -1;
+    /* Ajusta el tamaño de la imagen de fondo un poco mas grande para que al 
+    aplicar el blur no se vean una franjas blancas en los margenes*/
+    transform: scale(1.2); 
+}
+
+@keyframes blurIn {
+    0% {
+        filter: blur(0);
+    }
+    100% {
+        filter: blur(60px);
+    }
+}
+
 header {
     align-items: center;
     background-color: #352c23; 
@@ -37,24 +64,31 @@ h1 {
     margin-right: 20px;
 }
 
-.catalog-link,
-.logout-button {
-    background-color: #756c63; 
+.user-menu a {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #756c63;
+    color: white;
+    font-weight: bold;
     border-radius: 30px;
-    color: rgb(255, 255, 255);
-    margin-left: 20px;
-    padding: 10px 15px;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user-menu a:hover {
+    transform: scale(1.05);
 }
 
 .logout-button:hover {
-    background-color: #6e0a0a;
-    transform: scale(1.05);
+    background-color: #5c0808;
 }
 
 .catalog-link:hover {
     background-color: #617f26;
-    transform: scale(1.05);
 }
 
 .book-management {
@@ -73,11 +107,12 @@ h1 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     color: white;
     cursor: pointer;
-    display: flexbox; 
+    display: inline-block; 
     font-size: 16px;
     margin: auto;
     padding: 12px 20px;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-book-button:hover {

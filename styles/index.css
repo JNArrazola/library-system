@@ -61,11 +61,7 @@ header h1 {
     transform: scale(1.05);
 }
 
-.logout-button {
-    background-color: #6e0a0a;
-}
-
-.logout-button:hover {
+.user-menu .logout-button:hover {
     background-color: #5c0808;
     transform: scale(1.05);
 }
@@ -180,6 +176,7 @@ header h1 {
     transform: rotateY(180deg);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil en el reverso */
     align-content: center;
+    height: 100%;
 }
 
 .book-item img {

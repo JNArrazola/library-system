@@ -113,4 +113,5 @@ h1 {
     background-color: #617f26;
     color: white;
     transform: scale(1.05);
+    transition: transform 0.3s ease;
 }

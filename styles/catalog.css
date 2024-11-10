@@ -64,12 +64,8 @@ h1 {
 }
 
 .user-menu a:hover {
-    background-color: #617f26;
+    
     transform: scale(1.05);
-}
-
-.logout-button {
-    background-color: #6e0a0a;
 }
 
 .logout-button:hover {

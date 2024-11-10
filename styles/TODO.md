@@ -21,13 +21,14 @@ Actualicen este doc con lo que falte ajksas
 - (R) View reservations
 
 ## General
-- Add user
-- Book details
+- (R) Add user
+- (R) Book details
 - (R) Catalog
 - (R) Index
-- Login
-- Manage users
-- Register
-- Succesfull register
+- (R) Login
+- (R) Manage users
+    (!) Rompí el funcionamiento de los input😭
+- (R) Register
+- (R) Succesfull register
 - (R) User edit
 - Alerts

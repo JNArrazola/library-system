@@ -151,19 +151,19 @@ function sendMail($email, $subject, $message) {
 
         <form action="add_user.php" method="POST" id="addUserForm">
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" required>
+            <input type="text" name="nombre" class="custom-input" id="nombre" required>
 
             <label for="apellido">Apellido:</label>
-            <input type="text" name="apellido" id="apellido" required>
+            <input type="text" name="apellido" class="custom-input" id="apellido" required>
 
             <label for="correo">Correo electrónico:</label>
-            <input type="email" name="correo" id="correo" required>
+            <input type="email" name="correo" class="custom-input" id="correo" required>
 
             <label for="direccion">Dirección:</label>
-            <input type="text" name="direccion" id="direccion" required>
+            <input type="text" name="direccion" class="custom-input" id="direccion" required>
 
             <label for="rol">Rol:</label>
-            <select name="rol" id="rol" required>
+            <select name="rol" class="custom-input" id="rol" required>
                 <option value="usuario">Usuario</option>
                 <option value="bibliotecario">Bibliotecario</option>
                 <?php if ($_SESSION['rol'] === 'administrador'): ?>
@@ -172,10 +172,10 @@ function sendMail($email, $subject, $message) {
             </select>
 
             <label for="password">Contraseña:</label>
-            <input type="password" name="password" id="password" required>
+            <input type="password" name="password" class="custom-input" id="password" required>
 
             <label for="confirm_password">Confirmar Contraseña:</label>
-            <input type="password" name="confirm_password" id="confirm_password" required>
+            <input type="password" name="confirm_password" class="custom-input" id="confirm_password" required>
 
             <button type="submit">Añadir Usuario</button>
         </form>

@@ -1,8 +1,36 @@
 body {
-    background-color: #e0e0e0; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #e0e0e0; 
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../styles/img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(0px);
+    animation: blurIn 3s ease forwards;
+    z-index: -1;
+    /* Ajusta el tamaño de la imagen de fondo un poco mas grande para que al 
+    aplicar el blur no se vean una franjas blancas en los margenes*/
+    transform: scale(1.2); 
+}
+
+/* Definición de la animación de desenfoque */
+@keyframes blurIn {
+    0% {
+        filter: blur(0);
+    }
+    100% {
+        filter: blur(60px);
+    }
 }
 
 header {
@@ -22,36 +50,46 @@ h1 {
     margin: 0;
 }
 
+.user-menu {
+    position: center;
+    top: 20px;
+    right: 20px;
+}
+
 .user-menu span {
-    color: white;
     font-size: 16px;
+    color: white;
     margin-right: 20px;
 }
 
 .user-menu a {
+    display: inline-block;
+    padding: 12px 25px;
     background-color: #756c63;
+    color: white;
+    font-weight: bold;
     border-radius: 30px;
-    color: rgb(255, 255, 255);
-    margin-left: 20px;
-    padding: 10px 15px;
     text-decoration: none;
-    transition: background-color 0.3s, transform 0.2s, opacity 0.2s;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .user-menu a:hover {
     background-color: #617f26;
     transform: scale(1.05);
-    opacity: 0.8;
 }
 
-.user-menu a.logout-button:hover {
-    background-color: #6e0a0a;
+.user-menu .logout-button:hover {
+    background-color: #5c0808;
 }
 
 .add-user-form {
-    max-width: 500px;
-    background-color: #ffffff;
-    border-radius: 15px;
+    width: 50%;
+    background-color: #f4f4f4;
+    border-radius: 30px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     margin: 50px auto;
     padding: 30px;
@@ -60,7 +98,6 @@ h1 {
 .add-user-form label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
     color: #333;
 }
 
@@ -86,19 +123,27 @@ h1 {
 button[type="submit"] {
     background-color: #756c63;
     border: none;
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
     color: white;
     cursor: pointer;
     font-size: 16px;
+    padding: 12px 20px;background-color: #756c63; 
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    cursor: pointer;
+    display: block; 
+    font-size: 16px;
+    margin: auto;
     padding: 12px 20px;
-    transition: background-color 0.3s;
-    text-align: center;
-    width: 100%;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button[type="submit"]:hover {
     background-color: #617f26;
+    transform: scale(1.05);
 }
 
 .error, .success {
@@ -120,4 +165,20 @@ button[type="submit"]:hover {
         width: 90%;
         padding: 20px;
     }
+}
+
+.custom-input {
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 30px; 
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #756c63;
+    outline: none;
 }

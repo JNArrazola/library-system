@@ -1,5 +1,5 @@
 body {
-    background-image: url('fondo.jpg'); /* TODO: OTRO FONDO ACÁ */
+    background-image: url('fondo.jpg');
     background-size: cover;
     background-position: center;
     display: flex;

@@ -137,10 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol = 'usuario'" : "";
+$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol = 'usuario' AND id != :user_id" : "WHERE id != :user_id";
 $query = "SELECT * FROM Usuarios $condition";
-$stmt = $pdo->query($query);
+$stmt = $pdo->prepare($query);
+$stmt->execute(['user_id' => $_SESSION['user_id']]);
 $users = $stmt->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -201,31 +203,32 @@ $users = $stmt->fetchAll();
                 </tr>
             </thead>
             <tbody>
-    <?php foreach ($users as $user): ?>
-        <tr id="row_<?= $user['id'] ?>">
-            <td>
-                <input type="radio" name="select_user" value="<?= $user['id'] ?>" onclick="enableRow(<?= $user['id'] ?>)">
-            </td>
-            <td><?= htmlspecialchars($user['id']) ?></td>
-            <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
-            <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
-            <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
-            <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
-            <td>
-                <select name="updates[<?= $user['id'] ?>][rol]" disabled>
-                    <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
-                    <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                    <?php if ($_SESSION['rol'] === 'administrador'): ?>
-                        <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
-                    <?php endif; ?>
-                </select>
-            </td>
-            <td>
-                <button type="button" class="delete-button" onclick="confirmDeleteUser(<?= $user['id'] ?>)" id="delete_<?= $user['id'] ?>" disabled>Eliminar</button>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</tbody>
+            <?php foreach ($users as $user): ?>
+                <tr id="row_<?= $user['id'] ?>">
+                    <td>
+                        <input type="checkbox" name="select_user[]" value="<?= $user['id'] ?>" onclick="toggleRow(<?= $user['id'] ?>)">
+                    </td>
+                    <td><?= htmlspecialchars($user['id']) ?></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
+                    <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
+                    <td>
+                        <select name="updates[<?= $user['id'] ?>][rol]" disabled>
+                            <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
+                            <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
+                            <?php if ($_SESSION['rol'] === 'administrador'): ?>
+                                <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+                            <?php endif; ?>
+                        </select>
+                    </td>
+                    <td>
+                        <button type="button" class="delete-button" onclick="confirmDeleteUser(<?= $user['id'] ?>)" id="delete_<?= $user['id'] ?>" disabled>Eliminar</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+
 
         </table>
 
@@ -271,6 +274,20 @@ $users = $stmt->fetchAll();
             // Habilitar el botón de eliminación en la fila seleccionada
             selectedRow.querySelector(`#delete_${userId}`).disabled = false;
         }
+
+        function toggleRow(userId) {
+            const row = document.getElementById(`row_${userId}`);
+            const checkbox = row.querySelector(`input[name="select_user[]"][value="${userId}"]`);
+
+            // Habilitar o deshabilitar los campos de la fila seleccionada
+            const inputs = row.querySelectorAll('input, select, button');
+            inputs.forEach(input => {
+            if (input.type !== 'checkbox' && input.name !== `updates[${userId}][nombre]` && input.name !== `updates[${userId}][apellido]`) { // No queremos habilitar el checkbox, nombre y apellido
+                input.disabled = !checkbox.checked;
+            }
+            });
+        }
+
 
         function confirmDeleteUser(userId) {
             Swal.fire({

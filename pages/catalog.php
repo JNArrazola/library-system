@@ -39,6 +39,19 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca - Libros</title>
     <link rel="stylesheet" href="../styles/catalog.css?v=<?= time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .info-icon {
+            color: #007bff;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 1.1em;
+        }
+        .info-icon:hover {
+            color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -52,6 +65,7 @@ if (isset($_SESSION['user_id'])) {
         <form action="catalog.php" method="GET">
             <input type="text" name="search" placeholder="Buscar por título o autor..." value="<?= htmlspecialchars($search) ?>">
             <button type="submit">Buscar</button>
+            <i class="fas fa-info-circle info-icon" onclick="showSearchInfo()"></i>
         </form>
     </div>
 
@@ -70,5 +84,16 @@ if (isset($_SESSION['user_id'])) {
             <p>No se encontraron libros.</p>
         <?php endif; ?>
     </div>
+
+    <script>
+        function showSearchInfo() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Información de búsqueda',
+                text: 'Puedes buscar libros por título o por autor.',
+                confirmButtonText: 'Entendido'
+            });
+        }
+    </script>
 </body>
 </html>

@@ -63,12 +63,19 @@ $libros = $stmt->fetchAll();
     <title>Registrar Préstamo</title>
     <link rel="stylesheet" href="../../styles/librarians/register_loan.css?v=<?php echo time(); ?>">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <style>
+        .search-container-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
         .search-container {
             position: relative;
             width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
         }
 
         .search-input {
@@ -78,6 +85,12 @@ $libros = $stmt->fetchAll();
             border-radius: 8px;
             font-size: 1em;
             box-sizing: border-box;
+        }
+
+        .info-button {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 1.5em;
         }
 
         .results-container {
@@ -132,16 +145,21 @@ $libros = $stmt->fetchAll();
         <form action="register_loan.php" method="POST">
             <div class="form-group">
                 <label for="usuario_id">Usuario:</label>
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
-                    <div class="results-container" id="resultsContainer">
-                        <?php foreach ($usuarios as $usuario): ?>
-                            <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
-                                <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
-                                <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
-                                <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
-                            </div>
-                        <?php endforeach; ?>
+                <div class="search-container-wrapper">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
+                        <div class="results-container" id="resultsContainer">
+                            <?php foreach ($usuarios as $usuario): ?>
+                                <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
+                                    <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
+                                    <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
+                                    <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="info-button" onclick="showSearchInfo()">
+                        <i class="fas fa-info-circle"></i>
                     </div>
                 </div>
                 <input type="hidden" name="usuario_id" id="usuario_id" required>
@@ -196,6 +214,15 @@ $libros = $stmt->fetchAll();
             const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
             document.querySelector('.search-input').value = userName;
             document.getElementById('resultsContainer').style.display = 'none';
+        }
+
+        function showSearchInfo() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Información de Búsqueda',
+                text: 'Puedes buscar usuarios por ID, nombre o correo.',
+                confirmButtonText: 'Entendido'
+            });
         }
 
         window.onclick = function(event) {

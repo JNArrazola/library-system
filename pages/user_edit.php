@@ -11,7 +11,7 @@ $error_message = '';
 $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nombre = $_POST['nombre'];
+    $correo = $_POST['correo'];
     $direccion = $_POST['direccion'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (!$error_message) {
-        $query = "UPDATE Usuarios SET nombre = :nombre, direccion = :direccion";
+        $query = "UPDATE Usuarios SET correo = :correo, direccion = :direccion";
         if (isset($hashed_password)) {
             $query .= ", password = :password";
         }
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $stmt = $pdo->prepare($query);
         $params = [
-            'nombre' => $nombre,
+            'correo' => $correo,
             'direccion' => $direccion,
             'id' => $_SESSION['user_id']
         ];
@@ -101,8 +101,8 @@ $user = $stmt->fetch();
 
         <form action="user_edit.php" method="POST">
             <div class="form-group">
-                <label for="nombre">Nombre Completo</label>
-                <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($user['nombre']) ?>" required>
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" name="correo" id="correo" value="<?= htmlspecialchars($user['correo']) ?>" required>
             </div>
 
             <div class="form-group">

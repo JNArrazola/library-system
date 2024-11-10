@@ -64,12 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     <title>Registrar Devolución</title>
     <link rel="stylesheet" href="../../styles/librarians/return_loan.css?v=<?= time(); ?>">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
     <style>
+        .search-container-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
         .search-container {
             position: relative;
             width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
         }
 
         .search-input {
@@ -79,6 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             border-radius: 8px;
             font-size: 1em;
             box-sizing: border-box;
+        }
+
+        .info-button {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 1.5em;
         }
 
         .results-container {
@@ -132,16 +145,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     <section class="return-form">
         <h2>Selecciona un Usuario</h2>
 
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
-            <div class="results-container" id="resultsContainer">
-                <?php foreach ($usuarios as $usuario): ?>
-                    <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
-                        <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
-                        <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
-                        <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
-                    </div>
-                <?php endforeach; ?>
+        <div class="search-container-wrapper">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
+                <div class="results-container" id="resultsContainer">
+                    <?php foreach ($usuarios as $usuario): ?>
+                        <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
+                            <h4><?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido']) ?></h4>
+                            <p>ID: <?= htmlspecialchars($usuario['id']) ?></p>
+                            <p>Correo: <?= htmlspecialchars($usuario['correo']) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <div class="info-button" onclick="showSearchInfo()">
+                <i class="fas fa-info-circle"></i>
             </div>
         </div>
 
@@ -207,10 +225,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             document.getElementById('resultsContainer').style.display = 'none';
         }
 
-        window.onclick = function(event) {
-            if (!event.target.matches('.search-input')) {
-                document.getElementById('resultsContainer').style.display = 'none';
-            }
+        function showSearchInfo() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Información de Búsqueda',
+                text: 'Puedes buscar usuarios por ID, nombre o correo.',
+                confirmButtonText: 'Entendido'
+            });
         }
 
         <?php if ($success_message): ?>

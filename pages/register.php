@@ -174,6 +174,7 @@ function sendMail($email, $subject, $message) {
     <link rel="stylesheet" href="../styles/register.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .progress-container {
             width: 100%;
@@ -213,6 +214,15 @@ function sendMail($email, $subject, $message) {
         .checkbox-container a:hover {
             color: #0056b3;
         }
+        .info-icon {
+            color: #007bff;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 1.1em;
+        }
+        .info-icon:hover {
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -239,15 +249,6 @@ function sendMail($email, $subject, $message) {
                     window.location.href = 'login.php';
                 });
             </script>
-        <?php else: ?>
-            <script>
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Requisitos de Contraseña',
-                    text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
-                    confirmButtonText: 'Entendido'
-                });
-            </script>
         <?php endif; ?>
 
         <form action="register.php" method="POST">
@@ -263,7 +264,9 @@ function sendMail($email, $subject, $message) {
             <label for="direccion">Dirección:</label>
             <input type="text" name="direccion" id="direccion" value="<?= htmlspecialchars($direccion) ?>" required>
             
-            <label for="password">Contraseña:</label>
+            <label for="password">Contraseña:
+                <i class="fas fa-info-circle info-icon" onclick="showPasswordInfo()"></i>
+            </label>
             <input type="password" name="password" id="password" required>
             <div class="progress-container">
                 <div id="password-strength-bar" class="progress-bar"></div>
@@ -310,14 +313,15 @@ function sendMail($email, $subject, $message) {
             });
         });
 
-        function showTerms() {
+        function showPasswordInfo() {
             Swal.fire({
-                title: 'Cumplimiento Legal',
-                text: "El sistema debe cumplir con las regulaciones locales de protección de datos, como la Ley de Protección de Datos Personales (GDPR en la Unión Europea o su equivalente en la región).",
                 icon: 'info',
-                confirmButtonText: 'Aceptar'
+                title: 'Requisitos de Contraseña',
+                text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
+                confirmButtonText: 'Entendido'
             });
         }
     </script>
 </body>
 </html>
+

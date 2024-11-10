@@ -16,9 +16,9 @@ Actualicen este doc con lo que falte ajksas
 - (R) View reservation
 
 ## User
-- User dashboard
-- View loans
-- View reservations
+- (R) User dashboard
+- (R) View loans
+- (R) View reservations
 
 ## General
 - Add user
@@ -29,5 +29,5 @@ Actualicen este doc con lo que falte ajksas
 - Manage users
 - Register
 - Succesfull register
-- User edit
+- (R) User edit
 - Alerts

@@ -62,18 +62,28 @@ h1 {
     margin-right: 20px;
 }
 
-.logout-button {
-    background-color: #756c63; 
+.user-menu a {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #756c63;
+    color: white;
+    font-weight: bold;
     border-radius: 30px;
-    color: rgb(255, 255, 255);
-    margin-left: 20px;
-    padding: 10px 15px;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.logout-button:hover {
-    background-color: #6e0a0a;
+.user-menu a:hover {
+    background-color: #617f26;
     transform: scale(1.05);
+}
+
+.user-menu .logout-button:hover {
+    background-color: #5c0808;
 }
 
 .dashboard {
@@ -113,6 +123,7 @@ h2 {
     padding: 30px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .options-menu a.catalog-link {
@@ -123,4 +134,5 @@ h2 {
 .options-menu a:hover {
     background-color: #617f26; /* Color diferente para 'Volver al Catálogo' */
     color: #ffffff;
+    transform: scale(1.05);
 }

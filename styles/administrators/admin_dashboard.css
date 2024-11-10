@@ -99,9 +99,10 @@ h1 {
     color: black;
     display: block;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dashboard-menu a.catalog-link {

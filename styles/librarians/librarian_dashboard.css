@@ -116,7 +116,6 @@ h1 {
     padding: 7.5px;
     text-align: center;
     width: 90%;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dashboard-menu a {
@@ -129,6 +128,7 @@ h1 {
     padding: 30px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dashboard-menu a.catalog-link {

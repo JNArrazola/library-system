@@ -257,24 +257,6 @@ $users = $stmt->fetchAll();
             });
         }
 
-        function enableRow(userId) {
-            // Deshabilitar todos los botones de eliminación y campos de la tabla
-            document.querySelectorAll('tbody tr').forEach(row => {
-                row.querySelectorAll('input, select, button').forEach(input => {
-                    input.disabled = true;
-                });
-            });
-
-            // Habilitar campos de la fila seleccionada, excepto nombre y apellido
-            const selectedRow = document.getElementById(`row_${userId}`);
-            selectedRow.querySelector('input[name="updates[' + userId + '][correo]"]').disabled = false;
-            selectedRow.querySelector('input[name="updates[' + userId + '][direccion]"]').disabled = false;
-            selectedRow.querySelector('select[name="updates[' + userId + '][rol]"]').disabled = false;
-
-            // Habilitar el botón de eliminación en la fila seleccionada
-            selectedRow.querySelector(`#delete_${userId}`).disabled = false;
-        }
-
         function toggleRow(userId) {
             const row = document.getElementById(`row_${userId}`);
             const checkbox = row.querySelector(`input[name="select_user[]"][value="${userId}"]`);

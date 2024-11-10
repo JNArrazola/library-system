@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                             <div class="flip-card-back">
                                 <p><strong>Autor:</strong> <?= htmlspecialchars($book['autor']) ?></p>
-                                <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>...</p>
+                                <p><strong>Sinopsis:</strong> <?= substr(htmlspecialchars($book['sinopsis']), 0, 150) ?>.</p>
                             </div>
                         </div>
                     </div>

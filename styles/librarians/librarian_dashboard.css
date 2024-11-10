@@ -62,6 +62,25 @@ h1 {
     margin-right: 20px;
 }
 
+.user-menu a {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #756c63;
+    color: white;
+    font-weight: bold;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user-menu a:hover {
+    transform: scale(1.05);
+}
+
 .logout-button {
     background-color: #756c63; 
     border-radius: 30px;
@@ -69,11 +88,12 @@ h1 {
     margin-left: 20px;
     padding: 10px 15px;
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
-    background-color: #6e0a0a;
+.logout-button:hover{
     transform: scale(1.05);
+    background-color: #6e0a0a;
 }
 
 .dashboard-menu {
@@ -96,6 +116,7 @@ h1 {
     padding: 7.5px;
     text-align: center;
     width: 90%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dashboard-menu a {

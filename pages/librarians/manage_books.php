@@ -113,7 +113,7 @@ $books = $stmt->fetchAll();
                             </td>
                             <td><input type="text" name="books[<?= htmlspecialchars($book['id']) ?>][editorial]" class="custom-input" value="<?= htmlspecialchars($book['editorial']) ?>"></td>
                             <td><input type="number" name="books[<?= htmlspecialchars($book['id']) ?>][cantidad]" class="custom-input" value="<?= htmlspecialchars($book['cantidad']) ?>" min="0"></td>
-                            <td><textarea name="books[<?= htmlspecialchars($book['id']) ?>][sinopsis]"><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
+                            <td><textarea name="books[<?= htmlspecialchars($book['id']) ?>][sinopsis]" class="custom-input"><?= htmlspecialchars($book['sinopsis']) ?></textarea></td>
                             <td>
                                 <label for="imagen">Imagen:</label>
                                 <input type="file" name="books[<?= htmlspecialchars($book['id']) ?>][imagen]" class="custom-input" accept="image/*">

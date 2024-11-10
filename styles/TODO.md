@@ -10,10 +10,10 @@ Actualicen este doc con lo que falte ajksas
 - (R) Add book
 - (R) Librarian dashboard
 - (R) Manage books
-- Register loan
-- Return loan
-- View loans
-- View reservation
+- (R) Register loan
+- (R) Return loan
+- (R) View loans
+- (R) View reservation
 
 ## User
 - User dashboard

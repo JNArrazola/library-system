@@ -83,60 +83,6 @@ if ($usuario_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Reservas</title>
     <link rel="stylesheet" href="../../styles/librarians/view_reservations.css?v=<?php echo time(); ?>">
-    <style>
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        .results-container {
-            position: absolute;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            max-height: 200px;
-            overflow-y: auto;
-            width: 100%;
-            z-index: 1000;
-            display: none;
-        }
-
-        .result-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .result-item:hover {
-            background-color: #f0f0f0;
-        }
-
-        .result-item h4 {
-            margin: 0;
-            font-size: 1em;
-            color: #333;
-        }
-
-        .result-item p {
-            margin: 2px 0;
-            font-size: 0.9em;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -161,7 +107,7 @@ if ($usuario_id) {
             <div class="form-group">
                 <label for="usuario_id">Buscar Usuario:</label>
                 <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)" value="<?= $searchText ?>">
+                    <input type="text" class="custom-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)" value="<?= $searchText ?>">
                     <div class="results-container" id="resultsContainer">
                         <?php foreach ($usuarios as $usuario): ?>
                             <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
@@ -239,12 +185,12 @@ if ($usuario_id) {
         function selectUser(userId) {
             document.getElementById('usuario_id').value = userId;
             const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
-            document.querySelector('.search-input').value = userName;
+            document.querySelector('.custom-input').value = userName;
             document.getElementById('resultsContainer').style.display = 'none';
         }
 
         window.onclick = function(event) {
-            if (!event.target.matches('.search-input')) {
+            if (!event.target.matches('.custom-input')) {
                 document.getElementById('resultsContainer').style.display = 'none';
             }
         }

@@ -78,6 +78,13 @@ h1 {
     margin: 20px 0;
 }
 
+.search-bar form {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    gap: 10px; /* Opcional: separa los elementos */
+    justify-content: center;
+}
+
 .search-bar input {
     padding: 10px;
     width: 300px;
@@ -264,4 +271,11 @@ h1 {
 .book-item p strong {
     display: inline-block;
     margin-right: 5px;
+}
+
+.info-icon {
+    color: #617f26;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 15px;
 }

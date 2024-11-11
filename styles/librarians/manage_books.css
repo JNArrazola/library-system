@@ -265,3 +265,25 @@ button.delete-button:hover {
     border-color: #756c63; /* Cambiar color del borde al enfocar */
     outline: none; /* Quitar el borde por defecto */
 }
+
+.swal2-icon.swal2-info.swal2-icon-show {
+    border-color: #617f26;
+    color:#617f26;
+}
+
+.swal2-popup.swal2-modal.swal2-icon-success.swal2-show {
+    background-color: #f4f4f4;
+    border-radius: 30px;
+}
+
+.swal2-confirm.swal2-styled {
+    background-color: #756c63;
+    border: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.swal2-confirm.swal2-styled:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}

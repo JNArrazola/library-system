@@ -38,20 +38,37 @@ $stmt = $pdo->query($query);
 $usuarios = $stmt->fetchAll();
 
 $pendientes = [];
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
-    $usuario_id = $_GET['usuario_id'];
-
-    $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
-              FROM Reservas r
-              JOIN Libros l ON r.libro_id = l.id
-              JOIN Usuarios u ON r.usuario_id = u.id
-              WHERE r.usuario_id = :usuario_id AND r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute(['usuario_id' => $usuario_id]);
-    $pendientes = $stmt->fetchAll();
-
-    if (empty($pendientes)) {
-        $error_message = 'No se encontraron préstamos pendientes para el usuario seleccionado.';
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (!empty($_GET['usuario_id'])) {
+        $usuario_id = $_GET['usuario_id'];
+        
+        $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
+                  FROM Reservas r
+                  JOIN Libros l ON r.libro_id = l.id
+                  JOIN Usuarios u ON r.usuario_id = u.id
+                  WHERE r.usuario_id = :usuario_id AND r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['usuario_id' => $usuario_id]);
+        $pendientes = $stmt->fetchAll();
+        
+        if (empty($pendientes)) {
+            $error_message = 'No se encontraron préstamos pendientes para el usuario seleccionado.';
+        }
+    } elseif (!empty($_GET['libro_id'])) {
+        $libro_id = $_GET['libro_id'];
+        
+        $query = "SELECT r.id, l.nombre AS libro_nombre, r.fecha_recepcion, u.nombre AS usuario_nombre, u.apellido AS usuario_apellido 
+                  FROM Reservas r
+                  JOIN Libros l ON r.libro_id = l.id
+                  JOIN Usuarios u ON r.usuario_id = u.id
+                  WHERE r.libro_id = :libro_id AND r.B_Entregado = 0 AND r.fecha_recepcion IS NOT NULL";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['libro_id' => $libro_id]);
+        $pendientes = $stmt->fetchAll();
+        
+        if (empty($pendientes)) {
+            $error_message = 'No se encontraron préstamos pendientes para el libro especificado.';
+        }
     }
 }
 ?>
@@ -77,11 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
     </header>
 
     <section class="return-form">
-        <label>Selecciona un Usuario: </label>
+        <label>Selecciona un Usuario o Libro por ID: </label>
 
         <div class="search-container-wrapper">
             <div class="search-container">
-                <input type="text" class="custom-input" placeholder="Buscar usuario..." onkeyup="filterUsers(this.value)">
+                <input type="text" class="custom-input" placeholder="Buscar usuario o libro..." onkeyup="filterUsers(this.value)">
                 <div class="results-container" id="resultsContainer">
                     <?php foreach ($usuarios as $usuario): ?>
                         <div class="result-item" data-user-info="<?= htmlspecialchars($usuario['nombre'] . ' ' . $usuario['apellido'] . ' ' . $usuario['correo'] . ' ' . $usuario['id']) ?>" onclick="selectUser(<?= htmlspecialchars($usuario['id']) ?>)">
@@ -99,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
 
         <form action="return_loan.php" method="GET" id="userForm">
             <input type="hidden" name="usuario_id" id="usuario_id">
+            <input type="hidden" name="libro_id" id="libro_id">
             <button type="submit">Buscar Préstamos Pendientes</button>
         </form>
 
@@ -150,10 +168,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             });
             
             container.style.display = hasResults ? 'block' : 'none';
+
+            // Check if query is a number, indicating a possible ID of libro
+            if (!isNaN(query) && query.trim() !== "") {
+                document.getElementById('usuario_id').value = ''; // Clear user ID field
+                document.getElementById('libro_id').value = query; // Set libro ID
+                document.getElementById('userForm').submit();
+            }
         }
 
         function selectUser(userId) {
             document.getElementById('usuario_id').value = userId;
+            document.getElementById('libro_id').value = ''; // Clear libro ID field
             const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
             document.querySelector('.custom-input').value = userName;
             document.getElementById('resultsContainer').style.display = 'none';
@@ -163,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['usuario_id'])) {
             Swal.fire({
                 icon: 'info',
                 title: 'Información de Búsqueda',
-                text: 'Puedes buscar usuarios por ID, nombre o correo.',
+                text: 'Puedes buscar usuarios por ID, nombre o correo, o libros por ID.',
                 confirmButtonText: 'Entendido'
             });
         }

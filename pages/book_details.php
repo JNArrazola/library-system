@@ -96,7 +96,7 @@ if (isset($_SESSION['user_id'])) {
         <?php if ($success_message): ?>
             Swal.fire({
                 icon: 'success',
-                title: 'Éxito',
+                title: 'Éxito, puede pasar por el libro durante los siguientes 3 días hábiles',
                 text: '<?= htmlspecialchars($success_message) ?>',
                 confirmButtonText: 'Aceptar'
             });

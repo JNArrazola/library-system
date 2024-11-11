@@ -83,6 +83,7 @@ if ($usuario_id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Reservas</title>
     <link rel="stylesheet" href="../../styles/librarians/view_reservations.css?v=<?php echo time(); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -95,12 +96,6 @@ if ($usuario_id) {
     </header>
 
     <section class="reservation-view">
-        <?php if ($error_message): ?>
-            <p class="error"><?= $error_message ?></p>
-        <?php elseif ($success_message): ?>
-            <p class="success"><?= $success_message ?></p>
-        <?php endif; ?>
-
         <h2>Buscar Reservas por Usuario</h2>
 
         <form action="view_reservations.php" method="POST">
@@ -194,6 +189,22 @@ if ($usuario_id) {
                 document.getElementById('resultsContainer').style.display = 'none';
             }
         }
+
+        <?php if ($success_message): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '<?= $success_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif ($error_message): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $error_message ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
     </script>
 </body>
 </html>

@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             Swal.fire({
                 icon: 'info',
                 title: 'Información de Búsqueda',
-                text: 'Puedes buscar usuarios por ID, nombre o correo, o libros por ID.',
+                text: 'Puedes buscar usuarios por nombre o correo, o libros por ID/Código de Barras.',
                 confirmButtonText: 'Entendido'
             });
         }

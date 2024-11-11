@@ -128,18 +128,21 @@ h1 {
 
 .book-info .reserve-button {
     background-color: #756c63;
-    color: #ffffff;
-    display: inline-block;
+    border: none;
+    border-radius: 30px;
+    color: #f4f4f4;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin: auto;
     padding: 12px 20px;
     text-decoration: none;
-    border-radius: 20px;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .book-info .reserve-button:hover {
     background-color: #617f26;
+    transform: scale(1.05);
 }
 
 footer {
@@ -187,5 +190,44 @@ footer {
 
 .back-button:hover {
     background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.swal2-popup.swal2-modal.swal2-icon-error.swal2-show {
+    background-color: #f4f4f4;
+    border-radius: 30px;
+}
+
+.swal2-icon.swal2-info.swal2-icon-show {
+    border-color: #617f26;
+    color:#617f26;
+}
+
+.swal2-popup.swal2-modal.swal2-icon-question.swal2-show {
+    background-color: #f4f4f4;
+    border-radius: 30px;
+}
+
+.swal2-confirm.swal2-styled {
+    background-color: #756c63;
+    border: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.swal2-confirm.swal2-styled:hover {
+    background-color: #617f26;
+    transform: scale(1.05);
+}
+
+.swal2-cancel.swal2-styled {
+    background-color: #756c63;
+    border: none;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.swal2-cancel.swal2-styled:hover {
+    background-color: #5c0808;
     transform: scale(1.05);
 }

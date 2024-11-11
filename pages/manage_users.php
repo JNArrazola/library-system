@@ -54,14 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $update_fields = [];
                 $params = ['id' => $user_id];
 
-                if (isset($fields['nombre'])) {
-                    $update_fields[] = 'nombre = :nombre';
-                    $params['nombre'] = $fields['nombre'];
-                }
-                if (isset($fields['apellido'])) {
-                    $update_fields[] = 'apellido = :apellido';
-                    $params['apellido'] = $fields['apellido'];
-                }
                 if (isset($fields['correo'])) {
                     if (filter_var($fields['correo'], FILTER_VALIDATE_EMAIL)) {
                         $update_fields[] = 'correo = :correo';
@@ -93,12 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $original_user = $original_stmt->fetch();
 
                 $changes = [];
-                if (isset($fields['nombre']) && $fields['nombre'] !== $original_user['nombre']) {
-                    $changes['nombre'] = $fields['nombre'];
-                }
-                if (isset($fields['apellido']) && $fields['apellido'] !== $original_user['apellido']) {
-                    $changes['apellido'] = $fields['apellido'];
-                }
                 if (isset($fields['correo']) && $fields['correo'] !== $original_user['correo']) {
                     if (filter_var($fields['correo'], FILTER_VALIDATE_EMAIL)) {
                         $changes['correo'] = $fields['correo'];
@@ -209,8 +195,8 @@ $users = $stmt->fetchAll();
                         <input type="checkbox" name="select_user[]" value="<?= $user['id'] ?>" onclick="toggleRow(<?= $user['id'] ?>)">
                     </td>
                     <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" class="custom-input" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" class= "custom-input" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
+                    <td><?= htmlspecialchars($user['nombre']) ?></td>
+                    <td><?= htmlspecialchars($user['apellido']) ?></td>
                     <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" class= "custom-input" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
                     <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" class= "custom-input" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
                     <td>

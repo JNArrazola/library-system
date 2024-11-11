@@ -1,4 +1,4 @@
- <?php
+<?php
 session_start();
 include('../config/config.php'); 
 use PHPMailer\PHPMailer\Exception;
@@ -13,7 +13,7 @@ require '../config/emailConfig.php';
 $error_message = '';
 $success_message = '';
 
-if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] !== 'bibliotecario')) {
+if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] !== 'bibliotecario' && $_SESSION['rol'] !== 'admin_general')) {
     header('Location: ../index.php');
     exit();
 }
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt_check_email->fetch()) {
             $error_message = 'El correo electrónico ya está registrado.';
         } else {
-            if ($_SESSION['rol'] === '') {
+            if ($_SESSION['rol'] === 'bibliotecario') {
                 $query_insert_solicitud = "INSERT INTO Solicitudes (tipo, usuario_id, solicitante_id, estado, detalles_cambio) 
                                            VALUES ('creacion', NULL, :solicitante_id, 'pendiente', :detalles_cambio)";
                 $detalles_cambio = json_encode([
@@ -74,9 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ]);
                 $success_message = "Usuario creado exitosamente.";
             }
-
-            // $activation_link = "http://localhost/library-system/pages/activate.php?correo=" . urlencode($correo);
-            // sendMail($correo, "Activación de cuenta", "Por favor, activa tu cuenta usando este enlace: <a href='$activation_link'>Activar cuenta</a>");
         }
     }
 }
@@ -166,8 +163,8 @@ function sendMail($email, $subject, $message) {
             <select name="rol" class="custom-input" id="rol" required>
                 <option value="usuario">Usuario</option>
                 <option value="bibliotecario">Bibliotecario</option>
-                <?php if ($_SESSION['rol'] === 'administrador'): ?>
-                    <option value="administrador">Administrador</option>
+                <?php if ($_SESSION['rol'] === 'administrador' || $_SESSION['rol'] === 'admin_general'): ?>
+                    <option value="admin_general">Admin General</option>
                 <?php endif; ?>
             </select>
 

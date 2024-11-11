@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 
-if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] !== 'bibliotecario')) {
+if (!isset($_SESSION['user_id']) || ($_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] !== 'bibliotecario' && $_SESSION['rol'] !== 'admin_general')) {
     header('Location: ../index.php');
     exit();
 }
@@ -19,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt_check_role = $pdo->prepare($query_check_role);
                 $stmt_check_role->execute(['usuario_id' => $delete_user_id]);
                 $user_role = $stmt_check_role->fetchColumn();
-    
+
                 if ($user_role !== 'administrador') {
-                    if ($_SESSION['rol'] === 'administrador') {
+                    if ($_SESSION['rol'] === 'administrador' || $_SESSION['rol'] === 'admin_general') {
                         $query = "DELETE FROM Usuarios WHERE id = :usuario_id";
                         $stmt = $pdo->prepare($query);
                         $stmt->execute(['usuario_id' => $delete_user_id]);
-    
+
                         if ($stmt->rowCount() > 0) {
                             $deleted_count++;
                         }
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $check_query = "SELECT COUNT(*) FROM Solicitudes WHERE tipo = 'eliminacion' AND usuario_id = :usuario_id AND solicitante_id = :solicitante_id AND estado = 'pendiente'";
                         $check_stmt = $pdo->prepare($check_query);
                         $check_stmt->execute(['usuario_id' => $delete_user_id, 'solicitante_id' => $_SESSION['user_id']]);
-    
+
                         if ($check_stmt->fetchColumn() == 0) {
                             $query = "INSERT INTO Solicitudes (tipo, usuario_id, solicitante_id, estado) VALUES ('eliminacion', :usuario_id, :solicitante_id, 'pendiente')";
                             $stmt = $pdo->prepare($query);
@@ -44,20 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
         }
-    
-        if ($deleted_count > 0) {
-            $success_message = ($_SESSION['rol'] === 'administrador') 
-                ? "Usuarios eliminados correctamente."
-                : "Solicitudes de eliminación enviadas correctamente.";
-        } else {
-            $error_message = "No se pudieron procesar las eliminaciones.";
-        }
+
+        $success_message = ($deleted_count > 0) ? "Usuarios eliminados correctamente." : "No se pudieron procesar las eliminaciones.";
     }
-    
 
     if (isset($_POST['updates'])) {
         foreach ($_POST['updates'] as $user_id => $fields) {
-            if ($_SESSION['rol'] === 'administrador') {
+            if ($_SESSION['rol'] === 'administrador' || $_SESSION['rol'] === 'admin_general') {
                 $update_fields = [];
                 $params = ['id' => $user_id];
 
@@ -137,7 +130,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$condition = ($_SESSION['rol'] === 'bibliotecario') ? "WHERE rol = 'usuario' AND id != :user_id" : "WHERE id != :user_id";
+$condition = "WHERE id != :user_id";
+if ($_SESSION['rol'] === 'bibliotecario') {
+    $condition .= " AND rol IN ('usuario', 'bibliotecario')";
+} elseif ($_SESSION['rol'] === 'admin_general') {
+    $condition .= " AND rol IN ('usuario', 'bibliotecario')"; 
+} elseif ($_SESSION['rol'] === 'administrador') {
+}
+
 $query = "SELECT * FROM Usuarios $condition";
 $stmt = $pdo->prepare($query);
 $stmt->execute(['user_id' => $_SESSION['user_id']]);
@@ -214,22 +214,24 @@ $users = $stmt->fetchAll();
                     <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" class= "custom-input" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
                     <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" class= "custom-input" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
                     <td>
-                        <select name="updates[<?= $user['id'] ?>][rol]" disabled>
-                            <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
-                            <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
-                            <?php if ($_SESSION['rol'] === 'administrador'): ?>
-                                <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
-                            <?php endif; ?>
-                        </select>
-                    </td>
+    <select name="updates[<?= $user['id'] ?>][rol]" disabled>
+        <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
+        <option value="bibliotecario" <?= $user['rol'] === 'bibliotecario' ? 'selected' : '' ?>>Bibliotecario</option>
+        <?php if ($_SESSION['rol'] === 'administrador'): ?>
+            <option value="admin_general" <?= $user['rol'] === 'admin_general' ? 'selected' : '' ?>>Admin General</option>
+            <option value="administrador" <?= $user['rol'] === 'administrador' ? 'selected' : '' ?>>Administrador</option>
+        <?php endif; ?>
+    </select>
+</td>
+
+
+
                     <td>
                         <button type="button" class="delete-button" onclick="confirmDeleteUser(<?= $user['id'] ?>)" id="delete_<?= $user['id'] ?>" disabled>Eliminar</button>
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
-
-
         </table>
 
         <div class="button-group">
@@ -260,16 +262,13 @@ $users = $stmt->fetchAll();
         function toggleRow(userId) {
             const row = document.getElementById(`row_${userId}`);
             const checkbox = row.querySelector(`input[name="select_user[]"][value="${userId}"]`);
-
-            // Habilitar o deshabilitar los campos de la fila seleccionada
             const inputs = row.querySelectorAll('input, select, button');
             inputs.forEach(input => {
-            if (input.type !== 'checkbox' && input.name !== `updates[${userId}][nombre]` && input.name !== `updates[${userId}][apellido]`) { // No queremos habilitar el checkbox, nombre y apellido
-                input.disabled = !checkbox.checked;
-            }
+                if (input.type !== 'checkbox') {
+                    input.disabled = !checkbox.checked;
+                }
             });
         }
-
 
         function confirmDeleteUser(userId) {
             Swal.fire({
@@ -281,14 +280,11 @@ $users = $stmt->fetchAll();
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Agrega el id del usuario a un campo oculto para enviar la solicitud
                     const deleteField = document.createElement('input');
                     deleteField.type = 'hidden';
                     deleteField.name = 'delete_user_ids[]';
                     deleteField.value = userId;
                     document.getElementById('manageForm').appendChild(deleteField);
-
-                    // Envía el formulario
                     document.getElementById('manageForm').submit();
                 }
             });

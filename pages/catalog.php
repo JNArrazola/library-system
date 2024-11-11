@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
     if ($_SESSION['rol'] === 'administrador') {
         $nav_options .= '<a href="administrators/admin_dashboard.php" class="nav-link">Panel de Administrador</a>';
     } elseif ($_SESSION['rol'] === 'admin_general') {
-        $nav_options .= '<a href="administrators/general_dashboard.php" class="nav-link">Panel Admin General</a>';
+        $nav_options .= '<a href="general_administrator/gen_admin_dashboard.php" class="nav-link">Panel Admin General</a>';
     } elseif ($_SESSION['rol'] === 'bibliotecario') {
         $nav_options .= '<a href="librarians/librarian_dashboard.php" class="nav-link">Opciones de Bibliotecario</a>';
     } elseif ($_SESSION['rol'] === 'usuario') {

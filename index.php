@@ -12,7 +12,7 @@ if (isset($_SESSION['user_id'])) {
     if ($_SESSION['rol'] === 'administrador') {
         $nav_options .= '<a href="pages/administrators/admin_dashboard.php" class="admin-link">Panel de Administrador</a>';
     } elseif ($_SESSION['rol'] === 'admin_general') {
-        $nav_options .= '<a href="pages/administrators/general_dashboard.php" class="admin-general-link">Panel Administrador</a>';
+        $nav_options .= '<a href="pages/general_administrator/gen_admin_dashboard.php" class="admin-general-link">Panel Administrador</a>';
     } elseif ($_SESSION['rol'] === 'bibliotecario') {
         $nav_options .= '<a href="pages/librarians/librarian_dashboard.php" class="bibliotecario-link">Opciones de Bibliotecario</a>';
     } elseif ($_SESSION['rol'] === 'usuario') {

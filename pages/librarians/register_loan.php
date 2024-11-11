@@ -2,7 +2,7 @@
 session_start();
 include('../../config/config.php');
 
-if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'bibliotecario') {
+if (!isset($_SESSION['user_id']) || $_SESSION['rol'] === 'usuario') {
     header('Location: ../../index.php');
     exit();
 }
@@ -124,62 +124,63 @@ $libros = $stmt->fetchAll();
     </section>
 
     <script>
-        function filterUsers(query) {
-            const container = document.getElementById('resultsContainer');
-            const items = document.querySelectorAll('.result-item');
-            let hasResults = false;
+    function filterUsers(query) {
+        const container = document.getElementById('resultsContainer');
+        const items = document.querySelectorAll('.result-item');
+        let hasResults = false;
 
-            query = query.toLowerCase();
-            items.forEach(item => {
-                const userInfo = item.getAttribute('data-user-info').toLowerCase();
-                if (userInfo.includes(query)) {
-                    item.style.display = 'block';
-                    hasResults = true;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-            
-            container.style.display = hasResults ? 'block' : 'none';
-        }
+        query = query.toLowerCase();
+        items.forEach(item => {
+            const userInfo = item.getAttribute('data-user-info').toLowerCase();
+            if (userInfo.includes(query)) {
+                item.style.display = 'block';
+                hasResults = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        container.style.display = hasResults ? 'block' : 'none';
+    }
 
-        function selectUser(userId) {
-            document.getElementById('usuario_id').value = userId;
-            const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
-            document.querySelector('.search-input').value = userName;
+    function selectUser(userId) {
+        document.getElementById('usuario_id').value = userId;
+        const userName = document.querySelector(`.result-item[data-user-info*="${userId}"] h4`).textContent;
+        document.querySelector('.custom-input').value = userName;
+        document.getElementById('resultsContainer').style.display = 'none';
+    }
+
+    function showSearchInfo() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Información de Búsqueda',
+            text: 'Puedes buscar usuarios por ID, nombre o correo.',
+            confirmButtonText: 'Entendido'
+        });
+    }
+
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.search-container')) {
             document.getElementById('resultsContainer').style.display = 'none';
         }
+    });
 
-        function showSearchInfo() {
-            Swal.fire({
-                icon: 'info',
-                title: 'Información de Búsqueda',
-                text: 'Puedes buscar usuarios por ID, nombre o correo.',
-                confirmButtonText: 'Entendido'
-            });
-        }
+    <?php if ($success_message): ?>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '<?= $success_message ?>',
+            confirmButtonText: 'Aceptar'
+        });
+    <?php elseif ($error_message): ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '<?= $error_message ?>',
+            confirmButtonText: 'Aceptar'
+        });
+    <?php endif; ?>
+</script>
 
-        window.onclick = function(event) {
-            if (!event.target.matches('.search-input')) {
-                document.getElementById('resultsContainer').style.display = 'none';
-            }
-        }
-
-        <?php if ($success_message): ?>
-            Swal.fire({
-                icon: 'success',
-                title: 'Éxito',
-                text: '<?= $success_message ?>',
-                confirmButtonText: 'Aceptar'
-            });
-        <?php elseif ($error_message): ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: '<?= $error_message ?>',
-                confirmButtonText: 'Aceptar'
-            });
-        <?php endif; ?>
-    </script>
 </body>
 </html>

@@ -33,10 +33,13 @@ if (isset($_GET['logout'])) {
 
     <section class="dashboard-menu">
         <ul>
-            <!--        <li><a href="view_transactions.php">Ver Transacciones</a></li>-->            
             <li><a href="../manage_users.php">Gestionar Usuarios y Permisos</a></li>
             <li><a href="request.php">Solicitudes</a></li>
             <li><a href="../librarians/manage_books.php">Gestionar Libros</a></li> 
+            <li><a href="../librarians/register_loan.php">Registrar Préstamo de Libros</a></li>
+            <li><a href="../librarians/return_loan.php">Registrar Devolución de Libros</a></li>
+            <li><a href="../librarians/view_loans.php">Ver Préstamos Actuales</a></li>
+            <li><a href="../librarians/view_reservations.php">Ver Reservas</a></li>
             <li><a href="../user_edit.php">Editar perfil</a></li>
             <li><a href="../catalog.php" class="catalog-link">Volver al Catálogo</a></li>
         </ul>

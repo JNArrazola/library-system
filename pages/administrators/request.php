@@ -48,10 +48,13 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .search-container {
-            position: relative;
+            align-items: center;
+            display:flex;
+            justify-content:center;
             width: 100%;
             max-width: 400px;
-            margin: 20px 0;
+            margin-left: auto;
+            margin-right: auto;
         }
         .search-input {
             width: 100%;
@@ -92,6 +95,9 @@ try {
             margin: 2px 0;
             font-size: 0.9em;
             color: #666;
+        }
+        h2 {
+            color: #ffffff;
         }
     </style>
 </head>

@@ -13,7 +13,7 @@ body {
 header {
     align-items: center;
     background-color: #352c23;
-    border-radius: 0 0 30px 30px;
+    border-radius: 0px 0px 30px 30px;
     box-shadow: 0 10px 100px rgba(0, 0, 0, 0.1);
     color: white;
     display: flex;
@@ -60,7 +60,7 @@ html::after {
 }
 
 .user-menu {
-    position: absolute;
+    position: center;
     top: 20px;
     right: 20px;
 }
@@ -80,26 +80,19 @@ html::after {
     border-radius: 30px;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 10px 15px 10px 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .user-menu a:hover {
+    background-color: #617f26;
     transform: scale(1.05);
 }
 
-.logout-button {
-    background-color: #756c63;
-    border-radius: 30px;
-    color: #fff;
-    margin-left: 20px;
-    padding: 10px 15px;
-    text-decoration: none;
-}
-
-.logout-button:hover {
-    background-color: #6e0a0a;
-    transform: scale(1.05);
+.user-menu .logout-button:hover {
+    background-color: #5c0808;
 }
 
 .search-bar {
@@ -191,21 +184,4 @@ html::after {
     cursor: pointer;
     font-size: 1.5em;
     margin-left: 15px;
-}
-
-.nav-link {
-    color: white;
-    background-color: #756c63;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    margin-right: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav-link:hover {
-    background-color: #617f26;
-    transform: scale(1.05);
 }

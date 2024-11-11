@@ -92,7 +92,6 @@ h1 {
 }
 
 .book-management {
-    margin: 40px;
     text-align: center;
 }
 
@@ -120,16 +119,30 @@ h1 {
     transform: scale(1.05);
 }
 
+button {
+    background-color: #756c63;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 90%;
     margin-top: 35px;
-    background-color: #f4f4f4;
+    background-color: #f4f4f4; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .styled-table{
     border-collapse: collapse;
-    border-radius: 15px;
+    border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
@@ -185,6 +198,8 @@ input[type="file"]::-webkit-file-upload-button {
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 input[type="file"]::-webkit-file-upload-button:hover {
@@ -199,6 +214,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
     color: white;
     border: none;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .actions button:hover {
@@ -206,14 +222,15 @@ input[type="file"]::-webkit-file-upload-button:hover {
     transform: scale(1.05);
 }
 
-.delete-button {
+button.delete-button {
     background-color: #e0e0e0;
-    border: none;
+    color: black;
     border-radius: 15px;
-    padding: 15%;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-.delete-button:hover {
+button.delete-button:hover {
     background-color: #6e0a0a;
     color: white;
     transform: scale(1.05);
@@ -241,6 +258,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
     width: 90%;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s;
+    box-sizing: border-box; /* Añadido */
 }
 
 .custom-input:focus {

@@ -209,10 +209,10 @@ $users = $stmt->fetchAll();
                         <input type="checkbox" name="select_user[]" value="<?= $user['id'] ?>" onclick="toggleRow(<?= $user['id'] ?>)">
                     </td>
                     <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
-                    <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
-                    <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][nombre]" class="custom-input" value="<?= htmlspecialchars($user['nombre']) ?>" disabled></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][apellido]" class= "custom-input" value="<?= htmlspecialchars($user['apellido']) ?>" disabled></td>
+                    <td><input type="email" name="updates[<?= $user['id'] ?>][correo]" class= "custom-input" value="<?= htmlspecialchars($user['correo']) ?>" disabled></td>
+                    <td><input type="text" name="updates[<?= $user['id'] ?>][direccion]" class= "custom-input" value="<?= htmlspecialchars($user['direccion']) ?>" disabled></td>
                     <td>
                         <select name="updates[<?= $user['id'] ?>][rol]" disabled>
                             <option value="usuario" <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>>Usuario</option>
